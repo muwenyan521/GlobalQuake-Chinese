@@ -27,14 +27,14 @@ public class PerformanceSettingsPanel extends SettingsPanel {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createRaisedBevelBorder());
         panel.setLayout(new BorderLayout());
-        chkBoxParalell = new JCheckBox("Use all CPU cores");
+        chkBoxParalell = new JCheckBox("使用所有 CPU 核心");
         chkBoxParalell.setSelected(Settings.parallelHypocenterLocations);
 
         JTextArea textAreaExplanation = new JTextArea(
                 """
-                        Using all CPU cores will make the Hypocenter Finding much faster,\s
-                        but it will be using 100% of your CPU, which can increase lags.
-                        Make sure you select the optimal resolution above for your system.""");
+                使用所有 CPU 核心将大大加快震源定位的速度，
+                但会占用 100% 的 CPU，这可能会增加卡顿。
+                请确保在上方为您的系统选择了最佳分辨率。""");
         textAreaExplanation.setBorder(new EmptyBorder(5, 5, 5, 5));
         textAreaExplanation.setEditable(false);
         textAreaExplanation.setBackground(panel.getBackground());
@@ -59,7 +59,7 @@ public class PerformanceSettingsPanel extends SettingsPanel {
         JLabel label = new JLabel();
         ChangeListener changeListener = changeEvent ->
         {
-            label.setText("Hypocenter Finding Resolution (CPU): %.2f ~ %s".formatted(
+            label.setText("震源定位分辨率（CPU）：%.2f ~ %s".formatted(
                     sliderResolution.getValue() / 100.0,
                     getNameForResolution(sliderResolution.getValue())));
             Settings.hypocenterDetectionResolution = (double) sliderResolution.getValue();
@@ -71,16 +71,14 @@ public class PerformanceSettingsPanel extends SettingsPanel {
 
         JPanel panel = HypocenterAnalysisSettingsPanel.createCoolLayout(sliderResolution, label, "%.2f".formatted(Settings.hypocenterDetectionResolutionDefault / 100.0),
                 """
-                        By increasing the Hypocenter Finding Resolution, you can\s
-                        enhance the accuracy at which GlobalQuake locates hypocenters
-                        at the cost of increased demand on your CPU. If you experience
-                        significant lags while there is an earthquake happening on the map,
-                        you should decrease this value.
-                        """);
+                通过增加震源定位分辨率，您可以提高 GlobalQuake 定位震源的准确度，
+                但这会增加 CPU 的负担。如果在地图上发生地震时出现明显的卡顿，
+                您应该降低这个值。
+                """);
 
         JPanel panel2 = new JPanel();
 
-        JButton btnRecalibrate = new JButton("Recalibrate");
+        JButton btnRecalibrate = new JButton("重新校准");
         btnRecalibrate.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -96,20 +94,20 @@ public class PerformanceSettingsPanel extends SettingsPanel {
 
         panel2.add(btnRecalibrate);
 
-        JButton testSpeed = new JButton("Test Hypocenter Search");
+        JButton testSpeed = new JButton("测试震源搜索");
         testSpeed.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 testSpeed.setEnabled(false);
                 new Thread(() -> {
-                    testSpeed.setText("Test took %d ms".formatted(EarthquakeAnalysisTraining.measureTest(System.currentTimeMillis(), 60, true)));
+                    testSpeed.setText("测试耗时 %d 毫秒".formatted(EarthquakeAnalysisTraining.measureTest(System.currentTimeMillis(), 60, true)));
                     testSpeed.setEnabled(true);
                 }).start();
             }
         });
         panel2.add(testSpeed);
 
-        chkBoxRecalibrateOnLauch = new JCheckBox("Recalibrate on startup", Settings.recalibrateOnLaunch);
+        chkBoxRecalibrateOnLauch = new JCheckBox("启动时重新校准", Settings.recalibrateOnLaunch);
         panel2.add(chkBoxRecalibrateOnLauch);
 
         panel.add(panel2, BorderLayout.SOUTH);
@@ -117,7 +115,7 @@ public class PerformanceSettingsPanel extends SettingsPanel {
         return panel;
     }
 
-    public static final String[] RESOLUTION_NAMES = {"Very Low", "Low", "Default", "Increased", "High", "Very High", "Extremely High", "Insane"};
+    public static final String[] RESOLUTION_NAMES = {"极低", "低", "默认", "较高", "高", "很高", "极高", "疯狂"};
 
     private String getNameForResolution(int value) {
         return RESOLUTION_NAMES[(int) Math.max(0, Math.min(RESOLUTION_NAMES.length - 1, ((value / 160.0) * (RESOLUTION_NAMES.length))))];
@@ -125,6 +123,6 @@ public class PerformanceSettingsPanel extends SettingsPanel {
 
     @Override
     public String getTitle() {
-        return "Performance";
+        return "性能";
     }
 }

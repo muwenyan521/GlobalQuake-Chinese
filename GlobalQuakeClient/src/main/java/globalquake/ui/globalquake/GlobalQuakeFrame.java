@@ -34,7 +34,7 @@ public class GlobalQuakeFrame extends GQFrame {
 				g.fillRect(getWidth() - 20, 0, 20, 30);
 				g.setColor(Color.black);
 				g.drawRect(getWidth() - 20, 0, 20, 30);
-				g.setFont(new Font("Calibri", Font.BOLD, 16));
+				g.setFont(new Font("MiSans Normal", Font.BOLD, 16));
 				g.setColor(Color.black);
 				g.drawString(hideList ? "<" : ">", getWidth() - 16, 20);
 			}
@@ -112,9 +112,9 @@ public class GlobalQuakeFrame extends GQFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.lightGray);
 
-		JMenu menuOptions = new JMenu("Options");
+		JMenu menuOptions = new JMenu("选项");
 
-		JMenuItem settings = new JMenuItem("Settings");
+		JMenuItem settings = new JMenuItem("设置");
 		settings.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -133,12 +133,12 @@ public class GlobalQuakeFrame extends GQFrame {
 
 		menuBar.add(menuOptions);
 
-		JMenu aboutMenu = new JMenu("Links");
+		JMenu aboutMenu = new JMenu("链接");
 
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/", "Open GitHub webpage"));
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues/", "Report issue or request new feature"));
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/releases/", "Check for latest version"));
-		aboutMenu.add(new OpenURLAction("https://www.buymeacoffee.com/jakubspangl/", "Donate"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/", "打开 GitHub 页面"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues/", "报告问题或新特性的建议"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/releases/", "检查更新"));
+		aboutMenu.add(new OpenURLAction("https://www.buymeacoffee.com/jakubspangl/", "捐赠.."));
 
 		menuBar.add(aboutMenu);
 

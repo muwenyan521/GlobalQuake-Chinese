@@ -21,10 +21,10 @@ public class StationCountPanel extends JPanel {
         this.manager = manager;
         setLayout(layoutManager);
 
-        add(total = new CounterPanel("Total Channels", StationColor.ALL));
-        add(available = new CounterPanel("Available Channels", StationColor.AVAILABLE));
-        add(selected = new CounterPanel("Selected Channels", StationColor.SELECTED));
-        add(unavailable = new CounterPanel("Unavailable Channels", StationColor.UNAVAILABLE));
+        add(total = new CounterPanel("总测站信道数", StationColor.ALL));
+        add(available = new CounterPanel("可用测站信道数", StationColor.AVAILABLE));
+        add(selected = new CounterPanel("已选测站信道数", StationColor.SELECTED));
+        add(unavailable = new CounterPanel("不可用测站信道数", StationColor.UNAVAILABLE));
 
         manager.addUpdateListener(this::recalculate);
 

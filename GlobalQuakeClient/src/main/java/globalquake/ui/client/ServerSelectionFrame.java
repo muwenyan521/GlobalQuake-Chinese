@@ -53,18 +53,18 @@ public class ServerSelectionFrame extends GQFrame {
         var grid=  new GridLayout(2,1);
         grid.setVgap(5);
         JPanel addressPanel = new JPanel(grid);
-        addressPanel.setBorder(BorderFactory.createTitledBorder("Server address"));
+        addressPanel.setBorder(BorderFactory.createTitledBorder("服务器地址"));
 
         JPanel ipPanel = new JPanel();
         ipPanel.setLayout(new BoxLayout(ipPanel, BoxLayout.X_AXIS));
-        ipPanel.add(new JLabel("IP Address: "));
+        ipPanel.add(new JLabel("IP 地址: "));
         ipPanel.add(addressField = new JTextField(Settings.lastServerIP,20));
 
         addressPanel.add(ipPanel);
 
         JPanel portPanel = new JPanel();
         portPanel.setLayout(new BoxLayout(portPanel, BoxLayout.X_AXIS));
-        portPanel.add(new JLabel("Port: "));
+        portPanel.add(new JLabel("端口: "));
         portPanel.add(portField = new JTextField(String.valueOf(Settings.lastServerPORT),20));
 
         addressPanel.add(portPanel);
@@ -78,11 +78,11 @@ public class ServerSelectionFrame extends GQFrame {
         JPanel buttonsPanel = new JPanel(gridl2);
         buttonsPanel.setBorder(new EmptyBorder(5,5,5,5));
 
-        connectButton = new JButton("Connect");
+        connectButton = new JButton("连接");
         ActionListener connectEvent = actionEvent1 -> connect();
         connectButton.addActionListener(connectEvent);
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("返回");
         backButton.addActionListener(actionEvent -> {
             ServerSelectionFrame.this.dispose();
             new MainFrame().setVisible(true);
@@ -110,7 +110,7 @@ public class ServerSelectionFrame extends GQFrame {
             addressField.setEnabled(false);
             portField.setEnabled(false);
             connectButton.setEnabled(false);
-            connectButton.setText("Connecting...");
+            connectButton.setText("连接中...");
             try {
                 String ip = addressField.getText().trim();
                 int port = Integer.parseInt(portField.getText().trim());
@@ -127,8 +127,8 @@ public class ServerSelectionFrame extends GQFrame {
                 ServerSelectionFrame.this.dispose();
                 launchClientUI();
             } catch (Exception e) {
-                GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Failed to connect to the server: %s".formatted(e.getMessage()), e));
-                connectButton.setText("Connect");
+                GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("无法连接至服务器: %s".formatted(e.getMessage()), e));
+                connectButton.setText("连接");
             } finally {
                 addressField.setEnabled(true);
                 portField.setEnabled(true);

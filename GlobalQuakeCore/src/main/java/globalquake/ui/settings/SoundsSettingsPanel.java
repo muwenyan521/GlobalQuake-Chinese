@@ -48,7 +48,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
 
             JPanel volumePanel = new JPanel(new BorderLayout());
             JLabel labelVolume;
-            volumePanel.add(labelVolume = new JLabel("Volume: %d%%".formatted((int) (gqSound.volume * 100.0))), BorderLayout.NORTH);
+            volumePanel.add(labelVolume = new JLabel("音量: %d%%".formatted((int) (gqSound.volume * 100.0))), BorderLayout.NORTH);
 
             JSlider volumeSlider = createSingleSoundVolumeSlider(gqSound, labelVolume);
 
@@ -56,7 +56,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
 
             soundPanel.add(volumePanel, BorderLayout.CENTER);
 
-            JButton testSoundButton = new JButton("Test");
+            JButton testSoundButton = new JButton("测试");
             testSoundButton.addActionListener(new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -64,7 +64,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
                 }
             });
 
-            JButton reloadSoundButton = new JButton("Reload");
+            JButton reloadSoundButton = new JButton("重载");
             reloadSoundButton.addActionListener(new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -72,7 +72,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
                         gqSound.load(true);
                     } catch (FatalIOException e) {
                         if(GlobalQuake.getErrorHandler() != null){
-                            GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Failed to load this sound!", e));
+                            GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("无法加载这个音频文件!", e));
                         } else {
                             Logger.error(e);
                         }
@@ -116,7 +116,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
             if (gqSound.equals(Sounds.countdown)){
                 Sounds.countdown2.volume = Sounds.countdown.volume; // workaround
             }
-            label.setText("Volume: %d%%".formatted((int) (gqSound.volume * 100.0)));
+            label.setText("音量: %d%%".formatted((int) (gqSound.volume * 100.0)));
         });
         return volumeSlider;
     }
@@ -126,7 +126,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
 
         JLabel label = new JLabel();
         ChangeListener changeListener = changeEvent -> {
-            label.setText("Master Volume: %d%%".formatted(
+            label.setText("主程序音量: %d%%".formatted(
                     sliderMasterVolume.getValue()));
             Settings.globalVolume = sliderMasterVolume.getValue();
         };
@@ -142,13 +142,13 @@ public class SoundsSettingsPanel extends SettingsPanel {
 
         JPanel fill1 = new JPanel();
 
-        chkBoxEnableSounds = new JCheckBox("Enable sounds");
+        chkBoxEnableSounds = new JCheckBox("启用声音");
         chkBoxEnableSounds.setSelected(Settings.enableSound);
         fill1.add(chkBoxEnableSounds);
 
         chkBoxEnableSounds.addChangeListener(changeEvent -> Settings.enableSound = chkBoxEnableSounds.isSelected());
 
-        JButton btnSoundsFolder=new JButton("Open Sounds Folder");
+        JButton btnSoundsFolder=new JButton("打开音频文件夹");
         btnSoundsFolder.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -156,7 +156,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
                     Desktop.getDesktop().open(Sounds.EXPORT_DIR);
                 } catch (IOException e) {
                     if(GlobalQuake.getErrorHandler() != null){
-                        GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Unable to open file explorer!", e));
+                        GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("无法打开资源管理器!", e));
                     } else {
                         Logger.error(e);
                     }
@@ -165,7 +165,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
         });
         fill1. add(btnSoundsFolder);
 
-        JButton btnReloadSounds=new JButton("Reload Sounds");
+        JButton btnReloadSounds=new JButton("重载音频");
         btnReloadSounds.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -173,7 +173,7 @@ public class SoundsSettingsPanel extends SettingsPanel {
                     Sounds.loadSounds();
                 } catch (Exception e) {
                     if(GlobalQuake.getErrorHandler() != null){
-                        GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Unable to reload sounds!", e));
+                        GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("无法重载音频!", e));
                     } else {
                         Logger.error(e);
                     }
@@ -193,6 +193,6 @@ public class SoundsSettingsPanel extends SettingsPanel {
 
     @Override
     public String getTitle() {
-        return "Sounds";
+        return "声音";
     }
 }

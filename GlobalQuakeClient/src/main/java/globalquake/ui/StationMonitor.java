@@ -35,7 +35,7 @@ public class StationMonitor extends GQFrame {
 
 		setLocationRelativeTo(parent);
 		setResizable(true);
-		setTitle("Station Monitor - " + station.getNetworkCode() + " " + station.getStationCode() + " "
+		setTitle("站点监视器 - " + station.getNetworkCode() + " " + station.getStationCode() + " "
 				+ station.getChannelName() + " " + station.getLocationCode());
 
 		Timer timer = new Timer();
@@ -82,7 +82,7 @@ public class StationMonitor extends GQFrame {
 	private Component createControlPanel() {
 		JPanel panel = new JPanel();
 
-		JCheckBox chkBoxDisable = new JCheckBox("Disable event picking", station.disabled);
+		JCheckBox chkBoxDisable = new JCheckBox("禁用事件拾取", station.disabled);
 		chkBoxDisable.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {

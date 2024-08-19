@@ -146,7 +146,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
         RenderElement elementPKPWave = entity.getRenderElement(2);
         RenderElement elementPKIKPWave = entity.getRenderElement(3);
 
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (Settings.confidencePolygons && shouldDrawConfidencePolygons()) {
             for (int i = 5; i < 9; i++) {
@@ -205,7 +205,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
 
             if (isUncertain && (System.currentTimeMillis() / 500) % 2 == 0) {
                 graphics.setColor(Color.WHITE);
-                graphics.setFont(new Font("Calibri", Font.BOLD, 32));
+                graphics.setFont(new Font("MiSans Normal", Font.BOLD, 32));
                 String str = "?";
                 graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2), (int) (centerPonint.y + 10));
             }
@@ -215,7 +215,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
             String str = "M%.1f%s".formatted(entity.getOriginal().getMag(), sim);
 
             graphics.setColor(Color.WHITE);
-            graphics.setFont(new Font("Calibri", Font.BOLD, 16));
+            graphics.setFont(new Font("MiSans Normal", Font.BOLD, 16));
             graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2), (int) (centerPonint.y - 18));
 
             str = "%s".formatted(
@@ -250,7 +250,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
             }
         }
 
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     protected boolean shouldDrawConfidencePolygons() {

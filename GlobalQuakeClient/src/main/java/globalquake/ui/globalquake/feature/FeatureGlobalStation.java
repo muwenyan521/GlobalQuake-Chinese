@@ -146,7 +146,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
         RenderElement elementStationSquare = entity.getRenderElement(1);
 
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                Settings.antialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
+                Settings.antialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setColor(getDisplayColor(entity.getOriginal()));
         graphics.fill(elementStationCircle.getShape());
 
@@ -160,7 +160,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
 
         graphics.setStroke(new BasicStroke(1f));
 
-        graphics.setFont(new Font("Calibri", Font.PLAIN, 13));
+        graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
 
         Vector3D point3D = null;
         Point2D centerPoint = null;
@@ -178,11 +178,11 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
                     int _y = (int) centerPoint.y + 4;
                     _y += 16;
 
-                    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+                    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                     graphics.setColor(c);
                     graphics.draw(elementStationSquare.getShape());
-                    graphics.drawString("Cluster #"+cluster.id, (int) centerPoint.x + 12, _y);
+                    graphics.drawString("震群序列 #"+cluster.id, (int) centerPoint.x + 12, _y);
                 }
             }
         } else if (entity.getOriginal().isInEventMode() && ((System.currentTimeMillis() / 500) % 2 == 0)) {
@@ -199,12 +199,12 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
             }
 
             graphics.setColor(c);
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, Settings.antialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, Settings.antialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.draw(elementStationSquare.getShape());
         }
 
 
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         drawDetails(mouseNearby, renderProperties.scroll, centerPoint, graphics, entity.getOriginal(), renderer, entity, renderProperties);
     }
 
@@ -228,13 +228,13 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
             g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y - _y - 15);
 
             if(!station.hasDisplayableData()){
-                str = "No data";
+                str = "无数据";
                 g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y + _y + 22);
             } else {
                 long delay = station.getDelayMS();
                 if (delay == Long.MIN_VALUE) {
                     g.setColor(Color.magenta);
-                    str = "Replay";
+                    str = "回放";
                     g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y + _y + 22);
                 } else {
                     FeatureSelectableStation.drawDelay(g, x, y + 33, delay, "Delay");
@@ -244,7 +244,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
         if (scroll < Settings.stationIntensityVisibilityZoomLevel || (mouseNearby && scroll < 1)) {
             g.setColor(Color.white);
             String str = !station.hasDisplayableData() ? "-.-" : "%.1f".formatted(station.getMaxRatio60S());
-            g.setFont(new Font("Calibri", Font.PLAIN, 13));
+            g.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
             g.setColor(station.getAnalysis().getStatus() == AnalysisStatus.EVENT ? Color.green : Color.LIGHT_GRAY);
             if(centerPoint == null) {
                 var point3D = GlobeRenderer.createVec3D(getCenterCoords(entity));

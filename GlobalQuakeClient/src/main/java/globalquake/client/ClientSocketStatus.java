@@ -4,9 +4,9 @@ import java.awt.*;
 
 public enum ClientSocketStatus {
 
-    DISCONNECTED("Disconnected", Color.red),
-    CONNECTING("Connecting...", Color.yellow),
-    CONNECTED("Connected", Color.green);
+    DISCONNECTED("已断开连接", Color.red),
+    CONNECTING("连接中...", Color.yellow),
+    CONNECTED("已连接", Color.green);
 
     private final String name;
     private final Color color;

@@ -35,8 +35,8 @@ public class AlertSettingsPanel extends SettingsPanel {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Warnings", createWarningsTab());
-        tabbedPane.addTab("Pings", createPingsTab());
+        tabbedPane.addTab("警报", createWarningsTab());
+        tabbedPane.addTab("提示音", createPingsTab());
 
         add(tabbedPane, BorderLayout.CENTER);
 
@@ -51,15 +51,15 @@ public class AlertSettingsPanel extends SettingsPanel {
         createEarthquakeSoundsPanel(panel);
 
         JPanel eewThresholdPanel = new JPanel(new GridLayout(3,1));
-        eewThresholdPanel.setBorder(BorderFactory.createTitledBorder("EEW"));
-        eewThresholdPanel.add(new JLabel("Trigger eew_warning.wav sound effect if estimated intensity at land reaches: "));
+        eewThresholdPanel.setBorder(BorderFactory.createTitledBorder("地震预警"));
+        eewThresholdPanel.add(new JLabel("当预估陆地震度达到以下级别时触发 eew_warning.wav 音效："));
 
         eewThresholdPanel.add(eewThreshold = new IntensityScaleSelector("",
                 Settings.eewScale, Settings.eewLevelIndex));
 
 
         JPanel maxClusterLevelPanel = new JPanel();
-        maxClusterLevelPanel.add(new JLabel("and the associated Cluster has level at least: "));
+        maxClusterLevelPanel.add(new JLabel("且相关震群序列的等级至少为："));
 
         comboBoxEEWClusterLevel = new JComboBox<>();
         for(int i : IntStream.rangeClosed(0, Cluster.MAX_LEVEL).toArray()){
@@ -80,7 +80,7 @@ public class AlertSettingsPanel extends SettingsPanel {
     }
 
     private void createEarthquakeSoundsPanel(JPanel panel) {
-        chkBoxEarthquakeSounds = new JCheckBox("Play sound alerts if earthquake is bigger than (magnitude): ", Settings.enableEarthquakeSounds);
+        chkBoxEarthquakeSounds = new JCheckBox("当地震震级大于以下级别时播放声音提醒（震级）：", Settings.enableEarthquakeSounds);
         textFieldQuakeMinMag = new JTextField(String.valueOf(Settings.earthquakeSoundsMinMagnitude) ,12);
         textFieldQuakeMinMag.setEnabled(chkBoxEarthquakeSounds.isSelected());
         textFieldQuakeMaxDist =  new JTextField("1",12);
@@ -92,7 +92,7 @@ public class AlertSettingsPanel extends SettingsPanel {
         });
 
         JPanel earthquakePanel = new JPanel(new GridLayout(2,1));
-        earthquakePanel.setBorder(BorderFactory.createTitledBorder("Earthquake alerts"));
+        earthquakePanel.setBorder(BorderFactory.createTitledBorder("地震提醒"));
 
         JPanel quakeMagpanel = new JPanel();
         quakeMagpanel.setLayout(new BoxLayout(quakeMagpanel, BoxLayout.X_AXIS));
@@ -112,7 +112,7 @@ public class AlertSettingsPanel extends SettingsPanel {
     }
 
     private void createPossibleShakingPanel(JPanel panel) {
-        chkBoxPossibleShaking = new JCheckBox("Play sound if possible shaking is detected closer than (%s): ".formatted(Settings.getSelectedDistanceUnit().getShortName()), Settings.alertPossibleShaking);
+        chkBoxPossibleShaking = new JCheckBox("当可能的震动被检测到且距离小于以下值时播放声音（%s）：".formatted(Settings.getSelectedDistanceUnit().getShortName()), Settings.alertPossibleShaking);
         textFieldPossibleShakingDistance = new JTextField(String.valueOf(Settings.alertPossibleShakingDistance) ,12);
         textFieldPossibleShakingDistance.setEnabled(chkBoxPossibleShaking.isSelected());
 
@@ -120,7 +120,7 @@ public class AlertSettingsPanel extends SettingsPanel {
         chkBoxPossibleShaking.addChangeListener(changeEvent -> textFieldPossibleShakingDistance.setEnabled(chkBoxPossibleShaking.isSelected()));
 
         JPanel possibleShakingPanel = new JPanel(new GridLayout(1,1));
-        possibleShakingPanel.setBorder(BorderFactory.createTitledBorder("Possible shaking detection"));
+        possibleShakingPanel.setBorder(BorderFactory.createTitledBorder("可能震动检测"));
 
         JPanel regionMagPanel = new JPanel();
         regionMagPanel.setLayout(new BoxLayout(regionMagPanel, BoxLayout.X_AXIS));
@@ -148,11 +148,11 @@ public class AlertSettingsPanel extends SettingsPanel {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createTitledBorder("Alert levels"));
+        panel.setBorder(BorderFactory.createTitledBorder("警报等级"));
 
-        panel.add(shakingThreshold = new IntensityScaleSelector("Shaking alert threshold: ",
+        panel.add(shakingThreshold = new IntensityScaleSelector("震动警报阈值：",
                 Settings.shakingLevelScale, Settings.shakingLevelIndex));
-        panel.add(strongShakingThreshold = new IntensityScaleSelector("Strong shaking alert threshold: ",
+        panel.add(strongShakingThreshold = new IntensityScaleSelector("强震警报阈值：",
                 Settings.strongShakingLevelScale, Settings.strongShakingLevelIndex));
 
         return panel;
@@ -161,7 +161,7 @@ public class AlertSettingsPanel extends SettingsPanel {
     private Component createAlertDialogSettings() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createTitledBorder("Alert settings"));
+        panel.setBorder(BorderFactory.createTitledBorder("警报设置"));
 
         chkBoxLocal = new JCheckBox("", Settings.alertLocal);
         textFieldLocalDist = new JTextField("1", 12);
@@ -169,7 +169,7 @@ public class AlertSettingsPanel extends SettingsPanel {
         chkBoxLocal.addChangeListener(changeEvent -> textFieldLocalDist.setEnabled(chkBoxLocal.isSelected()));
 
         JPanel localPanel = new JPanel(new GridLayout(1,1));
-        localPanel.setBorder(BorderFactory.createTitledBorder("Local area"));
+        localPanel.setBorder(BorderFactory.createTitledBorder("本地区域"));
 
         JPanel nearbyPanel = new JPanel();
         nearbyPanel.setLayout(new BoxLayout(nearbyPanel, BoxLayout.X_AXIS));
@@ -179,7 +179,7 @@ public class AlertSettingsPanel extends SettingsPanel {
         localPanel.add(nearbyPanel);
         panel.add(localPanel);
 
-        chkBoxRegion = new JCheckBox("Alert earthquakes larger than (magnitude): ", Settings.alertRegion);
+        chkBoxRegion = new JCheckBox("警报震级大于（震级）：", Settings.alertRegion);
         textFieldRegionMag = new JTextField(String.valueOf(Settings.alertRegionMag) ,12);
         textFieldRegionMag.setEnabled(chkBoxRegion.isSelected());
         textFieldRegionDist =  new JTextField("1",12);
@@ -191,7 +191,7 @@ public class AlertSettingsPanel extends SettingsPanel {
         });
 
         JPanel regionPanel = new JPanel(new GridLayout(2,1));
-        regionPanel.setBorder(BorderFactory.createTitledBorder("Regional area"));
+        regionPanel.setBorder(BorderFactory.createTitledBorder("区域范围"));
 
         JPanel regionMagPanel = new JPanel();
         regionMagPanel.setLayout(new BoxLayout(regionMagPanel, BoxLayout.X_AXIS));
@@ -211,9 +211,9 @@ public class AlertSettingsPanel extends SettingsPanel {
         panel.add(regionPanel);
 
         JPanel globalPanel = new JPanel(new GridLayout(1,1));
-        globalPanel.setBorder(BorderFactory.createTitledBorder("Global"));
+        globalPanel.setBorder(BorderFactory.createTitledBorder("全球"));
 
-        checkBoxGlobal = new JCheckBox("Alert earthquakes larger than (magnitude): ", Settings.alertGlobal);
+        checkBoxGlobal = new JCheckBox("警报震级大于（震级）：", Settings.alertGlobal);
         textFieldGlobalMag = new JTextField(String.valueOf(Settings.alertGlobalMag), 12);
         textFieldGlobalMag.setEnabled(checkBoxGlobal.isSelected());
         checkBoxGlobal.addChangeListener(changeEvent -> textFieldGlobalMag.setEnabled(checkBoxGlobal.isSelected()));
@@ -230,8 +230,8 @@ public class AlertSettingsPanel extends SettingsPanel {
 
         JPanel panel2 = new JPanel(new GridLayout(2,1));
 
-        panel2.add( chkBoxFocus = new JCheckBox("Focus main window if the conditions above are met", Settings.focusOnEvent));
-        panel2.add( chkBoxJumpToAlert = new JCheckBox("Jump directly to the warned event", Settings.jumpToAlert));
+        panel2.add( chkBoxFocus = new JCheckBox("如果满足上述条件，将主窗口置于前台", Settings.focusOnEvent));
+        panel2.add( chkBoxJumpToAlert = new JCheckBox("直接跳转到警报事件", Settings.jumpToAlert));
 
         panel.add(panel2);
 
@@ -240,10 +240,10 @@ public class AlertSettingsPanel extends SettingsPanel {
 
     @Override
     public void refreshUI() {
-        chkBoxLocal.setText("Alert when any earthquake occurs closer than (%s): ".formatted(Settings.getSelectedDistanceUnit().getShortName()));
-        label1.setText("and are closer from home location than (%s): ".formatted(Settings.getSelectedDistanceUnit().getShortName()));
-        label2.setText("or is closer from home location than (%s): ".formatted(Settings.getSelectedDistanceUnit().getShortName()));
-        chkBoxPossibleShaking.setText("Play sound if possible shaking is detected closer than (%s): ".formatted(Settings.getSelectedDistanceUnit().getShortName()));
+        chkBoxLocal.setText("当任何地震发生且距离小于以下值时警报（%s）：".formatted(Settings.getSelectedDistanceUnit().getShortName()));
+        label1.setText("且距离用户位置小于（%s）：".formatted(Settings.getSelectedDistanceUnit().getShortName()));
+        label2.setText("或距离用户位置小于（%s）：".formatted(Settings.getSelectedDistanceUnit().getShortName()));
+        chkBoxPossibleShaking.setText("当可能的震动被检测到且距离小于以下值时播放声音（%s）：".formatted(Settings.getSelectedDistanceUnit().getShortName()));
 
         textFieldLocalDist.setText(String.format("%.1f", Settings.alertLocalDist * Settings.getSelectedDistanceUnit().getKmRatio()));
         textFieldRegionDist.setText(String.format("%.1f", Settings.alertRegionDist * Settings.getSelectedDistanceUnit().getKmRatio()));
@@ -257,13 +257,13 @@ public class AlertSettingsPanel extends SettingsPanel {
     @Override
     public void save() throws NumberFormatException {
         Settings.alertLocal = chkBoxLocal.isSelected();
-        Settings.alertLocalDist = parseDouble(textFieldLocalDist.getText(), "Local alert distance", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
+        Settings.alertLocalDist = parseDouble(textFieldLocalDist.getText(), "本地警报距离", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
         Settings.alertRegion = chkBoxRegion.isSelected();
-        Settings.alertRegionMag = parseDouble(textFieldRegionMag.getText(), "Regional alert Magnitude", 0, 10);
-        Settings.alertRegionDist = parseDouble(textFieldRegionDist.getText(), "Regional alert distance", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
+        Settings.alertRegionMag = parseDouble(textFieldRegionMag.getText(), "区域警报震级", 0, 10);
+        Settings.alertRegionDist = parseDouble(textFieldRegionDist.getText(), "区域警报距离", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
 
         Settings.alertGlobal = checkBoxGlobal.isSelected();
-        Settings.alertGlobalMag = parseDouble(textFieldGlobalMag.getText(), "Global alert magnitude", 0, 10);
+        Settings.alertGlobalMag = parseDouble(textFieldGlobalMag.getText(), "全球警报震级", 0, 10);
         Settings.focusOnEvent = chkBoxFocus.isSelected();
         Settings.jumpToAlert = chkBoxJumpToAlert.isSelected();
 
@@ -274,10 +274,10 @@ public class AlertSettingsPanel extends SettingsPanel {
         Settings.strongShakingLevelIndex = strongShakingThreshold.getLevelComboBox().getSelectedIndex();
 
         Settings.alertPossibleShaking = chkBoxPossibleShaking.isSelected();
-        Settings.alertPossibleShakingDistance = parseDouble(textFieldPossibleShakingDistance.getText(), "Possible shaking alert radius", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
+        Settings.alertPossibleShakingDistance = parseDouble(textFieldPossibleShakingDistance.getText(), "触发可能震动警报半径", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
         Settings.enableEarthquakeSounds = chkBoxEarthquakeSounds.isSelected();
-        Settings.earthquakeSoundsMinMagnitude = parseDouble(textFieldQuakeMinMag.getText(), "Earthquake minimum magnitude to play sound", 0, 10);
-        Settings.earthquakeSoundsMaxDist = parseDouble(textFieldQuakeMaxDist.getText(), "Earthquake maximum distance to play sound", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
+        Settings.earthquakeSoundsMinMagnitude = parseDouble(textFieldQuakeMinMag.getText(), "播放声音的地震最小震级", 0, 10);
+        Settings.earthquakeSoundsMaxDist = parseDouble(textFieldQuakeMaxDist.getText(), "播放声音的地震最大距离", 0, 30000) / Settings.getSelectedDistanceUnit().getKmRatio();
 
         Settings.eewScale = eewThreshold.getShakingScaleComboBox().getSelectedIndex();
         Settings.eewLevelIndex = eewThreshold.getLevelComboBox().getSelectedIndex();
@@ -286,6 +286,6 @@ public class AlertSettingsPanel extends SettingsPanel {
 
     @Override
     public String getTitle() {
-        return "Alerts";
+        return "警报";
     }
 }

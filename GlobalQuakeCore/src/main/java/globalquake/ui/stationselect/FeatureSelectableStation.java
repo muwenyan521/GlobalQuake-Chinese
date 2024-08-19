@@ -121,20 +121,20 @@ public class FeatureSelectableStation extends RenderFeature<Station> {
 
             if(minDelay.isPresent() && minDelay.get() > 5 * 60 * 1000L) {
                 graphics.setColor(Color.red);
-                graphics.setFont(new Font("Calibri", Font.BOLD, 14));
+                graphics.setFont(new Font("MiSans Normal", Font.BOLD, 14));
                 graphics.drawString("!", x, (int) centerPonint.y + 9);
                 x+=graphics.getFontMetrics().stringWidth("!");
             }
 
             if(entity.getOriginal().locationErrorSuspected()){
                 graphics.setColor(Color.yellow);
-                graphics.setFont(new Font("Calibri", Font.BOLD, 14));
+                graphics.setFont(new Font("MiSans Normal", Font.BOLD, 14));
                 graphics.drawString("!", x, (int) centerPonint.y + 9);
             }
 
             if(entity.getOriginal().getSelectedChannel() != null && entity.getOriginal().getSelectedChannel().getSensitivity() <= 0){
                 graphics.setColor(Color.blue);
-                graphics.setFont(new Font("Calibri", Font.BOLD, 14));
+                graphics.setFont(new Font("MiSans Normal", Font.BOLD, 14));
                 graphics.drawString("%.1f".formatted(entity.getOriginal().getSelectedChannel().getSensitivity()), x + 20, (int) centerPonint.y + 9);
             }
         }
@@ -142,7 +142,7 @@ public class FeatureSelectableStation extends RenderFeature<Station> {
 
     private void drawInfo(Graphics2D g, int x, int y, Station original) {
         g.setColor(Color.white);
-        g.setFont(new Font("Calibri", Font.PLAIN, 12));
+        g.setFont(new Font("MiSans Normal", Font.PLAIN, 12));
 
         String str = original.getNetwork().getNetworkCode()+" "+original.getStationCode();
         g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y - 11);

@@ -112,7 +112,7 @@ public class FeatureCities extends RenderFeature<CityLocation> {
 
                 String str = entity.getOriginal().name();
 
-                graphics.setFont(new Font("Calibri", Font.PLAIN, 14));
+                graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 14));
                 graphics.drawString(str, (int) centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2, (int) centerPonint.y - 8);
             }
         }

@@ -119,7 +119,7 @@ public class EarthquakeListPanel extends JPanel {
 
         goUpRectangle = new Rectangle2D.Double(getWidth() / 2.0 - 30, 0, 60, 26);
         Graphics2D g = (Graphics2D) gr;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int i = 0;
         if(getFiltered() != null) {
             for (ArchivedQuake quake : getFiltered()) {
@@ -159,7 +159,7 @@ public class EarthquakeListPanel extends JPanel {
                 }
 
                 String str = "M" + f1d.format(quake.getMag());
-                g.setFont(new Font("Calibri", Font.BOLD, 20));
+                g.setFont(new Font("MiSans Normal", Font.BOLD, 20));
                 g.setColor(Color.WHITE);
                 g.drawString(str, getWidth() - g.getFontMetrics().stringWidth(str) - 3, y + 44);
 
@@ -171,35 +171,35 @@ public class EarthquakeListPanel extends JPanel {
 
                 if (level != null) {
                     g.setColor(Color.white);
-                    g.setFont(new Font("Arial", Font.PLAIN, 20));
+                    g.setFont(new Font("MiSans Normal", Font.PLAIN, 20));
                     g.drawString(level.getSuffix(), 32, y + 21);
 
                 }
 
-                g.setFont(new Font("Calibri", Font.PLAIN, 26));
+                g.setFont(new Font("MiSans Normal", Font.PLAIN, 26));
                 g.setColor(Color.white);
                 g.drawString(str, 27 - g.getFontMetrics().stringWidth(str) / 2, y + 30);
 
                 str = Settings.getSelectedDistanceUnit().format(quake.getDepth(), 0);
-                g.setFont(new Font("Calibri", Font.BOLD, 12));
+                g.setFont(new Font("MiSans Normal", Font.BOLD, 12));
                 g.setColor(Color.white);
                 g.drawString(str, (int) (25 - g.getFontMetrics().stringWidth(str) * 0.5), y + 46);
 
                 str = quake.getRegion();
-                g.setFont(new Font("Calibri", Font.BOLD, 12));
+                g.setFont(new Font("MiSans Normal", Font.BOLD, 12));
                 g.setColor(Color.white);
                 g.drawString(str, 52, y + 18);
 
                 str = Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin()));
-                g.setFont(new Font("Calibri", Font.PLAIN, 16));
+                g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
                 g.setColor(Color.white);
                 g.drawString(str, 52, y + 42);
 
                 QualityClass quality = quake.getQualityClass();
-                g.setFont(new Font("Calibri", Font.BOLD, 14));
+                g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
                 GlobalQuakePanel.drawAccuracyBox(g, true, "", getWidth() + 4, y + 17, quality.toString(), quality.getColor());
 
-                g.setFont(new Font("Calibri", Font.PLAIN, 16));
+                g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
                 if (quake.isWrong()) {
                     g.setColor(new Color(200, 0, 0));
                     g.setStroke(new BasicStroke(2f));
@@ -215,9 +215,9 @@ public class EarthquakeListPanel extends JPanel {
         g.setStroke(new BasicStroke(1f));
 
         if(i == 0){
-            g.setFont(new Font("Calibri", Font.BOLD, 16));
+            g.setFont(new Font("MiSans Normal", Font.BOLD, 16));
             g.setColor(Color.white);
-            String str = "No earthquakes archived";
+            String str = "没有存档的地震";
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, 22);
         }
 
@@ -231,7 +231,7 @@ public class EarthquakeListPanel extends JPanel {
 
             g.setColor(Color.white);
             g.draw(goUpRectangle);
-            g.setFont(new Font("Calibri", !isMouseInGoUpRect ? Font.PLAIN : Font.BOLD, 32));
+            g.setFont(new Font("MiSans Normal", !isMouseInGoUpRect ? Font.PLAIN : Font.BOLD, 32));
             String str = "^";
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, 30);
         }

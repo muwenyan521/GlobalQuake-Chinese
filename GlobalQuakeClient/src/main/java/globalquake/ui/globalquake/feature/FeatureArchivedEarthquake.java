@@ -94,7 +94,7 @@ public class FeatureArchivedEarthquake extends RenderFeature<ArchivedQuake> {
         graphics.setColor(getColor(entity.getOriginal()));
         graphics.setStroke(new BasicStroke((float) Math.max(0.1, 1.4 + entity.getOriginal().getMag() * 0.4)));
         graphics.draw(entity.getRenderElement(0).getShape());
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         boolean mouseNearby = renderer.isMouseNearby(getCenterCoords(entity), 10.0, true, renderProperties);
 
@@ -106,7 +106,7 @@ public class FeatureArchivedEarthquake extends RenderFeature<ArchivedQuake> {
     }
 
     private void drawDetails(Graphics2D graphics, Point2D centerPonint, ArchivedQuake quake) {
-        graphics.setFont(new Font("Calibri", Font.PLAIN, 13));
+        graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
 
         double size = 3 + Math.pow(quake.getMag(), 2) * 0.6;
 

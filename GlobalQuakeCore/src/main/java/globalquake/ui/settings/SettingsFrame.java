@@ -65,7 +65,7 @@ public class SettingsFrame extends GQFrame {
 
 
 	private void initialize(Component parent) {
-		setTitle(!isClient ? "GlobalQuake Settings" : "GlobalQuake Settings (Client)");
+		setTitle(!isClient ? "GlobalQuake 设置" : "GlobalQuake 设置 (客户端)");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel contentPanel = new JPanel(new BorderLayout());

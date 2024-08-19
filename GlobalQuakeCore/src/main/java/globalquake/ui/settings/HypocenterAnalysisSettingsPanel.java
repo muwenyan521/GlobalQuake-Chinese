@@ -28,7 +28,7 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         JLabel label = new JLabel();
 
-        ChangeListener upd = changeEvent -> label.setText("Maximum number of associated stations: %d".formatted(sliderMaxStations.getValue()));
+        ChangeListener upd = changeEvent -> label.setText("关联测站的最大数量：%d".formatted(sliderMaxStations.getValue()));
 
         sliderMaxStations.addChangeListener(upd);
         sliderMaxStations.setValue(Settings.maxEvents);
@@ -37,12 +37,11 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         return createCoolLayout(sliderMaxStations, label, "%s".formatted(Settings.maxEventsDefault),
                 """
-                        Here you can set the maximum number of stations that will\s
-                        be used for the hypocenter finding algorithm.\s
-                        Increasing this value can enhance the accuracy of earthquake detection,\s
-                        however, it's important to note that doing so will also significantly\s
-                        escalate the computational demands, potentially leading to longer processing times.
-                        """);
+                在这里，您可以设置震源定位算法将使用的最大测站数量。
+                增加这个值可以提高地震检测的准确性，
+                但请注意，这样做也会显著增加计算需求，
+                可能导致处理时间变长。
+                """);
     }
 
     private Component createMinStationsSetting() {
@@ -50,7 +49,7 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         JLabel label = new JLabel();
 
-        ChangeListener upd = changeEvent -> label.setText("Minimum number of stations: %d".formatted(sliderMinStations.getValue()));
+        ChangeListener upd = changeEvent -> label.setText("最小测站数量：%d".formatted(sliderMinStations.getValue()));
 
         sliderMinStations.addChangeListener(upd);
         sliderMinStations.setValue(Settings.minimumStationsForEEW);
@@ -59,11 +58,10 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         return createCoolLayout(sliderMinStations, label, "%s".formatted(Settings.minimumStationsForEEWDefault),
                 """
-                        Here you can set the minimum number of stations that need to pick\s
-                        up the earthquake for the EEW to be issued.\s
-                        Increasing the number can greatly reduce the number of false alarms,\s
-                        but may also cause EEW's to not appear in areas with less stations.
-                        """);
+                在这里，您可以设置发布地震预警（EEW）所需的最小测站数量。
+                增加这个数量可以大大减少误报的数量，
+                但也可能导致在测站较少的地区无法出现地震预警。
+                """);
     }
 
     public static JPanel createCoolLayout(JSlider slider, JLabel label, String defaultValue, String explanation){
@@ -77,7 +75,7 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
         topPanel.add(slider, BorderLayout.CENTER);
 
         if(defaultValue != null) {
-            JLabel labelDefault = new JLabel("Default value: " + defaultValue);
+            JLabel labelDefault = new JLabel("默认值：" + defaultValue);
             labelDefault.setBorder(new EmptyBorder(8, 2, 0, 0));
             topPanel.add(labelDefault, BorderLayout.SOUTH);
         }
@@ -112,7 +110,7 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         JLabel label = new JLabel();
 
-        ChangeListener upd = changeEvent -> label.setText("Hypocenter Correctness Threshold: %d %%".formatted(sliderCorrectness.getValue()));
+        ChangeListener upd = changeEvent -> label.setText("震源正确性阈值：%d %%".formatted(sliderCorrectness.getValue()));
 
         sliderCorrectness.addChangeListener(upd);
         sliderCorrectness.setValue(Settings.hypocenterCorrectThreshold.intValue());
@@ -121,36 +119,32 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
         return createCoolLayout(sliderCorrectness, label, "%s %%".formatted(Settings.hypocenterCorrectThresholdDefault),
                 """
-                        This value determines the threshold when a hypocenter is considered
-                        correct or not.
-                        The correctness is calculated as the % of stations that have arrival
-                        within the Inaccuracy threshold and total number of stations used by
-                        the hypocenter locating algoritgm.
-                        If hypocenter is marked as incorrect, the earthquake will not
-                        be displayed on the map.
-                        Higher values will lead to more false negatives,
-                        Lower values will lead to more false positives.
-                        """);
+                这个值决定了震源被认为是正确还是不正确的阈值。
+                正确性是通过计算到达时间在不准确性阈值内的测站数量
+                与震源定位算法使用的总测站数量之比来计算的。
+                如果震源被标记为不正确，地震将不会显示在地图上。
+                较高的值会导致更多的误报，
+                较低的值会导致更多的漏报。
+                """);
     }
 
     private Component createSettingPWave() {
         sliderPWaveInaccuracy = createSettingsSlider(400, 5200, 400, 200);
 
         JLabel label = new JLabel();
-        ChangeListener changeListener = changeEvent -> label.setText("P Wave Arrival Inaccuracy Threshold: %d ms".formatted(sliderPWaveInaccuracy.getValue()));
+        ChangeListener changeListener = changeEvent -> label.setText("P波到达时间不准确性阈值：%d 毫秒".formatted(sliderPWaveInaccuracy.getValue()));
         sliderPWaveInaccuracy.addChangeListener(changeListener);
 
         sliderPWaveInaccuracy.setValue(Settings.pWaveInaccuracyThreshold.intValue());
         changeListener.stateChanged(null);
 
-        return createCoolLayout(sliderPWaveInaccuracy, label, "%s ms".formatted(Settings.pWaveInaccuracyThresholdDefault),
+        return createCoolLayout(sliderPWaveInaccuracy, label, "%s 毫秒".formatted(Settings.pWaveInaccuracyThresholdDefault),
                 """
-                This value determines the threshold value when the hypocenter finding\s
-                algorithm considers the arrival from current point to a station correct \s
-                or incorrect\s
-                Higher values are less restrictive and will lead to more false positives.
-                Lower values will force the algorithm to find more accurate hypocenter \s
-                and will lead to more false negatives.
+                这个值决定了震源定位算法在考虑从当前点到测站的到达时间
+                是否正确时使用的阈值。
+                较高的值限制性较小，会导致更多的误报。
+                较低的值会强制算法找到更准确的震源，
+                但会导致更多的漏报。
                 """);
     }
 
@@ -164,6 +158,6 @@ public class HypocenterAnalysisSettingsPanel extends SettingsPanel {
 
     @Override
     public String getTitle() {
-        return "Advanced";
+        return "高级";
     }
 }

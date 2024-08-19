@@ -102,7 +102,7 @@ public class FeatureCluster extends RenderFeature<Cluster> {
         graphics.setStroke(new BasicStroke(2f));
         graphics.setColor(Color.black);
         graphics.draw(elementRoot.getShape());
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override

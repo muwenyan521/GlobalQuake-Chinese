@@ -16,7 +16,7 @@ public abstract class SettingsPanel extends JPanel{
 	public double parseDouble(String str, String name, double min, double max){
 		double d = Double.parseDouble(str.replace(',', '.'));
 		if(Double.isNaN(d) || Double.isInfinite(d)){
-			throw new RuntimeApplicationException("Invalid number: %s".formatted(str));
+			throw new RuntimeApplicationException("无效的数字: %s".formatted(str));
 		}
 
 		if(d < min || d > max){

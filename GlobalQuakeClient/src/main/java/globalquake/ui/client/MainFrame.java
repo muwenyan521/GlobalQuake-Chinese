@@ -75,33 +75,33 @@ public class MainFrame extends GQFrame {
     private static int phase = 0;
 
     private void initAll() throws Exception {
-        getProgressBar().setString("Loading regions...");
+        getProgressBar().setString("加载区域...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         Regions.init();
-        getProgressBar().setString("Loading scales...");
+        getProgressBar().setString("加载地图比例...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         Scale.load();
-        getProgressBar().setString("Loading shakemap...");
+        getProgressBar().setString("加载震度图...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         ShakeMap.init();
-        getProgressBar().setString("Loading sounds...");
+        getProgressBar().setString("加载音频...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         try {
             //Sound may fail to load for a variety of reasons. If it does, this method disables sound.
             Sounds.load();
         } catch (Exception e) {
-            RuntimeApplicationException error = new RuntimeApplicationException("Failed to load sounds. Sound will be disabled", e);
+            RuntimeApplicationException error = new RuntimeApplicationException("加载音频文件失败，声音将会被关闭。", e);
             Main.getErrorHandler().handleWarning(error);
         }
-        getProgressBar().setString("Loading travel table...");
+        getProgressBar().setString("加载震波走时表...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         TauPTravelTimeCalculator.init();
 
-        getProgressBar().setString("Trying to load CUDA library...");
+        getProgressBar().setString("加载 CUDA 支持库...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         GQHypocs.load();
 
-        getProgressBar().setString("Done");
+        getProgressBar().setString("完成");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
     }
 
@@ -112,10 +112,10 @@ public class MainFrame extends GQFrame {
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         JLabel titleLabel = new JLabel(Main.fullName, SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        titleLabel.setFont(new Font("MiSans Normal", Font.BOLD, 32));
         panel.add(titleLabel);
 
-        hostButton = new JButton("Run Locally");
+        hostButton = new JButton("在本地环境下运行");
         hostButton.setEnabled(loaded);
         panel.add(hostButton);
 
@@ -128,7 +128,7 @@ public class MainFrame extends GQFrame {
             }
         });
 
-        connectButton = new JButton("Connect to Server");
+        connectButton = new JButton("连接至服务器");
         connectButton.setEnabled(loaded);
         panel.add(connectButton);
 
@@ -137,7 +137,7 @@ public class MainFrame extends GQFrame {
             new ServerSelectionFrame().setVisible(true);
         });
 
-        playgroundButton = new JButton("Playground Mode (beta)");
+        playgroundButton = new JButton("游乐场模式 (beta)");
         playgroundButton.setEnabled(loaded);
         panel.add(playgroundButton);
 
@@ -158,7 +158,7 @@ public class MainFrame extends GQFrame {
         grid2.setHgap(10);
         JPanel buttons2 = new JPanel(grid2);
 
-        settingsButton = new JButton("Settings");
+        settingsButton = new JButton("设置");
         settingsButton.setEnabled(false);
         // Listener for settings panel button
         settingsButton.addActionListener(actionEvent -> {
@@ -174,7 +174,7 @@ public class MainFrame extends GQFrame {
 
         buttons2.add(settingsButton);
 
-        JButton exitButton = new JButton("Exit");
+        JButton exitButton = new JButton("退出");
         exitButton.addActionListener(actionEvent -> System.exit(0));
         buttons2.add(exitButton);
         return buttons2;
@@ -195,7 +195,7 @@ public class MainFrame extends GQFrame {
     }
 
     private static void finishInit() {
-        updateProgressBar("Calibrating...", (int) ((phase++ / (PHASES + 4)) * 100.0));
+        updateProgressBar("正在校准...", (int) ((phase++ / (PHASES + 4)) * 100.0));
 
         if (Settings.recalibrateOnLaunch) {
             EarthquakeAnalysisTraining.calibrateResolution(MainFrame::updateProgressBar, null, true);
@@ -204,14 +204,14 @@ public class MainFrame extends GQFrame {
             }
         }
 
-        updateProgressBar("Updating Station Sources...", (int) ((phase++ / (PHASES + 4)) * 100.0));
+        updateProgressBar("更新测站源...", (int) ((phase++ / (PHASES + 4)) * 100.0));
         databaseManager.runUpdate(
                 databaseManager.getStationDatabase().getStationSources().stream()
                         .filter(StationSource::isOutdated).collect(Collectors.toList()),
                 () -> {
-                    updateProgressBar("Checking Seedlink Networks...", (int) ((phase++ / (PHASES + 3)) * 100.0));
+                    updateProgressBar("检查 Seedlink 节点...", (int) ((phase++ / (PHASES + 3)) * 100.0));
                     databaseManager.runAvailabilityCheck(databaseManager.getStationDatabase().getSeedlinkNetworks(), () -> {
-                        updateProgressBar("Saving...", (int) ((phase++ / (PHASES + 4)) * 100.0));
+                        updateProgressBar("保存...", (int) ((phase++ / (PHASES + 4)) * 100.0));
 
                         try {
                             databaseManager.save();
@@ -220,7 +220,7 @@ public class MainFrame extends GQFrame {
                         }
                         databaseMonitorFrame.initDone();
 
-                        updateProgressBar("Done", (int) ((phase++ / (PHASES + 4)) * 100.0));
+                        updateProgressBar("完成", (int) ((phase++ / (PHASES + 4)) * 100.0));
                     });
                 });
     }

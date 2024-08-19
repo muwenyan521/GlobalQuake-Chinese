@@ -31,49 +31,49 @@ public class GQSound {
 
     static{
         descriptions.put("level_0.wav",
-                "Triggered once so-called Cluster is created. " +
-                "\nThis happens if 4 or more stations detect shaking in close proximity.");
+                "当地震序列被创建时播放的声音。" +
+                        "\n这种情况发生在4个或更多测站在邻近区域检测到震动时。");
 
         descriptions.put("level_1.wav",
-                "Triggered when cluster reaches level 1. " +
-                "\nThis happens when at least 7 stations reach 64 counts or at least 4 stations reach 1,000 counts.");
+                "当地震序列达到1级时播放的声音。" +
+                        "\n这种情况发生在至少7个测站观测值达到64或至少4个测站观测值达到1,000时。");
 
         descriptions.put("level_2.wav",
-                "Triggered when cluster reaches level 2. " +
-                        "\nThis happens when at least 7 stations reach 1,000 counts or at least 3 stations reach 10,000 counts.");
+                "当地震序列达到2级时播放的声音。" +
+                        "\n这种情况发生在至少7个测站观测值达到1,000或至少3个测站观测值达到10,000时。");
 
         descriptions.put("level_3.wav",
-                "Triggered when cluster reaches level 3. " +
-                        "\nThis happens when at least 5 stations reach 10,000 counts or at least 3 stations reach 50,000 counts.");
+                "当地震序列达到3级时播放的声音。" +
+                        "\n这种情况发生在至少5个测站观测值达到10,000或至少3个测站达到50,000时。");
 
         descriptions.put("level_4.wav",
                 """
-                        Triggered when cluster reaches level 4.\s
-                        This happens when at least 4 stations reach 50,000 counts.\s
-                        This audio file is BLANK at default since this alarm sound has not yet been added!""");
+                        当地震序列达到4级时播放的声音。\s
+                        这种情况发生在至少4个测站观测值达到50,000时。\s
+                        默认情况下此音频文件为空白，因为尚未添加此警报声音！""");
 
-        descriptions.put("intensify.wav", "Triggered if the conditions specified in the previous Alerts settings tab are met.");
-        descriptions.put("felt.wav", "Triggered if shaking is expected at your home location." +
-                "\nThe threshold intensity scale and level can be configured in the Alerts tab.");
+        descriptions.put("intensify.wav", "当满足前一个警报设置选项卡中指定的条件时播放的声音。");
+        descriptions.put("felt.wav", "当预计用户位置会感受到震动时播放的声音。" +
+                "\n可以在警报选项卡中配置阈值强度等级和级别。");
         descriptions.put("felt_strong.wav", """
-                Triggered if STRONG shaking is expected at your home location.
-                The threshold intensity scale and level can be configured in the Alerts tab.
-                This audio file is BLANK at default since this alarm sound has not yet been added!""");
+                当预计用户位置会感受到强烈震动时播放的声音。
+                可以在警报选项卡中配置阈值强度等级和级别。
+                默认情况下此音频文件为空白，因为尚未添加此警报声音！""");
 
         descriptions.put("eew_warning.wav", """
-                Triggered if there is high certainty in the detected earthquake and\s
-                it has at least MMI VI estimated intensity on land.
-                This audio file is BLANK at default since this alarm sound has not yet been added!""");
+                当对检测到的地震有高度确定性，并且\s
+                在陆地上估计强度至少为MMI VI级时播放的声音。
+                默认情况下此音频文件为空白，因为尚未添加此警报声音！""");
 
-        descriptions.put("countdown.wav", "Countdown of the last 10 seconds before S waves arrives at your home location\n" +
-                "if shaking is expected there.");
+        descriptions.put("countdown.wav", "如果预计用户位置会感受到震动，" +
+                "则在S波到达前的最后10秒进行倒计时播放的声音。");
 
-        descriptions.put("update.wav", "Earthquake parameters updated (revision).");
-        descriptions.put("found.wav", "Earthquake epicenter determined for the first time and it appears on the map.");
+        descriptions.put("update.wav", "发出地震修正报时播放的声音。");
+        descriptions.put("found.wav", "首次监测到地震震中并在地图上显示时播放的声音。");
     }
 
     public GQSound(String filename){
-        this(filename, descriptions.getOrDefault(filename, "[No description provided]"));
+        this(filename, descriptions.getOrDefault(filename, "[未提供描述]"));
     }
 
     public GQSound(String filename, String description) {
@@ -84,14 +84,14 @@ public class GQSound {
 
     public void load(boolean externalOnly) throws FatalIOException {
         try {
-            // try to load from export folder
+            // 尝试从导出文件夹加载
             Path soundPath = Paths.get(EXPORT_DIR.getAbsolutePath(), filename);
             InputStream audioInStream = Files.exists(soundPath) || externalOnly ?
                     new FileInputStream(soundPath.toFile()) :
                     ClassLoader.getSystemClassLoader().getResourceAsStream("sounds/" + filename);
 
             if (audioInStream == null) {
-                throw new IOException("Sound file not found: %s (from file = %s)".formatted(filename,  Files.exists(soundPath)));
+                throw new IOException("未找到声音文件：%s（来自文件 = %s）".formatted(filename,  Files.exists(soundPath)));
             }
 
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(
@@ -100,13 +100,13 @@ public class GQSound {
             clip.open(audioIn);
             this.clip = clip;
         } catch(Exception e) {
-            throw new FatalIOException("Failed to load sound: " + filename, e);
+            throw new FatalIOException("加载声音失败：" + filename, e);
         }
     }
 
     public void export(Path exportPath) throws IOException{
         Path exportedFilePath = exportPath.resolve(filename);
-        if (!Files.exists(exportedFilePath)) { // Check if the file already exists
+        if (!Files.exists(exportedFilePath)) { // 检查文件是否已存在
             InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("sounds/" + filename);
             if (is != null) {
                 Files.copy(is, exportedFilePath, StandardCopyOption.REPLACE_EXISTING);

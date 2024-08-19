@@ -2,8 +2,8 @@ package globalquake.core.geo;
 
 public enum DistanceUnit {
 
-    KM("Kilometers", "km", 1.0),
-    MI("Miles", "mi", 0.621371192);
+    KM("千米", "km", 1.0),
+    MI("英里", "mi", 0.621371192);
 
     private final String longName;
     private final String shortName;
