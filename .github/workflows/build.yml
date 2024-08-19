@@ -22,70 +22,24 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
       - name: Build with Maven
         run: mvn -B clean install
 
-      - name: Run JUnit tests
-        run: mvn test
+      - name: List directory structure
+        run: |
+          echo "Root directory:"
+          ls -R
+          echo "GlobalQuakeClient directory:"
+          ls -R GlobalQuakeClient
+          echo "GlobalQuakeCore directory:"
+          ls -R GlobalQuakeCore
+          echo "GlobalQuakeAPI directory:"
+          ls -R GlobalQuakeAPI
+          echo "GlobalQuakeServer directory:"
+          ls -R GlobalQuakeServer
 
       - name: Get version
         id: get_version
         run: echo ::set-output name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.get_version.outputs.VERSION }}
-          release_name: Release v${{ steps.get_version.outputs.VERSION }}
-          draft: false
-          prerelease: false
 
-      - name: Upload GlobalQuakeClient JAR
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./GlobalQuakeClient/target/GlobalQuakeClient-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
-          asset_name: GlobalQuakeClient-${{ steps.get_version.outputs.VERSION }}.jar
-          asset_content_type: application/java-archive
-
-      - name: Upload GlobalQuakeCore JAR
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./GlobalQuakeCore/target/GlobalQuakeCore-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
-          asset_name: GlobalQuakeCore-${{ steps.get_version.outputs.VERSION }}.jar
-          asset_content_type: application/java-archive
-
-      - name: Upload GlobalQuakeAPI JAR
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./GlobalQuakeAPI/target/GlobalQuakeAPI-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
-          asset_name: GlobalQuakeAPI-${{ steps.get_version.outputs.VERSION }}.jar
-          asset_content_type: application/java-archive
-
-      - name: Upload GlobalQuakeServer JAR
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./GlobalQuakeServer/target/GlobalQuakeServer-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
-          asset_name: GlobalQuakeServer-${{ steps.get_version.outputs.VERSION }}.jar
-          asset_content_type: application/java-archive
