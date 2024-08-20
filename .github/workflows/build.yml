@@ -1,5 +1,4 @@
-name: Java CI
-
+name: Java CI and Release
 on:
   push:
     branches:
@@ -13,7 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,5 +25,27 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean install
 
-      - name: Run JUnit tests
-        run: mvn test
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.VERSION }}-${{ github.run_number }}
+          release_name: Release v${{ steps.get_version.outputs.VERSION }}-${{ github.run_number }}
+          draft: false
+          prerelease: true
+
+      - name: Upload GlobalQuakeClient JAR
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./GlobalQuakeClient/target/GlobalQuake-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
+          asset_name: GlobalQuake-${{ steps.get_version.outputs.VERSION }}.jar
+          asset_content_type: application/java-archive
