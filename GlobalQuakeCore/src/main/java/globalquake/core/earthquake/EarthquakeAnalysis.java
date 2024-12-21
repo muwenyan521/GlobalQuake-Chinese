@@ -330,7 +330,7 @@ public class EarthquakeAnalysis {
                 }
 
                 Logger.tag("Hypocs").debug("将事件数量从%d减少到最佳的%d，以提高精度")
-                        .formatted(correctSelectedEvents.size(), list.size()));
+                        .formatted(correctSelectedEvents.size(), list.size());
 
                 correctSelectedEvents = list.stream().map(Map.Entry::getKey).collect(Collectors.toList());
 
