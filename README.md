@@ -50,7 +50,7 @@ GlobalQuake 是一款基于 Java 的全球地震活动近实时监测软件。
 > 同时请注意，在某些国家，在公共场所播放系统内置的某些警报音效可能被视为制造恐慌，属于违法行为。
 
 > [!NOTE]<br>
-> GlobalQuake 不拥有任何形式的数据，相关数据所有者可能随时停止通过 Seedlink 服务器和/或 FDSNWS 共享数据，恕不另行通知。
+> GlobalQuake 不拥有任何形式的数据，相关数据所有者可能随时停止通过 `Seedlink 服务器`和/或 `FDSNWS` 共享数据，恕不另行通知。
 
 ### GlobalQuake 的优势
 
