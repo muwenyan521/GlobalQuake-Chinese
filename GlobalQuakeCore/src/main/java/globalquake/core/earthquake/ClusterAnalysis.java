@@ -275,7 +275,7 @@ public class ClusterAnalysis {
         }
 
         if(considerIntensity){
-            throw new IllegalArgumentException("Preliminary Hypocenter doesn't have magnitude and cannot be assessed using intensity.");
+            throw new IllegalArgumentException("初步震中没有震级,无法使用强度进行评估.");
         }
 
         return couldBeArrival(pickedEvent.lat(), pickedEvent.lon(), pickedEvent.elevation(), pickedEvent.pWave(),
@@ -502,7 +502,7 @@ public class ClusterAnalysis {
             boolean tooOld = earthquake == null && numberOfActiveEvents < minimum && GlobalQuake.instance.currentTimeMillis() - cluster.getLastUpdate() > 2 * 60 * 1000;
 
             if ( notEnoughEvents || eqRemoved || tooOld) {
-                Logger.tag("Hypocs").debug("Cluster #%d marked for removal (%s || %s || %s)".formatted(cluster.id, notEnoughEvents, eqRemoved, tooOld));
+                Logger.tag("Hypocs").debug("震群序列 #%d 标记为移除(%s || %s || %s)".formatted(cluster.id, notEnoughEvents, eqRemoved, tooOld));
                 toBeRemoved.add(cluster);
                 if(notEnoughEvents){
                     toBeRemovedBadly.add(cluster);
@@ -539,8 +539,8 @@ public class ClusterAnalysis {
 
         cluster.calculateRoot(true);
 
-        Logger.tag("Hypocs").debug("New Cluster #" + cluster.id + " Has been created. It contains "
-                + cluster.getAssignedEvents().size() + " events");
+        Logger.tag("Hypocs").debug("新震群序列 #" + cluster.id + " 已创建。它包含 "
+                + cluster.getAssignedEvents().size() + " 个事件");
         clusters.add(cluster);
 
         if(GlobalQuake.instance != null){

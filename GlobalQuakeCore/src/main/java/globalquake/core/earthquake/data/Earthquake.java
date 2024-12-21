@@ -37,7 +37,7 @@ public class Earthquake implements Regional, Warnable {
 
     public Earthquake(Cluster cluster, UUID uuid) {
         if (cluster == null) {
-            throw new IllegalArgumentException("Cluster cannot be null!");
+            throw new IllegalArgumentException("震群序列不能为空!");
         }
         this.cluster = cluster;
         this.uuid = uuid;

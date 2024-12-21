@@ -52,7 +52,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         contentPane.add(createTabbedPane(), BorderLayout.CENTER);
 
         pack();
-        setTitle("Station Database Manager");
+        setTitle("站点数据库管理器");
         setLocationRelativeTo(null);
 
         runTimer();
@@ -96,9 +96,9 @@ public class DatabaseMonitorFrame extends GQFrame {
 
     private Component createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Seedlink Networks", new SeedlinkServersPanel(
+        tabbedPane.addTab("Seedlink节点", new SeedlinkServersPanel(
                 this, manager,restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
-        tabbedPane.addTab("Station Sources", new StationSourcesPanel(
+        tabbedPane.addTab("站点源", new StationSourcesPanel(
                 this, manager, restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
         return tabbedPane;
     }
@@ -118,7 +118,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         gridLayout.setHgap(5);
         buttonsPanel.setLayout(gridLayout);
 
-        btnSelectStations = new JButton("Select Stations");
+        btnSelectStations = new JButton("选择站点");
         btnSelectStations.setEnabled(false);
 
         ImageIcon selectStationsIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/selectStations.png")));
@@ -134,7 +134,7 @@ public class DatabaseMonitorFrame extends GQFrame {
 
         buttonsPanel.add(btnSelectStations);
 
-        btnLaunch = new JButton("Launch %s".formatted(Main.fullName));
+        btnLaunch = new JButton("启动 %s".formatted(Main.fullName));
         btnLaunch.setEnabled(false);
 
         ImageIcon launchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/launchGlobalQuake.png")));
@@ -154,7 +154,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         mainProgressBar  = new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
         mainProgressBar.setValue(0);
         mainProgressBar.setStringPainted(true);
-        mainProgressBar.setString("Init...");
+        mainProgressBar.setString("初始化...");
 
         buttonsOutsidePanel.add(buttonsPanel);
         buttonsOutsidePanel.add(mainProgressBar);

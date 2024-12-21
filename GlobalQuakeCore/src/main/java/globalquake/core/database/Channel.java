@@ -86,11 +86,11 @@ public final class Channel implements Serializable {
     @Override
     public String toString() {
         if (seedlinkNetworks.isEmpty()) {
-            return "%s %s %.1fsps (unavailable)".formatted(getCode(), getLocationCode(), getSampleRate());
+            return "%s %s %.1fsps(不可用)".formatted(getCode(), getLocationCode(), getSampleRate());
         } else if (seedlinkNetworks.size() == 1) {
-            return "%s %s %.1fsps (%d seedlink)".formatted(getCode(), getLocationCode(), getSampleRate(), seedlinkNetworks.size());
+            return "%s %s %.1fsps(%d个Seedlink节点)".formatted(getCode(), getLocationCode(), getSampleRate(), seedlinkNetworks.size());
         } else {
-            return "%s %s %.1fsps (%d seedlinks)".formatted(getCode(), getLocationCode(), getSampleRate(), seedlinkNetworks.size());
+            return "%s %s %.1fsps(%d个Seedlink节点)".formatted(getCode(), getLocationCode(), getSampleRate(), seedlinkNetworks.size());
         }
     }
 
@@ -116,7 +116,7 @@ public final class Channel implements Serializable {
         if(newChannel.sensitivity2 > 0) {
             double diff = Math.abs(sensitivity2 - newChannel.sensitivity2);
             if(diff > 10){
-                Logger.trace("Sensitivity changed at station %s from %6.3E to %6.3E!".formatted(code, sensitivity2, newChannel.sensitivity2));
+                Logger.trace("站点%s的灵敏度从%6.3E变为%6.3E!".formatted(code, sensitivity2, newChannel.sensitivity2));
             }
             sensitivity2 = newChannel.sensitivity2;
         }

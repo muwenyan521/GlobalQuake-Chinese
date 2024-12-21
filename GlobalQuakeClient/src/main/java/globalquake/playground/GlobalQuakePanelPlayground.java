@@ -95,11 +95,11 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
     private void createRandomStations() {
         java.util.List<DecimalInput> inputs = new ArrayList<>();
         DecimalInput radius;
-        inputs.add(radius = new DecimalInput("Radius", 50, 30000, 1000.0));
+        inputs.add(radius = new DecimalInput("半径", 50, 30000, 1000.0));
         DecimalInput amount;
-        inputs.add(amount = new DecimalInput("Amount", 10, 10000, 1000.0));
+        inputs.add(amount = new DecimalInput("数量", 10, 10000, 1000.0));
 
-        new DecimalInputDialog(parent, "Choose parameters", inputs, () -> (((GlobalStationManagerPlayground) GlobalQuake.instance.getStationManager())).generateRandomStations(
+        new DecimalInputDialog(parent, "选择参数", inputs, () -> (((GlobalStationManagerPlayground) GlobalQuake.instance.getStationManager())).generateRandomStations(
                 (int) amount.getValue(),
                 radius.getValue(),
                 getRenderer().getRenderProperties().centerLat,
@@ -116,10 +116,10 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
     private void createDebugQuake() {
         java.util.List<DecimalInput> inputs = new ArrayList<>();
         DecimalInput magInput;
-        inputs.add(magInput = new DecimalInput("Magnitude", 0, 10, 4.0));
+        inputs.add(magInput = new DecimalInput("震级", 0, 10, 4.0));
         DecimalInput depthInput;
-        inputs.add(depthInput = new DecimalInput("Depth", 0, 700, 10.0));
-        new DecimalInputDialog(parent, "Choose parameters", inputs, () -> _createDebugEarthquake(
+        inputs.add(depthInput = new DecimalInput("震源深度", 0, 700, 10.0));
+        new DecimalInputDialog(parent, "选择参数", inputs, () -> _createDebugEarthquake(
                 magInput.getValue(), depthInput.getValue(), getRenderer().getRenderProperties().centerLat, getRenderer().getRenderProperties().centerLon));
     }
 
@@ -172,7 +172,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
         String str = ((GlobalQuakePlayground) GlobalQuake.getInstance()).getWatermark();
         g.setColor(new Color(255, 100, 0, (int) ((1.0 + Math.sin(System.currentTimeMillis() / 300.0)) * 40.0 + 80)));
 
-        Font font = new Font("Calibri", Font.BOLD, 48);
+        Font font = new Font("MiSans Normal", Font.BOLD, 48);
         g.setFont(font);
 
         g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, (getHeight() / 2 - 48 + font.getSize() / 4));
@@ -188,7 +188,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
             str = getDescription(insertType);
             g.setColor(Color.white);
 
-            font = new Font("Calibri", Font.BOLD, 32);
+            font = new Font("MiSans Normal", Font.BOLD, 32);
             g.setFont(font);
 
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, (int) (getHeight() * 0.66 + font.getSize() / 4));
@@ -199,10 +199,10 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
     private String getDescription(InsertType insertType) {
         switch (insertType) {
             case EARTHQUAKE -> {
-                return "Press <space> to create Earthquake";
+                return "按空格键生成地震";
             }
             case RANDOM_STATIONS -> {
-                return "Press <space> to add random stations";
+                return "按空格键添加随机站点";
             }
         }
         return "";

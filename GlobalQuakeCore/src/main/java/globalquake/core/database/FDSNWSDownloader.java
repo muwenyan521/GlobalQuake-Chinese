@@ -59,7 +59,7 @@ public class FDSNWSDownloader {
     public static List<Network> downloadFDSNWS(StationSource stationSource, String addons) throws Exception {
         List<Network> result = new ArrayList<>();
         downloadFDSNWS(stationSource, result, -180, 180, addons);
-        Logger.info("%d Networks downloaded".formatted(result.size()));
+        Logger.info("下载了%d个节点".formatted(result.size()));
         return result;
     }
 
@@ -77,7 +77,7 @@ public class FDSNWSDownloader {
                 addonsResult.append("&");
                 addonsResult.append(str);
             } else {
-                Logger.warn("Addon not supported: %s".formatted(str.split("=")[0]));
+                Logger.warn("插件不支持: %s".formatted(str.split("=")[0]));
             }
         }
 
@@ -88,7 +88,7 @@ public class FDSNWSDownloader {
         }
 
 
-        Logger.info("Connecting to " + url);
+        Logger.info("正在连接 " + url);
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setConnectTimeout(TIMEOUT_SECONDS * 1000);
@@ -97,8 +97,8 @@ public class FDSNWSDownloader {
         int response = con.getResponseCode();
 
         if (response == 413) {
-            Logger.debug("413! Splitting...");
-            stationSource.getStatus().setString("Splitting...");
+            Logger.debug("413! 正在分割...");
+            stationSource.getStatus().setString("正在分割...");
             if(maxLon - minLon < 0.1){
                 return;
             }
@@ -109,7 +109,7 @@ public class FDSNWSDownloader {
             InputStream inp = con.getInputStream();
             downloadFDSNWS(stationSource, result, inp);
         } else {
-            throw new FdnwsDownloadException("HTTP Status %d!".formatted(response));
+            throw new FdnwsDownloadException("HTTP状态%d!".formatted(response));
         }
     }
 
@@ -119,7 +119,7 @@ public class FDSNWSDownloader {
         f.setValidating(false);
         final CountInputStream in = new CountInputStream(inp);
 
-        in.setEvent(() ->  stationSource.getStatus().setString("Downloading %dkB".formatted(in.getCount() / 1024)));
+        in.setEvent(() ->  stationSource.getStatus().setString("正在下载%dkB".formatted(in.getCount() / 1024)));
 
         String text = new String(in.readAllBytes(), StandardCharsets.UTF_8);
 
@@ -141,7 +141,7 @@ public class FDSNWSDownloader {
         for (int i = 0; i < networks.getLength(); i++) {
             String networkCode = obtainAttribute(networks.item(i), "code", "unknown");
             if (networkCode.equalsIgnoreCase("unknown")) {
-                Logger.debug("ERR: no network code wtf.");
+                Logger.debug("错误:没有网络代码.");
                 continue;
             }
             String networkDescription = obtainElement(networks.item(i), "Description", "");
@@ -200,7 +200,7 @@ public class FDSNWSDownloader {
             }
         }
         // If none of the formats match, throw an exception
-        throw new ParseException("Unparseable date: " + dateString, 0);
+        throw new ParseException("无法解析的日期: " + dateString, 0);
     }
 
     private static void parseChannels(
@@ -249,7 +249,7 @@ public class FDSNWSDownloader {
                 inputType = getInputType(inputUnits);
             } catch (NullPointerException e) {
                 Logger.debug(
-                        "No Sensitivity!!!! " + stationCode + " " + networkCode + " " + channel+" @ "+stationSource.getUrl());
+                        "没有灵敏度! " + stationCode + " " + networkCode + " " + channel+" @ "+stationSource.getUrl());
             }
 
             var item = ((Element) channelNode)
@@ -308,7 +308,7 @@ public class FDSNWSDownloader {
 
         if (inputType == InputType.UNKNOWN) {
             unknownUnits.add(inputUnits.toLowerCase());
-            Logger.debug("Unknown input units: %s".formatted(Arrays.toString(unknownUnits.toArray())));
+            Logger.debug("未知的输入单位: %s".formatted(Arrays.toString(unknownUnits.toArray())));
         }
 
         return inputType;

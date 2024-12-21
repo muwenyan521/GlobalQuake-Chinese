@@ -52,8 +52,8 @@ public class DecimalInputDialog extends JDialog {
     }
 
     private JPanel createButtonsPanel(Runnable action) {
-        JButton okButton = new JButton("OK");
-        JButton cancelButton = new JButton("Cancel");
+        JButton okButton = new JButton("确定");
+        JButton cancelButton = new JButton("取消");
 
         okButton.addActionListener(e -> {
             dispose();
@@ -79,10 +79,10 @@ public class DecimalInputDialog extends JDialog {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             List<DecimalInput> inputs = new ArrayList<>();
-            inputs.add(new DecimalInput("Magnitude", 0, 10, 4.0));
-            inputs.add(new DecimalInput("Depth", 0, 750, 10.0));
+            inputs.add(new DecimalInput("震级", 0, 10, 4.0));
+            inputs.add(new DecimalInput("震源深度", 0, 750, 10.0));
             JFrame frame = new JFrame();
-            DecimalInputDialog dialog = new DecimalInputDialog(frame, "Choose parameters", inputs, () -> System.err.println("ok"));
+            DecimalInputDialog dialog = new DecimalInputDialog(frame, "选择参数", inputs, () -> System.err.println("ok"));
             dialog.setVisible(true);
 
             dialog.addWindowListener(new WindowAdapter() {

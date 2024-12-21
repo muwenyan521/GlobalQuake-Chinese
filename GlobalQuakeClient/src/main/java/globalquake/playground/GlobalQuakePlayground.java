@@ -86,7 +86,7 @@ public class GlobalQuakePlayground extends GlobalQuakeLocal {
     }
 
     public String getWatermark() {
-        return "Playground Mode";
+        return "游乐场模式";
     }
 
     @Override

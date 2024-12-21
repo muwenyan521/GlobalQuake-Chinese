@@ -33,7 +33,7 @@ public class StationDatabaseManager {
         File file = getDatabaseFile();
         if (!file.getParentFile().exists()) {
             if (!file.getParentFile().mkdirs()) {
-                throw new FatalIOException("Unable to create database file directory!", null);
+                throw new FatalIOException("无法创建数据库文件目录!", null);
             }
         }
 
@@ -43,15 +43,15 @@ public class StationDatabaseManager {
                 stationDatabase = (StationDatabase) in.readObject();
                 in.close();
 
-                Logger.info("Database load successfull");
+                Logger.info("数据库加载成功");
             } catch (ClassNotFoundException | IOException e) {
                 GlobalQuake.getErrorHandler().handleException(
-                        new FatalIOException("Unable to load station database, it probably got corrupted!", e));
+                        new FatalIOException("无法加载站点数据库,它可能已损坏!", e));
             }
         }
 
         if (stationDatabase == null) {
-            Logger.info("A new database created");
+            Logger.info("创建了一个新的数据库");
             stationDatabase = new StationDatabase();
         }
 
@@ -61,7 +61,7 @@ public class StationDatabaseManager {
         File file = getDatabaseFile();
         if (!file.getParentFile().exists()) {
             if (!file.getParentFile().mkdirs()) {
-                throw new FatalIOException("Unable to create database file directory!", null);
+                throw new FatalIOException("无法创建数据库文件目录!", null);
             }
         }
 
@@ -74,9 +74,9 @@ public class StationDatabaseManager {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(stationDatabase);
             out.close();
-            Logger.info("Station database saved sucessfully");
+            Logger.info("站点数据库成功保存");
         } catch (IOException e) {
-            throw new FatalIOException("Unable to save station database!", e);
+            throw new FatalIOException("无法保存站点数据库!", e);
         } finally {
             stationDatabase.getDatabaseReadLock().unlock();
         }
@@ -110,31 +110,31 @@ public class StationDatabaseManager {
 
         new Thread(() -> {
             toBeUpdated.forEach(stationSource -> {
-                stationSource.getStatus().setString("Queued...");
+                stationSource.getStatus().setString("排队...");
                 stationSource.getStatus().setValue(0);
             });
             toBeUpdated.parallelStream().forEach(stationSource -> {
                 try {
                     synchronized (statusSync) {
-                        stationSource.getStatus().setString("Updating...");
+                        stationSource.getStatus().setString("正在更新...");
                     }
                     List<Network> networkList = FDSNWSDownloader.downloadFDSNWS(stationSource, "");
 
                     synchronized (statusSync) {
-                        stationSource.getStatus().setString("Updating database...");
+                        stationSource.getStatus().setString("正在更新数据库...");
                     }
 
                     StationDatabaseManager.this.acceptNetworks(networkList);
 
                     synchronized (statusSync) {
-                        stationSource.getStatus().setString(networkList.size() + " Networks Downloaded");
+                        stationSource.getStatus().setString(networkList.size() + " 个节点已下载");
                         stationSource.getStatus().setValue(100);
                         stationSource.setLastUpdate(LocalDateTime.now());
                     }
                 } catch (SocketTimeoutException e) {
                     Logger.error(e);
                     synchronized (statusSync) {
-                        stationSource.getStatus().setString("Timed out!");
+                        stationSource.getStatus().setString("超时!");
                         stationSource.getStatus().setValue(0);
                     }
                 } catch (FdnwsDownloadException e) {
@@ -146,7 +146,7 @@ public class StationDatabaseManager {
                 } catch (Exception e) {
                     Logger.error(e);
                     synchronized (statusSync) {
-                        stationSource.getStatus().setString("Error!");
+                        stationSource.getStatus().setString("错误!");
                         stationSource.getStatus().setValue(0);
                     }
                 } finally {
@@ -193,7 +193,7 @@ public class StationDatabaseManager {
 
     public void runAvailabilityCheck(List<SeedlinkNetwork> toBeUpdated, Runnable onFinish) {
         this.updating = true;
-        toBeUpdated.forEach(seedlinkNetwork -> seedlinkNetwork.setStatus(0, "Queued..."));
+        toBeUpdated.forEach(seedlinkNetwork -> seedlinkNetwork.setStatus(0, "排队..."));
         fireStatusChangeEvent();
 
         new Thread(() -> {
@@ -215,21 +215,21 @@ public class StationDatabaseManager {
 
     private boolean runSeedlinkUpdate(SeedlinkNetwork seedlinkNetwork, int attempt) {
         synchronized (statusSync) {
-            seedlinkNetwork.setStatus(0, "Updating...");
+            seedlinkNetwork.setStatus(0, "正在更新...");
         }
 
         try {
             SeedlinkCommunicator.runAvailabilityCheck(seedlinkNetwork, stationDatabase, attempt);
         } catch (Exception ce) {
-            Logger.warn("Unable to fetch station data from seedlink server `%s`: %s".formatted(seedlinkNetwork.getName(), ce.getMessage()));
+            Logger.warn("无法从Seedlink节点服务器获取站点数据 `%s`: %s".formatted(seedlinkNetwork.getName(), ce.getMessage()));
             synchronized (statusSync) {
-                seedlinkNetwork.setStatus(0, "Network error: " + ce.getMessage());
+                seedlinkNetwork.setStatus(0, "网络错误: " + ce.getMessage());
             }
             return false;
         }
 
         synchronized (statusSync) {
-            seedlinkNetwork.setStatus(100, "Done");
+            seedlinkNetwork.setStatus(100, "完成");
         }
 
         fireUpdateEvent();

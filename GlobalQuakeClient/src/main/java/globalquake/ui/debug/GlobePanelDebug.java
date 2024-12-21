@@ -156,7 +156,7 @@ public class GlobePanelDebug extends GQFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(true);
-		setTitle("Globe Panel");
+		setTitle("地球仪面板");
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {

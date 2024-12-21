@@ -24,22 +24,23 @@ public class SeedlinkCommunicator {
 
     public static void runAvailabilityCheck(SeedlinkNetwork seedlinkNetwork, StationDatabase stationDatabase, int attempt) throws Exception {
         if(attempt > 1){
-            Logger.warn("Attempt %d / 3 to obtain available stations from %s".formatted(attempt, seedlinkNetwork.getName()));
+            Logger.warn("尝试第%d/3次从%s获取可用站点".formatted(attempt, seedlinkNetwork.getName()));
         }
 
-        seedlinkNetwork.setStatus(0, attempt == 1 ? "Connecting..." : "Connecting... (attempt %d / 3)".formatted(attempt));
+        seedlinkNetwork.setStatus(0, attempt == 1 ? "正在连接..." : "正在连接...（尝试第%d/3次）".formatted(attempt));
         SeedlinkReader reader = new SeedlinkReader(seedlinkNetwork.getHost(), seedlinkNetwork.getPort(), seedlinkNetwork.getTimeout(), false, seedlinkNetwork.getTimeout());
 
-        seedlinkNetwork.setStatus(33, "Downloading...");
+        seedlinkNetwork.setStatus(33, "正在下载...");
         String infoString = reader.getInfoString(SeedlinkReader.INFO_STREAMS).trim().replaceAll("[^\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]", " ");
 
-        seedlinkNetwork.setStatus(66, "Parsing...");
+        seedlinkNetwork.setStatus(66, "正在解析...");
         parseAvailability(infoString, stationDatabase, seedlinkNetwork);
 
-        seedlinkNetwork.setStatus(80, "Finishing...");
+        seedlinkNetwork.setStatus(80, "完成中...");
         reader.close();
 
-        seedlinkNetwork.setStatus(99, "Done");
+        seedlinkNetwork.setStatus(99, "完成");
+
     }
 
     private static void parseAvailability(String infoString, StationDatabase stationDatabase, SeedlinkNetwork seedlinkNetwork) throws Exception {
@@ -50,7 +51,7 @@ public class SeedlinkCommunicator {
         Document doc = db.parse(new InputSource(new StringReader(infoString)));
         doc.getDocumentElement().normalize();
         NodeList nodeList = doc.getElementsByTagName("station");
-        Logger.info("Found %d available stations in seedlink %s".formatted(nodeList.getLength(), seedlinkNetwork.getName()));
+        Logger.info("在Seedlink节点 %s中发现了%d个可用站点".formatted(nodeList.getLength(), seedlinkNetwork.getName()));
         for (int itr = 0; itr < nodeList.getLength(); itr++) {
             Node node = nodeList.item(itr);
             String stationCode = node.getAttributes().getNamedItem("name").getTextContent();
@@ -83,7 +84,7 @@ public class SeedlinkCommunicator {
                     }
 
                 } catch(NumberFormatException e){
-                    Logger.warn(new RuntimeException("Failed to get delay from %s, %s: %s".formatted(stationCode, seedlinkNetwork.getName(), e.getMessage())));
+                    Logger.warn(new RuntimeException("无法从%s获取延迟, %s: %s".formatted(stationCode, seedlinkNetwork.getName(), e.getMessage())));
                 }
 
                 addAvailableChannel(networkCode, stationCode, channelName, locationCode, delay, seedlinkNetwork, stationDatabase);
@@ -108,7 +109,7 @@ public class SeedlinkCommunicator {
                 if(channel != null){
                     var any = channel.getStationSources().stream().findAny();
                     Channel newChannel = StationDatabase.getOrCreateChannel(station, channelName, locationCode, channel.getLatitude(), channel.getLongitude(), channel.getElevation(), channel.getSampleRate(), any.orElse(null), -1, InputType.UNKNOWN);
-                    Logger.warn("Did not find exact match for [%s %s %s `%s`], assuming the location code is `%s`".formatted(networkCode, stationCode, channelName, locationCode, channel.getLocationCode()));
+                    Logger.warn("未找到[%s %s %s `%s`]的精确匹配,假设位置代码为`%s`".formatted(networkCode, stationCode, channelName, locationCode, channel.getLocationCode()));
                     channel = newChannel;
                 }
             }

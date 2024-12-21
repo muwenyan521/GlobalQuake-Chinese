@@ -97,7 +97,7 @@ public class ClientSocket {
             try {
                 connect(ip, port);
             } catch (Exception e) {
-                Logger.error("Unable to reconnect: %s".formatted(e.getMessage()));
+                Logger.error("无法重新连接: %s".formatted(e.getMessage()));
             }
         }
     }
@@ -153,7 +153,7 @@ public class ClientSocket {
         try {
             while (isConnected()) {
                 Packet packet = (Packet) inputStream.readObject();
-                Logger.trace("Received packet: %s".formatted(packet.toString()));
+                Logger.trace("收到数据包: %s".formatted(packet.toString()));
                 ((GlobalQuakeClient) GlobalQuakeClient.instance).processPacket(this, packet);
             }
         } catch(SocketTimeoutException | SocketException se){
@@ -170,7 +170,7 @@ public class ClientSocket {
             return;
         }
 
-        Logger.trace("Sending packet: %s".formatted(packet.toString()));
+        Logger.trace("发送数据包: %s".formatted(packet.toString()));
 
         outputStream.writeObject(packet);
     }

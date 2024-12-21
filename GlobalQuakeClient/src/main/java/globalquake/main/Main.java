@@ -28,7 +28,7 @@ public class Main {
         
         Options options = new Options();
         
-        Option maxGpuMemOption = new Option("g", "gpu-max-mem", true, "maximum GPU memory limit in GB");
+        Option maxGpuMemOption = new Option("g", "gpu-max-mem", true, "最大GPU内存限制(以GB为单位)");
         maxGpuMemOption.setRequired(false);
         options.addOption(maxGpuMemOption);
 
@@ -49,10 +49,10 @@ public class Main {
             try {
                 double maxMem =  Double.parseDouble(cmd.getOptionValue(maxGpuMemOption.getOpt()));
                 if(maxMem <= 0){
-                    throw new IllegalArgumentException("Invalid maximum GPU memory amount");
+                    throw new IllegalArgumentException("无效的最大GPU内存数量");
                 }
                 GQHypocs.MAX_GPU_MEM = maxMem;
-                Logger.info("Maximum GPU memory allocation will be limited to around %.2f GB".formatted(maxMem));
+                Logger.info("最大GPU内存分配将限制在大约 %.2f GB".formatted(maxMem));
             } catch(IllegalArgumentException e){
                 Logger.error(e);
                 System.exit(1);
@@ -66,13 +66,13 @@ public class Main {
     private static void initMainDirectory() {
         if (!MAIN_FOLDER.exists()) {
             if (!MAIN_FOLDER.mkdirs()) {
-                getErrorHandler().handleException(new FatalIOException("Unable to create main directory!", null));
+                getErrorHandler().handleException(new FatalIOException("无法创建主目录!", null));
             }
         }
         File VOLUME_FOLDER = new File(MAIN_FOLDER, "volume/");
         if (!VOLUME_FOLDER.exists()) {
             if (!VOLUME_FOLDER.mkdirs()) {
-                getErrorHandler().handleException(new FatalIOException("Unable to create volume directory!", null));
+                getErrorHandler().handleException(new FatalIOException("无法创建卷目录!", null));
             }
         }
     }

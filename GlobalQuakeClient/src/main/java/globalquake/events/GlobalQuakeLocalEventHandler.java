@@ -36,7 +36,7 @@ public class GlobalQuakeLocalEventHandler {
 
     public void fireEvent(GlobalQuakeLocalEvent event){
         executor.submit(() -> {
-            Logger.tag("Event").trace("GQLocal event fired: %s".formatted(event.toString()));
+            Logger.tag("Event").trace("GQ本地事件触发: %s".formatted(event.toString()));
             for (GlobalQuakeLocalEventListener eventListener : eventListeners) {
                 try {
                     event.run(eventListener);

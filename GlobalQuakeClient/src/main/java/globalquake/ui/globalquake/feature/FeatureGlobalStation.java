@@ -237,7 +237,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
                     str = "回放";
                     g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y + _y + 22);
                 } else {
-                    FeatureSelectableStation.drawDelay(g, x, y + 33, delay, "Delay");
+                    FeatureSelectableStation.drawDelay(g, x, y + 33, delay, "延迟");
                 }
             }
         }

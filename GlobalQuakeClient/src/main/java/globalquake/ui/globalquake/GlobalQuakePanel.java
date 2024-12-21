@@ -179,11 +179,11 @@ public class GlobalQuakePanel extends GlobePanel {
 
     public static String formatNumber(double number) {
         if (number < 1_000_000) {
-            return String.format("%.1fk", number / 1_000);
+            return String.format("%.1f", number);
         } else if (number < 1_000_000_000) {
-            return String.format("%.1fM", number / 1_000_000);
+            return String.format("%.1f万", number / 1_000_0);
         } else {
-            return String.format("%.1fB", number / 1_000_000_000);
+            return String.format("%.1f亿", number / 1_000_000_00);
         }
     }
 
@@ -517,7 +517,7 @@ public class GlobalQuakePanel extends GlobePanel {
 
         double pctUsed = usedMem / (double) maxMem;
 
-        settingsStrings.add(new SettingInfo("RAM: ", "%.2f / %.2fGB".formatted(usedMem / GB, maxMem / GB), getColorPCT(pctUsed)));
+        settingsStrings.add(new SettingInfo("运存: ", "%.2f / %.2fGB".formatted(usedMem / GB, maxMem / GB), getColorPCT(pctUsed)));
         settingsStrings.add(new SettingInfo("FPS: ", "%d".formatted(getLastFPS()), getColorFPS(getLastFPS())));
         return settingsStrings;
     }
@@ -652,7 +652,7 @@ public class GlobalQuakePanel extends GlobePanel {
                     g.drawString("纬度: " + f4d.format(quake.getLat()) + " 经度: " + f4d.format(quake.getLon()), x + xOffset + 3, y + 85);
                     g.drawString("震源深度: %s %s".formatted(
                                     Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1),
-                                    hypocenter.depthFixed ? "(fixed)" : ""),
+                                    hypocenter.depthFixed ? "(修正)" : ""),
                             x + xOffset + 3, y + 104);
                     str = "第 " + quake.getRevisionID() + " 报";
                     g.drawString(str, x + xOffset + 3, y + 123);

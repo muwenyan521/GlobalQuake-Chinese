@@ -210,7 +210,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
                 graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2), (int) (centerPonint.y + 10));
             }
 
-            String sim = GlobalQuake.instance.isSimulation() ? " (Simulated)" : "";
+            String sim = GlobalQuake.instance.isSimulation() ? " (模拟)" : "";
 
             String str = "M%.1f%s".formatted(entity.getOriginal().getMag(), sim);
 

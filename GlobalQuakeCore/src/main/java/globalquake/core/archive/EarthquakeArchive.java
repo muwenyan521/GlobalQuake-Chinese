@@ -31,13 +31,13 @@ public class EarthquakeArchive {
 	@SuppressWarnings("unchecked")
 	public EarthquakeArchive loadArchive() {
 		if (!ARCHIVE_FILE.exists()) {
-			Logger.info("Created new archive");
+			Logger.info("创建了新的存档");
 		} else {
 			try {
 				ObjectInputStream oin = new ObjectInputStream(new FileInputStream(ARCHIVE_FILE));
 				archivedQuakes = (MonitorableCopyOnWriteArrayList<ArchivedQuake>) oin.readObject();
 				oin.close();
-				Logger.info("Loaded " + archivedQuakes.size() + " quakes from archive.");
+				Logger.info("从存档中加载了" + archivedQuakes.size() + "次地震。");
 			} catch (Exception e) {
 				Logger.error(e);
 			}
@@ -59,14 +59,14 @@ public class EarthquakeArchive {
 		if (archivedQuakes != null) {
 			try {
 				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(TEMP_ARCHIVE_FILE));
-				Logger.info("Saving " + archivedQuakes.size() + " quakes to " + ARCHIVE_FILE.getName());
+				Logger.info("将" + archivedQuakes.size() + "次地震保存到" + ARCHIVE_FILE.getName());
 				out.writeObject(archivedQuakes);
 				out.close();
 				boolean res = (!ARCHIVE_FILE.exists() || ARCHIVE_FILE.delete()) && TEMP_ARCHIVE_FILE.renameTo(ARCHIVE_FILE);
 				if(!res){
-					Logger.error("Unable to save archive!");
+					Logger.error("无法保存存档!");
 				} else {
-					Logger.info("Archive saved");
+					Logger.info("存档已保存");
 				}
 			} catch (Exception e) {
 				Logger.error(e);
@@ -129,7 +129,7 @@ public class EarthquakeArchive {
 		}
 
 		if(archivedQuakes.size() != uuidArchivedQuakeMap.size()){
-			Logger.error("Possible memory leak: %d archived quake, but %d in map".formatted(archivedQuakes.size(), uuidArchivedQuakeMap.size()));
+			Logger.error("可能存在内存泄漏：%d次存档地震，但地图中有%d次".formatted(archivedQuakes.size(), uuidArchivedQuakeMap.size()));
 		}
 	}
 

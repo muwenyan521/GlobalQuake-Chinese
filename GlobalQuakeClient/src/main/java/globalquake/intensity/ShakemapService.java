@@ -65,7 +65,7 @@ public class ShakemapService {
             Logger.error(e);
         }
 
-        Logger.warn("%d cities have unknown population!".formatted(errors));
+        Logger.warn("%d个城市的人口未知!".formatted(errors));
     }
 
     public ShakemapService() {

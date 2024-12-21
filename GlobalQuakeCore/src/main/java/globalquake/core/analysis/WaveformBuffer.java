@@ -32,7 +32,7 @@ public class WaveformBuffer {
         this.size = (int) Math.ceil(seconds * sps);
 
         if(size <= 0){
-            throw new IllegalArgumentException("Wavefor buffer size must be positive!");
+            throw new IllegalArgumentException("波形缓冲区大小必须为正数!");
         }
 
         if(!isServer()) {
@@ -198,7 +198,7 @@ public class WaveformBuffer {
 
     public Log toLog(int index){
         if(isServer()){
-            throw new UnsupportedOperationException("toLog() is not supported in server mode!");
+            throw new UnsupportedOperationException("服务器模式下不支持toLog()!");
         }
         return new Log(
                 getTime(index),
@@ -225,7 +225,7 @@ public class WaveformBuffer {
     public WaveformBuffer extract(long start, long end) {
         int seconds = (int) Math.ceil((end - start) / 1000.0);
         if(seconds <= 0){
-            throw new IllegalArgumentException("Cannot extract empty waveform buffer!");
+            throw new IllegalArgumentException("无法提取空的波形缓冲区!");
         }
 
         // additional space
@@ -260,7 +260,7 @@ public class WaveformBuffer {
 
     public int getClosestIndex(long time) {
         if(isEmpty()){
-            throw new IllegalStateException("There is no closest log since the buffer is empty!");
+            throw new IllegalStateException("缓冲区为空，没有最近的日志!");
         }
 
         int low = getOldestDataSlot();

@@ -62,12 +62,12 @@ public abstract class Analysis {
         int[] data;
         try {
             if (!dataRecord.isDecompressable()) {
-                Logger.debug("Not Decompressable!");
+                Logger.debug("无法解压缩!");
                 return;
             }
             data = dataRecord.decompress().getAsInt();
             if (data == null) {
-                Logger.debug("Decompressed array is null!");
+                Logger.debug("解压缩后的数组为空!");
                 return;
             }
 
@@ -80,7 +80,7 @@ public abstract class Analysis {
             }
         } catch (Exception e) {
             Logger.trace(e);
-            Logger.warn("There was a problem with data processing on station %s: %s".formatted(getStation().getStationCode(), e.getMessage()));
+            Logger.warn("%s 站点数据处理出现问题: %s".formatted(getStation().getStationCode(), e.getMessage()));
         }
     }
 

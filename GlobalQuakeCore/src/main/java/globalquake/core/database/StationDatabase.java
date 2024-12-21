@@ -50,10 +50,10 @@ public class StationDatabase implements Serializable {
 
     private void convert() {
         if(version < VERSION){
-            Logger.warn("Database updated!");
+            Logger.warn("数据库已更新!");
             networks.clear();
             stationSources.forEach(stationSource -> stationSource.setLastUpdate(LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneId.systemDefault())));
-            GlobalQuake.errorHandler.info("Your station database was upgraded to newer version. You need to select stations again.");
+            GlobalQuake.errorHandler.info("您的站点数据库已升级到新版本.您需要重新选择站点.");
         }
 
         version = VERSION;

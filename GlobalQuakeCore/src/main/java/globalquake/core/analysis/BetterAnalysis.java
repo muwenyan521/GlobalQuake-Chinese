@@ -162,8 +162,8 @@ public class BetterAnalysis extends Analysis {
                 latestEvent.end(time);
             }
             if (timeFromStart >= EVENT_TOO_LONG_DURATION * 1000) {
-                Logger.warn("Station " + getStation().getStationCode()
-                        + " reset for exceeding maximum event duration (" + EVENT_TOO_LONG_DURATION + "s)");
+                Logger.warn("站点 " + getStation().getStationCode()
+                        + " 因超过最大事件持续时间而重置 (" + EVENT_TOO_LONG_DURATION + "s)");
                 reset();
                 getStation().reportState(StationState.INACTIVE, time);
                 return;

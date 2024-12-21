@@ -5,7 +5,7 @@
 <a href="https://github.com/xspanger3770/GlobalQuake/releases"><img src="https://img.shields.io/github/release/xspanger3770/GlobalQuake.svg?style=for-the-badge&logo=github" alt="发布版本"></a> <a href="https://github.com/xspanger3770/GlobalQuake/releases"><img src="https://img.shields.io/github/downloads/xspanger3770/GlobalQuake/total?style=for-the-badge&logo=github" alt="下载量"></a> <a href="https://discord.gg/aCyuXfTyma"><img src="https://img.shields.io/badge/discord-立即加入-blue?logo=discord&style=for-the-badge" alt="Discord"></a>
 </p>
 
-[English](https://github.com/Dameng23333/GlobalQuake-Chinese-Localization/blob/v0.11.0_pre-2-7/README_en.md)
+[English](https://github.com/muwenyan521/GlobalQuake-Chinese/blob/v0.11.0_pre-2-7/README_en.md)
 
 ![GlobalQuake v0.10.0](https://github.com/xspanger3770/GlobalQuake/assets/100421968/d38a0596-0242-4fe9-9766-67a486832364)
 <div style="display: grid; grid-template-columns: 1fr 1fr;">

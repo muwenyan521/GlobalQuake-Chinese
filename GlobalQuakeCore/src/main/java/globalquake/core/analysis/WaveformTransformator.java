@@ -19,7 +19,7 @@ public class WaveformTransformator {
 
     public WaveformTransformator(double minFreq, double maxFreq, double sensitivity, double sampleRate, InputType inputType) {
         if (sensitivity < 10) {
-            Logger.warn("Defaulting sensitivity from %.1f to %.1f!".formatted(sensitivity, DEFAULT_SENSITIVITY));
+            Logger.warn("默认灵敏度从%.1f到%.1f!".formatted(sensitivity, DEFAULT_SENSITIVITY));
             sensitivity = DEFAULT_SENSITIVITY;
         }
         this.inputType = inputType;
