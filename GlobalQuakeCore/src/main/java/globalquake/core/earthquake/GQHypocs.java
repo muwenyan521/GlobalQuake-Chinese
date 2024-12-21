@@ -29,12 +29,12 @@ public class GQHypocs {
 
     private static void printResolution() {
         for(int i = 0; i < depth_profiles.length; i++){
-            Logger.tag("Hypocs").debug("Iteration #%d difficulty: %.2fK".formatted( i, 750.0 / depth_profiles[i] * point_profiles[i] / 1000.0));
+            Logger.tag("Hypocs").debug("第%d次迭代难度: %.2fK".formatted( i, 750.0 / depth_profiles[i] * point_profiles[i] / 1000.0));
         }
 
         for(int i = 0; i < depth_profiles.length; i++) {
-            double distKM = dist_profiles[i] / 360.0* GeoUtils.EARTH_CIRCUMFERENCE;
-            Logger.tag("Hypocs").debug("Iteration #%d space H %.2fkm V %fkm".formatted(i, Math.sqrt((distKM * distKM) / point_profiles[i]), depth_profiles[i]));
+            double distKM = dist_profiles[i] / 360.0 * GeoUtils.EARTH_CIRCUMFERENCE;
+            Logger.tag("Hypocs").debug("第%d次迭代空间水平距离H %.2fkm 垂直距离V %fkm".formatted(i, Math.sqrt((distKM * distKM) / point_profiles[i]), depth_profiles[i]));
         }
     }
 
@@ -90,7 +90,7 @@ public class GQHypocs {
 
         stationLimitCalculated = true;
         stationLimit = (int) (stations * (MAX_GPU_MEM / GB));
-        Logger.tag("Hypocs").info("%d stations will use %.2f / %.2f GB, thus limit will be %d stations".formatted(stations, GB, MAX_GPU_MEM, stationLimit));
+        Logger.tag("Hypocs").info("%d个站点将使用%.2f / %.2f GB,因此限制为%d个站点".formatted(stations, GB, MAX_GPU_MEM, stationLimit));
     }
 
     private static double getPointMultiplier() {
@@ -108,13 +108,13 @@ public class GQHypocs {
             System.loadLibrary("gq_hypocs");
             initCuda();
             if(cudaLoaded) {
-                Logger.tag("Hypocs").info("CUDA library loaded successfully!");
+                Logger.tag("Hypocs").info("CUDA库加载成功!");
                 printResolution();
             } else {
-                Logger.tag("Hypocs").warn("CUDA not loaded, earthquake parameters will be calculated on the CPU");
+                Logger.tag("Hypocs").warn("CUDA未加载，地震参数将在CPU上计算");
             }
         } catch(Exception | UnsatisfiedLinkError e) {
-            Logger.tag("Hypocs").warn("Failed to load or init CUDA: %s".formatted(e.getMessage()));
+            Logger.tag("Hypocs").warn("加载或初始化CUDA失败:%s".formatted(e.getMessage()));
         }
     }
 }

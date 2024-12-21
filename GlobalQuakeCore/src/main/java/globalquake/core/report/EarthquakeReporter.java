@@ -42,7 +42,7 @@ public class EarthquakeReporter {
                 earthquake.getRegion().replace(' ', '_'), fileFormat.format(Instant.ofEpochMilli(earthquake.getOrigin())) + "/"));
         if (!folder.exists()) {
             if (!folder.mkdirs()) {
-                Logger.error("Unable to create directory for reports! %s".formatted(folder.getAbsolutePath()));
+                Logger.error("无法创建报告目录! %s".formatted(folder.getAbsolutePath()));
                 return;
             }
         }

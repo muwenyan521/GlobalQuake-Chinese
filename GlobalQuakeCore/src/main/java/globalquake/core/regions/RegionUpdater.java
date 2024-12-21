@@ -2,7 +2,7 @@ package globalquake.core.regions;
 
 public class RegionUpdater {
 
-    public static final String DEFAULT_REGION = "Pending...";
+    public static final String DEFAULT_REGION = "进行中...";
 
     private final Regional target;
 

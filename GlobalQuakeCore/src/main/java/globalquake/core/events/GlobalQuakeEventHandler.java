@@ -37,7 +37,7 @@ public class GlobalQuakeEventHandler {
     public void fireEvent(GlobalQuakeEvent event){
         getExecutorFor(event).submit(() -> {
             if(event.shouldLog()) {
-                Logger.tag("Event").trace("Event fired: %s".formatted(event.toString()));
+                Logger.tag("Event").trace("事件触发: %s".formatted(event.toString()));
             }
             for (GlobalQuakeEventListener eventListener : eventListeners) {
                 try {

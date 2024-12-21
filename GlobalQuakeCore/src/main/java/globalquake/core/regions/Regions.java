@@ -81,19 +81,19 @@ public class Regions {
 
     @SuppressWarnings("unused")
     private static void loadLookupTable() throws IOException {
-        shorelineLookup = LookupTableIO.importLookupTableFromFile();
+    shorelineLookup = LookupTableIO.importLookupTableFromFile();
 
         if(shorelineLookup == null){
-            System.err.println("No lookup table found! Generating...");
+            System.err.println("未找到查找表!正在生成...");
             double start = System.currentTimeMillis();
             boolean exportResult = LookupTableIO.exportLookupTableToFile();
-            System.out.println("Generating took: " + (System.currentTimeMillis() - start)/1000 + "s");
+            System.out.println("生成耗时:" + (System.currentTimeMillis() - start)/1000 + "秒");
 
             if (exportResult) {
-                System.out.println("Lookup table successfully generated! Loading " + shorelineLookup.size() + " items.");
+                System.out.println("查找表成功生成!正在加载 " + shorelineLookup.size() + " 项。");
                 shorelineLookup = LookupTableIO.importLookupTableFromFile();
             } else {
-                System.err.println("Failed to export lookup table!");
+                System.err.println("导出查找表失败!");
             }
         }
     }
@@ -110,7 +110,7 @@ public class Regions {
             URL url = new URL(str);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            Logger.debug("URL: " + url);
+            Logger.debug("网址链接: " + url);
             StringBuilder result = new StringBuilder();
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -237,11 +237,11 @@ public class Regions {
 
         String name;
         if (closestDistance < 200) {
-            name = "Near The Coast Of " + closestNameExtended;
+            name = closestNameExtended + "的海岸附近 ";
         } else if (closestDistance < 1500) {
-            name = "Offshore " + closest;
+            name = closest + "近海";
         } else {
-            name = "In the middle of nowhere";
+            name = "在无人之地的中央";
         }
 
         return name;
@@ -383,39 +383,39 @@ public class Regions {
     }
 
 
-    public static void main(String[] args) throws Exception{
-        System.out.println("INIT");
+    public static void main(String[] args) throws Exception {
+        System.out.println("初始化");
         init();
 
-        System.out.println("FIND");
+        System.out.println("查找");
 
         double lat = 39.59763558387561,
-                lon = -9.14040362258988;
+            lon = -9.14040362258988;
 
         assert shorelineLookup != null;
         double interpolation = interpolate(lat, lon, shorelineLookup);
 
-        if (Double.isNaN(interpolation) || interpolation == -1){
-            System.err.println("Values couldn't be interpolated, using legacy method...");
+        if (Double.isNaN(interpolation) || interpolation == -1) {
+            System.err.println("无法进行插值,使用传统方法...");
             double shorelineDistance = getShorelineDistance(lat, lon);
             shorelineLookup.putIfAbsent(String.format("%.6f,%.6f", lat, lon), shorelineDistance);
         } else {
-            System.out.println("Interpolated distance to the closest shoreline is: " + interpolation);
+            System.out.println("最近海岸线的插值距离为: " + interpolation);
             shorelineLookup.putIfAbsent(String.format("%.6f,%.6f", lat, lon), interpolation);
         }
 
         boolean exportResult = LookupTableIO.exportLookupTableToFile(shorelineLookup);
-        if(exportResult){
-            System.out.println("Lookup Table was successfully exported.");
+        if (exportResult) {
+            System.out.println("查找表成功导出.");
         } else {
-            System.err.println("Lookup Table export failed");
+            System.err.println("查找表导出失败");
         }
     }
 
     public static void parseGeoJson(String path, List<GQPolygon> raw, List<Region> regions, List<String> remove) throws IOException {
         URL resource = ClassLoader.getSystemClassLoader().getResource(path);
         if (resource == null) {
-            throw new IOException("Unable to load polygons: %s".formatted(path));
+            throw new IOException("无法加载地区界: %s".formatted(path));
         }
         InputStream stream;
         FeatureCollection featureCollection = new ObjectMapper().readValue(stream = resource.openStream(),
@@ -425,7 +425,7 @@ public class Regions {
         for (Feature f : featureCollection.getFeatures()) {
             String name = fetchName(f);
             if (name == null) {
-                Logger.error("Error: found polygons with no name in " + path);
+                Logger.error("在 " + path + " 找到了没有名字的地区界");
             }
             if (name != null && remove.contains(name)) {
                 continue;

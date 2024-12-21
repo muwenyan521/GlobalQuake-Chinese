@@ -11,9 +11,9 @@ import javax.swing.SwingUtilities;
 public class IgnoreAction extends AbstractAction {
 
 	public IgnoreAction() {
-		super("Ignore");
-		putValue(SHORT_DESCRIPTION, "Ignore the error and continue (unsafe)");
-        putValue(MNEMONIC_KEY, KeyEvent.VK_I);
+		super("忽略");
+		putValue(SHORT_DESCRIPTION, "忽略错误并继续（不安全）");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 
 	@Override

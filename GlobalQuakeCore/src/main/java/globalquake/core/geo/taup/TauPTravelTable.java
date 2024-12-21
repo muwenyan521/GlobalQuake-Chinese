@@ -85,7 +85,7 @@ public class TauPTravelTable implements Serializable {
 
         int count = width * height;
         double size = (count * Float.BYTES) / (1024.0 * 1024.0);
-        System.out.printf("Filling array size %,d (%.3fMB)%n", count, size);
+        System.out.printf("填充数组大小 %,d (%.3fMB)%n", count, size);
         return new float[width][height];
     }
 }

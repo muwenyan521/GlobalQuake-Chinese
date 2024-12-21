@@ -105,12 +105,12 @@ public class IntensityGraphs {
 
     public static final BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
             new float[]{3}, 0);
-    private static final Font calibri14 = new Font("Calibri", Font.BOLD, 14);
+    private static final Font calibri14 = new Font("MiSans Normal", Font.BOLD, 14);
 
     public static void drawGraph(Graphics2D g, int w, int h, List<DistanceIntensityRecord> recs, MagnitudeType magnitudeType, boolean accelerometers) {
         int wry = 20;
         int wrx;
-        g.setFont(new Font("Calibri", Font.BOLD, 14));
+        g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
         wrx = g.getFontMetrics().stringWidth("10e-1") + 6;
         g.setColor(Color.white);
         g.fillRect(0, 0, w, h);
@@ -152,7 +152,7 @@ public class IntensityGraphs {
                 g.draw(new Line2D.Double(wrx, y, w, y));
                 if (n == 1) {
                     g.setColor(Color.black);
-                    g.setFont(new Font("Calibri", Font.BOLD, 14));
+                    g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
                     String str = "10e" + p;
                     int width = g.getFontMetrics().stringWidth(str);
                     g.drawString(str, wrx - width - 3, (int) (y + 4));

@@ -29,7 +29,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        Logger.error("An uncaught exception has occurred in thread {} : {}", t.getName(), e.getMessage());
+        Logger.error("线程 {} 中发生了未捕获的异常: {}", t.getName(), e.getMessage());
         Logger.error(e);
         handleException(e);
     }
@@ -62,7 +62,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     private void showOOMError(Throwable e) {
         Logger.error(e);
         final Object[] options = getOptionsForDialog(true, false);
-        JOptionPane.showOptionDialog(parent, createOOMPanel(), "Out of memory!", JOptionPane.DEFAULT_OPTION,
+        JOptionPane.showOptionDialog(parent, createOOMPanel(), "内存不足!", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, null, options, null);
     }
 
@@ -77,7 +77,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     }
 
     private void showWarning(String message) {
-        JOptionPane.showMessageDialog(parent, message, "Warning", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(parent, message, "警告", JOptionPane.WARNING_MESSAGE);
     }
 
 
@@ -85,7 +85,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
         if (headless) {
             Logger.info(s);
         } else {
-            JOptionPane.showMessageDialog(parent, s, "Info", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, s, "信息", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -95,7 +95,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
             System.exit(0);
         }
         final Object[] options = getOptionsForDialog(true, true);
-        JOptionPane.showOptionDialog(parent, createDetailedPane(e), "Fatal Error", JOptionPane.DEFAULT_OPTION,
+        JOptionPane.showOptionDialog(parent, createDetailedPane(e), "严重错误", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, null, options, null);
         errorCount = 0;
     }
@@ -105,8 +105,8 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
 
         JPanel labelsPanel = new JPanel(new GridLayout(2, 1));
 
-        labelsPanel.add(new JLabel("GlobalQuake has run out of memory!"));
-        labelsPanel.add(new JLabel("Please select less stations or connect to server."));
+        labelsPanel.add(new JLabel("GlobalQuake内存不足!"));
+        labelsPanel.add(new JLabel("请选择较少的站点或连接到服务器."));
 
         panel.add(labelsPanel, BorderLayout.NORTH);
 
@@ -118,8 +118,8 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
 
         JPanel labelsPanel = new JPanel(new GridLayout(2, 1));
 
-        labelsPanel.add(new JLabel("Oops! Something has gone terribly wrong inside GlobalQuake."));
-        labelsPanel.add(new JLabel("Please send the following text to the developers so that they can fix it ASAP:"));
+        labelsPanel.add(new JLabel("哎呀!GlobalQuake内部出现了严重错误."));
+        labelsPanel.add(new JLabel("请将以下文本发送给开发者,以便他们尽快修复:"));
 
         panel.add(labelsPanel, BorderLayout.NORTH);
 
@@ -134,7 +134,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     }
 
     private void showGeneralError(String message, boolean isFatal) {
-        final String title = isFatal ? "Fatal Error" : "Application Error";
+        final String title = isFatal ? "严重错误" : "应用程序错误";
         final Object[] options = getOptionsForDialog(isFatal, true);
 
         JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null,
@@ -148,7 +148,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
 
         if (github) {
 
-            return new Component[]{new JButton(new TerminateAction()), new JButton(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues", "Open issue on GitHub")),
+            return new Component[]{new JButton(new TerminateAction()), new JButton(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues", "在GitHub上打开Issues")),
                     new JButton(new IgnoreAction())};
         } else {
             return new Component[]{new JButton(new TerminateAction()), new JButton(new IgnoreAction())};

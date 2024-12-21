@@ -34,7 +34,7 @@ public class GlobalQuakeLab {
         if(!archivedFolder.exists()){
             //noinspection ResultOfMethodCallIgnored
             archivedFolder.mkdirs();
-            System.out.printf("Created archived quakes folder at %s".formatted(archivedFolder.getAbsolutePath()));
+            System.out.printf("在 %s 创建地震存档文件夹".formatted(archivedFolder.getAbsolutePath()));
         }
 
         findFiles();
@@ -100,14 +100,14 @@ public class GlobalQuakeLab {
         cluster.calculateRoot(fakeStations);
         System.err.println(cluster);
 
-        System.err.printf("process with %d stations and %d events%n", fakeStations.size(), pickedEvents.size());
+        System.err.printf("处理 %d 个站点和 %d 个事件%n", fakeStations.size(), pickedEvents.size());
 
         earthquakeAnalysis.processCluster(cluster, pickedEvents, true);
 
-        Logger.debug("Previous " + absolutetyCorrect);
-        Logger.debug("Got           " + cluster.getPreviousHypocenter());
+        Logger.debug("之前的 " + absolutetyCorrect);
+        Logger.debug("得到的           " + cluster.getPreviousHypocenter());
         if (cluster.getPreviousHypocenter() != null) {
-            Logger.debug("Quality: "+cluster.getPreviousHypocenter().quality);
+            Logger.debug("计算质量: " + cluster.getPreviousHypocenter().quality);
         }
     }
 

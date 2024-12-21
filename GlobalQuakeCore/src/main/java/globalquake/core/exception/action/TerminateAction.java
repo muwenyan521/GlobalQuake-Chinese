@@ -9,9 +9,9 @@ import java.awt.event.KeyEvent;
  */
 public final class TerminateAction extends AbstractAction {
 
-	public TerminateAction() {
-        super("Terminate");
-        putValue(SHORT_DESCRIPTION, "Terminates the application");
+    public TerminateAction() {
+        super("终止");
+        putValue(SHORT_DESCRIPTION, "终止应用程序");
         putValue(MNEMONIC_KEY, KeyEvent.VK_T);
     }
 

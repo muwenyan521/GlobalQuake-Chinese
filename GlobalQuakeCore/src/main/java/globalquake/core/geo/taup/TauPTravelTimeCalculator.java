@@ -45,7 +45,7 @@ public class TauPTravelTimeCalculator {
     private static TauPTravelTable loadTravelTable(String path) throws FatalIOException {
         var url = ClassLoader.getSystemClassLoader().getResource(path);
         if(url == null){
-            throw new FatalIOException("Unable to load travel table!", new NullPointerException());
+            throw new FatalIOException("无法加载震波走时表!!", new NullPointerException());
         }
 
         TauPTravelTable res;
@@ -53,7 +53,7 @@ public class TauPTravelTimeCalculator {
             ObjectInput in = new ObjectInputStream(url.openStream());
             res = (TauPTravelTable) in.readObject();
         }catch(IOException | ClassNotFoundException e){
-            throw new FatalIOException("Unable to load travel table!", e);
+            throw new FatalIOException("无法加载震波走时表!", e);
         }
 
         return res;
