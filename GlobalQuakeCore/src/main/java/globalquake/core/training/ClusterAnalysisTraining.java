@@ -47,19 +47,19 @@ public class ClusterAnalysisTraining {
     private static final long INACCURACY = 2000;
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Init...");
+        System.out.println("初始化中...");
         TauPTravelTimeCalculator.init();
         Regions.enabled = false;
         Settings.parallelHypocenterLocations = true;
         Settings.hypocenterDetectionResolution = 40.0;
         Settings.maxEvents = 30;
 
-        System.out.println("Running");
+        System.out.println("正在运行");
         for(int i = 0; i < 1; i++) {
             SimulatedStation.nextId.set(0);
             long a = System.currentTimeMillis();
             runTest(5000);
-            System.err.printf("\nTest itself took %.1f seconds%n", (System.currentTimeMillis() - a) / 1000.0);
+            System.err.printf("\n自我测试用时 %.1f 秒%n", (System.currentTimeMillis() - a) / 1000.0);
             Thread.sleep(2000);
         }
     }
@@ -92,7 +92,7 @@ public class ClusterAnalysisTraining {
         ClusterAnalysis clusterAnalysis = new ClusterAnalysis(earthquakes, stations);
         EarthquakeAnalysis earthquakeAnalysis = new EarthquakeAnalysis(clusterAnalysis, earthquakes);
 
-        System.out.println("Init done with "+stations.size()+" stations");
+        System.out.println("成功初始化 "+stations.size()+" 个站点");
 
         int notDetected = 0;
         int oneDetected = 0;
@@ -161,7 +161,7 @@ public class ClusterAnalysisTraining {
             clusterAnalysis.run();
             earthquakeAnalysis.run();
 
-            System.out.printf("time passed: %.2f%n", time / 1000.0);
+            System.out.printf("跳过秒数: %.2f%n", time / 1000.0);
 
             if(clusterAnalysis.getClusters().isEmpty()){
                 notDetected++;
@@ -182,13 +182,13 @@ public class ClusterAnalysisTraining {
             time += step*5;
         }
 
-        System.out.println("Total Events: "+eventC);
-        System.out.println("\n========== SUMMARY ==========");
-        System.out.printf("Counts: %d | %d | %d%n", notDetected, oneDetected, tooManyDetected);
-        System.err.println("Final cluster count: "+clusterAnalysis.getClusters().size());
-        System.err.println("Max clusters count: "+maxClusters);
-        System.err.println("Final quakes count: "+earthquakes.size());
-        System.err.println("Max quakes count: "+maxQuakes);
+        System.out.println("总事件数: "+eventC);
+        System.out.println("\n========== 结果 ==========");
+        System.out.printf("计数: %d | %d | %d%n", notDetected, oneDetected, tooManyDetected);
+        System.err.println("最终震群序列数: "+clusterAnalysis.getClusters().size());
+        System.err.println("最大震群序列数: "+maxClusters);
+        System.err.println("最终地震数: "+earthquakes.size());
+        System.err.println("最大地震数: "+maxQuakes);
 
         for(SimulatedEarthquake simulatedEarthquake : allSimulatedEarthquakes){
             System.err.println(simulatedEarthquake);

@@ -22,11 +22,11 @@ public class GlobalQuakeRuntime {
 
     public void runThreads() {
         execAnalysis = Executors
-                .newSingleThreadScheduledExecutor(new NamedThreadFactory("Station Analysis Thread"));
+                .newSingleThreadScheduledExecutor(new NamedThreadFactory("站点分析线程"));
         exec1Sec = Executors
-                .newSingleThreadScheduledExecutor(new NamedThreadFactory("1-Second Loop Thread"));
+                .newSingleThreadScheduledExecutor(new NamedThreadFactory("1秒循环线程"));
         execQuake = Executors
-                .newSingleThreadScheduledExecutor(new NamedThreadFactory("Hypocenter Location Thread"));
+                .newSingleThreadScheduledExecutor(new NamedThreadFactory("震中定位线程"));
 
         execAnalysis.scheduleAtFixedRate(() -> {
             try {
@@ -34,7 +34,7 @@ public class GlobalQuakeRuntime {
                 GlobalQuake.instance.getStationManager().getStations().parallelStream().forEach(AbstractStation::analyse);
                 lastAnalysis = System.currentTimeMillis() - a;
             } catch (Exception e) {
-                Logger.error("Exception occurred in station analysis");
+                Logger.error("站点分析中出现异常");
                 GlobalQuake.getErrorHandler().handleException(e);
             }
         }, 0, 100, TimeUnit.MILLISECONDS);
@@ -49,7 +49,7 @@ public class GlobalQuakeRuntime {
                 }
                 lastSecond = System.currentTimeMillis() - a;
             } catch (Exception e) {
-                Logger.error("Exception occurred in 1-second loop");
+                Logger.error("1秒循环中出现异常");
                 GlobalQuake.getErrorHandler().handleException(e);
             }
         }, 0, 1, TimeUnit.SECONDS);
@@ -61,7 +61,7 @@ public class GlobalQuakeRuntime {
                 GlobalQuake.instance.getEarthquakeAnalysis().run();
                 lastQuakesT = System.currentTimeMillis() - a;
             } catch (Exception e) {
-                Logger.error("Exception occurred in hypocenter location loop");
+                Logger.error("震中定位循环中出现异常");
                 GlobalQuake.getErrorHandler().handleException(e);
             }
         }, 0, HypocsSettings.getOrDefaultInt("hypocsLoopTime", 300), TimeUnit.MILLISECONDS);

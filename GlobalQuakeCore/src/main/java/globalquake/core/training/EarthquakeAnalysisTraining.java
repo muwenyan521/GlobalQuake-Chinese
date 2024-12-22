@@ -44,7 +44,7 @@ public class EarthquakeAnalysisTraining {
         int fails = 0;
         for(int i = 0; i < 100; i++) {
             long err = runTest(888+i, STATIONS, false);
-            System.err.printf("Error: %,d ms%n", err);
+            System.err.printf("错误: %,d ms%n", err);
             if(err != -1) {
                 sum += err;
                 n++;
@@ -56,12 +56,12 @@ public class EarthquakeAnalysisTraining {
 
         System.err.println("============================================");
         if(n == 0){
-            System.err.println("NO CORRECT!");
+            System.err.println("不正确!");
         } else {
-            System.err.printf("AVERAGE = %,d ms%n", sum / n);
+            System.err.printf("平均时间为 %,d ms%n", sum / n);
         }
-        System.err.printf("TEST TOOK %,d ms%n", System.currentTimeMillis() - a);
-        System.err.printf("FAILURES = %d%n", fails);
+        System.err.printf("测试用时 %,d ms%n", System.currentTimeMillis() - a);
+        System.err.printf("错误数  %d%n", fails);
         System.err.println("============================================");
         System.exit(0);
     }

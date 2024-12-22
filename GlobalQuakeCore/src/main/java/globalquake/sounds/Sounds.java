@@ -79,7 +79,7 @@ public class Sounds {
 				gqSound.export(exportPath);
 			}
 		} catch(IOException e){
-			GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Unable to export sounds to %s!".formatted(exportPath.toString())));
+			GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("无法将声音导出到 %s!".formatted(exportPath.toString())));
 		}
 	}
 
@@ -104,12 +104,12 @@ public class Sounds {
 		String readmeContent = """
                 README
 
-                This directory contains the exported sound files from GlobalQuake.
-                You can edit these sound files as per your preference.
-                Please note that the sounds will only be exported once, meaning that any changes you make here will be kept and used by GlobalQuake.
-                After uploading your sounds, please restart GlobalQuake.
+				这个目录包含了从GlobalQuake导出的声音文件.
+				你可以根据个人喜好编辑这些声音文件.
+				请注意,声音文件只会导出一次,这意味着你在这里所做的任何更改都将被保留并由GlobalQuake使用.
+				上传声音后，请重新启动GlobalQuake.
 
-                Enjoy customizing your sound experience!""";
+				享受自定义声音体验的乐趣!""";
 
 		Files.writeString(exportPath.resolve("README.txt"), readmeContent, StandardOpenOption.CREATE);
 	}
@@ -136,7 +136,7 @@ public class Sounds {
 
 	private static void loadVolumes() {
 		if(!VOLUMES_FILE.exists()){
-			Logger.info("Sound volumes file doesn't exist, aborting!");
+			Logger.info("声音音量文件不存在,中止操作!");
 			return;
 		}
 		Properties properties = new Properties();
@@ -154,7 +154,7 @@ public class Sounds {
 				}
 			}
 		} catch (IOException | NumberFormatException e) {
-			Logger.error(new RuntimeApplicationException("Unable to load sound volumes!", e));
+			Logger.error(new RuntimeApplicationException("无法加载声音音量!", e));
 		}
 
 		countdown2.volume = countdown.volume; // workaround
@@ -171,7 +171,7 @@ public class Sounds {
 			// Store the properties in the file
 			properties.store(outputStream, "Sound Volumes");
 		} catch (IOException e) {
-			Logger.error(new RuntimeApplicationException("Unable to store sound volumes!", e));
+			Logger.error(new RuntimeApplicationException("无法存储声音音量!", e));
 		}
 	}
 

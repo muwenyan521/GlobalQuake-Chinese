@@ -184,7 +184,7 @@ public final class Settings {
         try {
             runUpdateService();
         } catch (IOException e) {
-            Logger.error(new RuntimeApplicationException("Unable to launch settings file update service!", e));
+            Logger.error(new RuntimeApplicationException("无法启动设置文件更新服务!", e));
         }
     }
 
@@ -192,7 +192,7 @@ public final class Settings {
         try {
             properties.load(new FileInputStream(optionsFile));
         } catch (IOException e) {
-            Logger.info("Created GlobalQuake properties file at " + optionsFile.getAbsolutePath());
+            Logger.info("在 " + optionsFile.getAbsolutePath() + "创建了GlobalQuake属性文件");
         }
 
         loadProperty("debugSendPGV", "false");
@@ -349,7 +349,7 @@ public final class Settings {
                         Path modifiedFile = (Path) event.context();
                         if (modifiedFile.toFile().getName().equals(optionsFile.getName())) {
                             if (System.currentTimeMillis() - lastSave >= 2000) {
-                                Logger.info("Properties file changed, reloading!");
+                                Logger.info("属性文件已更改,正在重新加载!");
                                 load();
                             }
                         }
@@ -368,7 +368,7 @@ public final class Settings {
         try {
             zoneId = ZoneId.of(timezoneStr);
         } catch (DateTimeException e) {
-            Logger.warn("Failed to parse timezone %s, defaulting to %s".formatted(timezoneStr, ZoneId.systemDefault().getId()));
+            Logger.warn("无法解析时区 %s,将默认使用 %s.".formatted(timezoneStr, ZoneId.systemDefault().getId()));
             timezoneStr = ZoneId.systemDefault().getId();
         }
 
@@ -429,7 +429,7 @@ public final class Settings {
                 try {
                     val = Boolean.parseBoolean((String) properties.getOrDefault(field.getName(), defaultVal));
                     if (validator != null && !validator.apply(val)) {
-                        throw new RuntimeApplicationException("Field %s has invalid value! %s".formatted(name, val));
+                        throw new RuntimeApplicationException("字段 %s 的值无效! %s".formatted(name, val));
                     }
                 } catch (Exception e) {
                     Logger.error(e);
@@ -441,7 +441,7 @@ public final class Settings {
                 try {
                     val = Double.parseDouble((String) properties.getOrDefault(field.getName(), defaultVal));
                     if (validator != null && !validator.apply(val)) {
-                        throw new RuntimeApplicationException("Field %s has invalid value: %s, setting to %s".formatted(name, val, defaultVal));
+                        throw new RuntimeApplicationException("字段 %s 有无效值:%s,已设置为 %s".formatted(name, val, defaultVal));
                     }
                 } catch (Exception e) {
                     Logger.error(e);
@@ -453,7 +453,7 @@ public final class Settings {
                 try {
                     val = Integer.parseInt((String) properties.getOrDefault(field.getName(), defaultVal));
                     if (validator != null && !validator.apply(val)) {
-                        throw new RuntimeApplicationException("Field %s has invalid value! %s".formatted(name, val));
+                        throw new RuntimeApplicationException("字段 %s 的值无效! %s".formatted(name, val));
                     }
                 } catch (Exception e) {
                     Logger.error(e);
@@ -465,7 +465,7 @@ public final class Settings {
                 try {
                     val = properties.getOrDefault(field.getName(), defaultVal).toString();
                     if (validator != null && !validator.apply(val)) {
-                        throw new RuntimeApplicationException("Field %s has invalid value! %s".formatted(name, val));
+                        throw new RuntimeApplicationException("字段 %s 的值无效! %s".formatted(name, val));
                     }
                 } catch (Exception e) {
                     Logger.error(e);
@@ -473,7 +473,7 @@ public final class Settings {
                 }
                 setProperty(field, val);
             } else {
-                Logger.error("Error: unsupported setting type: %s".formatted(field.getType()));
+                Logger.error("错误:不支持的设置类型: %s".formatted(field.getType()));
             }
         } catch (NoSuchFieldException ignored) {
 
@@ -518,7 +518,7 @@ public final class Settings {
                 optionsFile.getParentFile().mkdirs();
             }
 
-            properties.store(new FileOutputStream(optionsFile), "Fun fact: I've never felt an earthquake in my life");
+            properties.store(new FileOutputStream(optionsFile), "有趣的事实:我一生中从未感受过地震.");
         } catch (IOException e) {
             GlobalQuake.getErrorHandler().handleException(e);
         }

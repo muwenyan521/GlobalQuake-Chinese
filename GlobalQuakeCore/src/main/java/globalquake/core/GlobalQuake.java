@@ -126,7 +126,7 @@ public abstract class GlobalQuake {
                 }
             }
         } catch (InterruptedException e) {
-            Logger.error("Thread interrupted while shutting down service!");
+            Logger.error("线程在关闭服务时被中断!");
         }
     }
 

@@ -26,7 +26,7 @@ int main() {
 
     float resols[] = { 1.0 };
     if (!init_depth_profiles(resols, 1)) {
-        printf("Failure!\n");
+        printf("失败!\n");
         return 1;
     }
 
@@ -49,7 +49,7 @@ int main() {
     float final_result[4];
 
     if (run_hypocenter_search(stations, st_c, points, 0, 90.0 * RADIANS, 0, 0, final_result, 2.2f)) {
-        printf("FINAL RESULT %f %f %f %f\n", final_result[0], final_result[1], final_result[2], final_result[3]);
+        printf("最终结果 %f %f %f %f\n", final_result[0], final_result[1], final_result[2], final_result[3]);
     }
 
     if (p_wave_travel_table) {

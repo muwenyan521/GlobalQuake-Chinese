@@ -47,7 +47,7 @@ size_t total_travel_table_size;
 
 void print_err(const char *msg) {
     cudaError err = cudaGetLastError();
-    TRACE(2, "%s failed: %s (%d)\n", msg, cudaGetErrorString(err), err);
+    TRACE(2, "%s 失败: %s (%d)\n", msg, cudaGetErrorString(err), err);
 }
 
 __host__ void move_on_globe(float from_lat, float from_lon, float angle, float angular_distance, float *lat, float *lon) {
@@ -383,7 +383,7 @@ bool run_hypocenter_search(float *stations,
         float *final_result,
         float p_wave_threshold) {
     if (depth_profile_index < 0 || depth_profile_index >= depth_profile_count) {
-        TRACE(2, "Error! Invalid depth profile index: %d!\n", depth_profile_index);
+        TRACE(2, "错误!无效的深度轮廓索引: %d!\n", depth_profile_index);
         return false;
     }
 
@@ -394,12 +394,12 @@ bool run_hypocenter_search(float *stations,
     float *device_temp_results;
 
     if (points < 2) {
-        TRACE(2, "Error! at least 2 points needed!\n");
+        TRACE(2, "错误!至少需要2个点!\n");
         return false;
     }
 
     if (station_count < 3) {
-        TRACE(2, "Error! at least 3 stations needed!\n");
+        TRACE(2, "错误!至少需要3个站点!\n");
         return false;
     }
 
@@ -411,7 +411,7 @@ bool run_hypocenter_search(float *stations,
     dim3 threads = { BLOCK_HYPOCS, 1, 1 };
 
     if (blocks.y < 2) {
-        TRACE(2, "Error! at least 2 depth points needed!\n");
+        TRACE(2, "错误!至少需要2个深度点!\n");
         return false;
     }
 
@@ -424,10 +424,10 @@ bool run_hypocenter_search(float *stations,
 
     const int block_count = ceil(static_cast<float>(points) / BLOCK_DISTANCES);
 
-    TRACE(1, "Station array size (%ld stations) %.2fkB\n", station_count, station_array_size / (1024.0));
-    TRACE(1, "Station distances array size %.2fkB\n", station_distances_array_size / (1024.0));
-    TRACE(1, "Temp results array size %.2fkB\n", (sizeof(float) * HYPOCENTER_FILEDS * temp_results_array_elements) / (1024.0));
-    TRACE(1, "Results array has size %.2fMB\n", (results_size / (1024.0 * 1024.0)));
+    TRACE(1, "台站数组大小(%ld个台站)%.2f kB\n", station_count, station_array_size / (1024.0));
+    TRACE(1, "台站距离数组大小%.2f kB\n", station_distances_array_size / (1024.0));
+    TRACE(1, "临时结果数组大小%.2f kB\n", (sizeof(float) * HYPOCENTER_FILEDS * temp_results_array_elements) / (1024.0));
+    TRACE(1, "结果数组大小为%.2f MB\n", (results_size / (1024.0 * 1024.0)));
 
     success &= cudaMalloc(&device_stations, station_array_size) == cudaSuccess;
     success &= cudaMemcpy(device_stations, stations, station_array_size, cudaMemcpyHostToDevice) == cudaSuccess;
@@ -436,13 +436,13 @@ bool run_hypocenter_search(float *stations,
     success &= cudaMalloc(&f_results_device, results_size) == cudaSuccess;
 
     if (!success) {
-        print_err("Hypocenter search initialisation");
+        print_err("震中搜索初始化");
         goto cleanup;
     }
 
-    TRACE(1, "Grid size: %d %d %d\n", blocks.x, blocks.y, blocks.z);
-    TRACE(1, "Block size: %d %d %d\n", threads.x, threads.y, threads.z);
-    TRACE(1, "Total points: %lld\n", (((long long) (blocks.x * blocks.y * blocks.z)) * (long long) (threads.x * threads.y * threads.z)));
+    TRACE(1, "网格大小:%d %d %d\n", blocks.x, blocks.y, blocks.z);
+    TRACE(1, "区块大小:%d %d %d\n", threads.x, threads.y, threads.z);
+    TRACE(1, "总点数:%lld\n", (((long long) (blocks.x * blocks.y * blocks.z)) * (long long) (threads.x * threads.y * threads.z)));
 
     if (success) {
         precompute_station_distances<<<block_count, BLOCK_DISTANCES>>>(
@@ -452,7 +452,7 @@ bool run_hypocenter_search(float *stations,
     success &= cudaDeviceSynchronize() == cudaSuccess;
 
     if (!success) {
-        print_err("Calculate station distances");
+        print_err("计算站点范围");
         goto cleanup;
     }
 
@@ -471,19 +471,19 @@ bool run_hypocenter_search(float *stations,
     success &= cudaDeviceSynchronize() == cudaSuccess;
 
     if (!success) {
-        print_err("Hypocenter search");
+        print_err("震中搜索");
         goto cleanup;
     }
 
     while (success && current_result_count > 1) {
         dim3 blocks_reduce = { (unsigned int) ceil(current_result_count / static_cast<double>(BLOCK_REDUCE)), 1, 1 };
-        TRACE(1, "Reducing... from %ld to %d\n", current_result_count, blocks_reduce.x);
+        TRACE(1, "正在减少...从 %ld 到 %d\n", current_result_count, blocks_reduce.x);
 
         results_reduce<<<blocks_reduce, BLOCK_REDUCE>>>(device_temp_results, f_results_device, current_result_count);
         success &= cudaDeviceSynchronize() == cudaSuccess;
 
         if (!success) {
-            print_err("Reduce");
+            print_err("减少");
             goto cleanup;
         }
 
@@ -507,7 +507,7 @@ bool run_hypocenter_search(float *stations,
         }
 
         if (!success) {
-            print_err("CUDA memcpy");
+            print_err("CUDA内存拷贝");
             goto cleanup;
         }
     }
@@ -598,11 +598,11 @@ bool init_depth_profiles(float *resols, int count) {
         size_t table_size = sizeof(float) * rows * SHARED_TRAVEL_TABLE_SIZE;
         total_travel_table_size += table_size;
 
-        TRACE(1, "Creating depth profile with resolution %.2fkm (%.2fkB)\n", depth_resolution, table_size / 1024.0);
+        TRACE(1, "创建深度剖面,分辨率为 %.2f 千米(%.2f kB)\n", depth_resolution, table_size / 1024.0);
 
         // todo fitted array
         if (cudaMalloc(&depth_profiles[i].device_travel_table, table_size) != cudaSuccess) {
-            print_err("CUDA malloc");
+            print_err("CUDA内存分配");
             return false;
         }
 
@@ -614,7 +614,7 @@ bool init_depth_profiles(float *resols, int count) {
         } else {
             prepare_travel_table(fitted_travel_table, rows);
             if (cudaMemcpy(depth_profiles[i].device_travel_table, fitted_travel_table, table_size, cudaMemcpyHostToDevice) != cudaSuccess) {
-                print_err("CUDA memcpy");
+                print_err("CUDA内存复制");
                 free(fitted_travel_table);
                 return false;
             }
