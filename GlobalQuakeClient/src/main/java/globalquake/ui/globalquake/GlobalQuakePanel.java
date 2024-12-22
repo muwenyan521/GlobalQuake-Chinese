@@ -178,9 +178,9 @@ public class GlobalQuakePanel extends GlobePanel {
     }
 
     public static String formatNumber(double number) {
-        if (number < 1_000_000) {
+        if (number < 1_000_0) {
             return String.format("%.1f", number);
-        } else if (number < 1_000_000_000) {
+        } else if (number < 1_000_000_0) {
             return String.format("%.1f万", number / 1_000_0);
         } else {
             return String.format("%.1f亿", number / 1_000_000_00);
