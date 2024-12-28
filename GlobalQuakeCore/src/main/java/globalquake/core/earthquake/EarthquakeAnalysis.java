@@ -564,9 +564,7 @@ public class EarthquakeAnalysis {
                 Logger.tag("Hypocs").error("致命错误:%s".formatted(result));
             }
         }
-
-Logger.tag("Hypocs").trace("震中寻找完成,耗时:%d 毫秒".formatted(System.currentTimeMillis() - startTime));
-
+    Logger.tag("Hypocs").trace("震中寻找完成,耗时:%d 毫秒".formatted(System.currentTimeMillis() - startTime));
     private void removeQuake(Cluster cluster, Earthquake earthquake1) {
         getEarthquakes().remove(earthquake1);
         if (GlobalQuake.instance != null) {
