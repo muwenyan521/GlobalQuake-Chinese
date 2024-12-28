@@ -98,7 +98,7 @@ public class EarthquakeAnalysis {
                     return;
                 }
                 cluster.getEarthquake().nextReportEventCount = (int) (count * 1.2);
-                Logger.tag("Hypocs").debug("新震群序列 #" + cluster.id + " 已创建.它包含 " + cluster.getAssignedEvents().size() + " 个事件");
+                Logger.tag("Hypocs").debug("Next report will be at " + cluster.getEarthquake().nextReportEventCount + " assigns");
             }
         }
 
@@ -208,7 +208,7 @@ public class EarthquakeAnalysis {
 
         long limit = 600 + (long) Math.sqrt(distFromRoot) * 60;
 
-        Logger.tag("Hypocs").debug("deltaP: %d 毫秒,%.1f 公里的限制是 %d 毫秒".formatted(deltaP, distFromRoot, limit));
+        Logger.tag("Hypocs").debug("deltaP: %d ms, limit for %.1f km is %d ms".formatted(deltaP, distFromRoot, limit));
 
         return deltaP >= limit;
     }
@@ -226,11 +226,12 @@ public class EarthquakeAnalysis {
                 return result;
             }
 
-            Logger.tag("Hypocs").error("CUDA震中搜索失败!这可能是由于涉及的站点太多,导致GPU内存不足,但也可能是其他错误");
-            Logger.tag("Hypocs").warn("退回到CPU搜索模式!");
+            Logger.tag("Hypocs").error("CUDA hypocenter search has failed! This is likely caused by GPU running out of memory " +
+                    "because too many stations were involved in the event, but it might be also different error");
+            Logger.tag("Hypocs").warn("Fallback to CPU!");
         }
 
-        Logger.tag("Hypocs").debug("==== 正在搜索震群序列 #" + cluster.getUuid() + " 的震中 ====");
+        Logger.tag("Hypocs").debug("==== Searching hypocenter of cluster #" + cluster.getUuid() + " ====");
 
         double maxDepth = TauPTravelTimeCalculator.MAX_DEPTH;
 
@@ -238,9 +239,9 @@ public class EarthquakeAnalysis {
         double universalMultiplier = getUniversalResolutionMultiplier(finderSettings);
         double pointMultiplier = universalMultiplier * universalMultiplier * 0.33;
 
-        Logger.tag("Hypocs").debug("通用乘数是 " + universalMultiplier);
-        Logger.tag("Hypocs").debug("点乘数是 " + pointMultiplier);
-        Logger.tag("Hypocs").debug("迭代差异：" + iterationsDifference);
+        Logger.tag("Hypocs").debug("Universal multiplier is " + universalMultiplier);
+        Logger.tag("Hypocs").debug("Point multiplier is " + pointMultiplier);
+        Logger.tag("Hypocs").debug("Iterations difference: " + iterationsDifference);
 
         long timeMillis = System.currentTimeMillis();
 
@@ -253,7 +254,7 @@ public class EarthquakeAnalysis {
         if (far && (previousHypocenter == null || previousHypocenter.correctEvents < 24 || previousHypocenter.getCorrectness() < 0.8)) {
             // phase 1 search far from ANCHOR (it's not very certain)
             bestHypocenter = scanArea(selectedEvents, 90.0 / 360.0 * GeoUtils.EARTH_CIRCUMFERENCE, (int) (40000 * pointMultiplier), _lat, _lon, 6 + iterationsDifference, maxDepth, finderSettings);
-            Logger.tag("Hypocs").debug("广大的震中: " + (System.currentTimeMillis() - timeMillis));
+            Logger.tag("Hypocs").debug("FAR: " + (System.currentTimeMillis() - timeMillis));
             Logger.tag("Hypocs").debug(bestHypocenter.correctStations + " / " + bestHypocenter.err);
             _lat = bestHypocenter.lat;
             _lon = bestHypocenter.lon;
@@ -266,7 +267,7 @@ public class EarthquakeAnalysis {
             bestHypocenter = selectBetterHypocenter(hyp, bestHypocenter);
             _lat = bestHypocenter.lat;
             _lon = bestHypocenter.lon;
-            Logger.tag("Hypocs").debug("区域性的震中: " + (System.currentTimeMillis() - timeMillis));
+            Logger.tag("Hypocs").debug("REGIONAL: " + (System.currentTimeMillis() - timeMillis));
             Logger.tag("Hypocs").debug(bestHypocenter.correctStations + " / " + bestHypocenter.err);
         } else {
             // phase 2B search region closer BEST or ANCHOR (it assumes it's almost right)
@@ -275,7 +276,7 @@ public class EarthquakeAnalysis {
             bestHypocenter = selectBetterHypocenter(hyp, bestHypocenter);
             _lat = bestHypocenter.lat;
             _lon = bestHypocenter.lon;
-            Logger.tag("Hypocs").debug("更接近的震中: " + (System.currentTimeMillis() - timeMillis));
+            Logger.tag("Hypocs").debug("CLOSER: " + (System.currentTimeMillis() - timeMillis));
             Logger.tag("Hypocs").debug(bestHypocenter.correctStations + " / " + bestHypocenter.err);
         }
 
@@ -283,7 +284,7 @@ public class EarthquakeAnalysis {
         timeMillis = System.currentTimeMillis();
         PreliminaryHypocenter hyp = scanArea(selectedEvents, 100.0, (int) (4000 * pointMultiplier), _lat, _lon, 8 + iterationsDifference, maxDepth, finderSettings);
         bestHypocenter = selectBetterHypocenter(hyp, bestHypocenter);
-        Logger.tag("Hypocs").debug("精确震中: " + (System.currentTimeMillis() - timeMillis));
+        Logger.tag("Hypocs").debug("EXACT: " + (System.currentTimeMillis() - timeMillis));
         Logger.tag("Hypocs").debug(bestHypocenter.correctStations + " / " + bestHypocenter.err);
 
         // phase 4 find exact depth
@@ -292,7 +293,7 @@ public class EarthquakeAnalysis {
         _lon = bestHypocenter.lon;
         hyp = scanArea(selectedEvents, 10.0, (int) (4000 * pointMultiplier), _lat, _lon, 10 + iterationsDifference, maxDepth, finderSettings);
         bestHypocenter = selectBetterHypocenter(hyp, bestHypocenter);
-        Logger.tag("Hypocs").debug("精确震源深度: " + (System.currentTimeMillis() - timeMillis));
+        Logger.tag("Hypocs").debug("DEPTH: " + (System.currentTimeMillis() - timeMillis));
         Logger.tag("Hypocs").debug(bestHypocenter.correctStations + " / " + bestHypocenter.err);
 
         Logger.tag("Hypocs").trace(bestHypocenter);
@@ -329,8 +330,8 @@ public class EarthquakeAnalysis {
                     list.remove(list.size() - 1);
                 }
 
-                Logger.tag("Hypocs").debug("将事件数量从%d减少到最佳的%d，以提高精度")
-                        .formatted(correctSelectedEvents.size(), list.size());
+                Logger.tag("Hypocs").debug("Reduced the number of events from %d to the best %d for better accuracy"
+                        .formatted(correctSelectedEvents.size(), list.size()));
 
                 correctSelectedEvents = list.stream().map(Map.Entry::getKey).collect(Collectors.toList());
 
@@ -482,7 +483,7 @@ public class EarthquakeAnalysis {
                 calculatePolygonConfidenceIntervals(correctSelectedEvents, bestHypocenterPrelim, finderSettings));
 
         if (bestHypocenter.correctEvents == 0 || bestHypocenter.totalErr == Double.MAX_VALUE) {
-            Logger.tag("Hypocs").debug("荒谬的!");
+            Logger.tag("Hypocs").debug("Absurd!");
             return;
         }
 
@@ -500,16 +501,16 @@ public class EarthquakeAnalysis {
         Logger.tag("Hypocs").debug(bestHypocenter);
 
         if (!testing && bestHypocenter.magnitude == NO_MAGNITUDE) {
-            Logger.tag("Hypocs").debug("没有震级!");
+            Logger.tag("Hypocs").debug("No magnitude!");
             return;
         }
 
         if (bestHypocenter.depth > TauPTravelTimeCalculator.MAX_DEPTH - 5.0) {
-            Logger.tag("Hypocs").debug("忽略太深的地震，它可能是核心波!%.1fkm".formatted(bestHypocenter.depth));
+            Logger.tag("Hypocs").debug("Ignoring too deep quake, it's probably a core wave! %.1fkm".formatted(bestHypocenter.depth));
 
             if (cluster.getEarthquake() != null) {
                 updateMagnitudeOnly(cluster, bestHypocenter);
-                Logger.tag("Hypocs").debug("无论如何执行了仅震级的修订");
+                Logger.tag("Hypocs").debug("Performed magnitude-only revision anyway");
             }
 
             return;
@@ -517,11 +518,11 @@ public class EarthquakeAnalysis {
 
         // There has to be at least some difference in the picked pWave times
         if (CHECK_DELTA_P && !checkDeltaP(cluster, bestHypocenter, correctSelectedEvents)) {
-            Logger.tag("Hypocs").debug("Delta-P不足");
+            Logger.tag("Hypocs").debug("Not Enough Delta-P");
 
             if (cluster.getEarthquake() != null) {
                 updateMagnitudeOnly(cluster, bestHypocenter);
-                Logger.tag("Hypocs").debug("无论如何执行了仅震级的修订");
+                Logger.tag("Hypocs").debug("Performed magnitude-only revision anyway");
             }
 
             return;
@@ -529,11 +530,11 @@ public class EarthquakeAnalysis {
 
 
         if (!checkUncertainty(bestHypocenter, correctSelectedEvents)) {
-            Logger.tag("Hypocs").debug("搜索震群序列%d取消".formatted(cluster.id));
+            Logger.tag("Hypocs").debug("Search canceled for cluster %d".formatted(cluster.id));
             Earthquake earthquake1 = cluster.getEarthquake();
             if (earthquake1 != null) {
                 updateMagnitudeOnly(cluster, bestHypocenter);
-                Logger.tag("Hypocs").debug("无论如何执行了仅震级的修订");
+                Logger.tag("Hypocs").debug("Performed magnitude-only revision anyway");
             }
 
             return;
@@ -552,20 +553,22 @@ public class EarthquakeAnalysis {
             if (remove && earthquake1 != null) {
                 removeQuake(cluster, earthquake1);
             }
-            Logger.tag("Hypocs").debug("震中无效,是否移除 = %s, pct=%.2f/%.2f, obvious_correct_pct=%.2f/%.2f 是 %s".formatted(remove, pct, finderSettings.correctnessThreshold(), obviousCorrectPct, OBVIOUS_CORRECT_THRESHOLD, bestHypocenter));
+            Logger.tag("Hypocs").debug("Hypocenter not valid, remove = %s, pct=%.2f/%.2f, obvious_correct_pct=%.2f/%.2f was %s".formatted(remove, pct, finderSettings.correctnessThreshold(), obviousCorrectPct, OBVIOUS_CORRECT_THRESHOLD, bestHypocenter));
         } else {
             HypocenterCondition result;
             if ((result = checkConditions(selectedEvents, bestHypocenter, cluster.getPreviousHypocenter(), cluster, finderSettings)) == HypocenterCondition.OK) {
                 updateHypocenter(cluster, bestHypocenter);
             } else if (result != HypocenterCondition.NULL) {
                 updateMagnitudeOnly(cluster, bestHypocenter);
-                Logger.tag("Hypocs").trace("因为:%s,执行了仅震级修订".formatted(result));
+                Logger.tag("Hypocs").trace("Performed magnitude-only revision because: %s".formatted(result));
             } else {
-                Logger.tag("Hypocs").error("致命错误:%s".formatted(result));
+                Logger.tag("Hypocs").error("Fatal error: %s".formatted(result));
             }
         }
-        Logger.tag("Hypocs").trace("震中寻找完成,耗时:%d 毫秒".formatted(System.currentTimeMillis() - startTime));
+
+        Logger.tag("Hypocs").trace("Hypocenter finding finished in: %d ms".formatted(System.currentTimeMillis() - startTime));
     }
+
     private void removeQuake(Cluster cluster, Earthquake earthquake1) {
         getEarthquakes().remove(earthquake1);
         if (GlobalQuake.instance != null) {
@@ -574,7 +577,7 @@ public class EarthquakeAnalysis {
         cluster.setEarthquake(null);
         cluster.setPreviousHypocenter(null);
         cluster.resetAnchor();
-        Logger.tag("Hypocs").info("地震已移除!");
+        Logger.tag("Hypocs").info("Quake removed!");
     }
 
     private void updateMagnitudeOnly(Cluster cluster, Hypocenter bestHypocenter) {
@@ -583,7 +586,7 @@ public class EarthquakeAnalysis {
             calculateMagnitude(cluster, cluster.getPreviousHypocenter(), bestHypocenter);
 
             if (!testing && bestHypocenter.magnitude == NO_MAGNITUDE) {
-                Logger.tag("Hypocs").debug("无震级!");
+                Logger.tag("Hypocs").debug("No magnitude!");
                 return;
             }
 
@@ -627,14 +630,14 @@ public class EarthquakeAnalysis {
                 .lengths().stream().max(Double::compareTo).orElse(0.0);
 
         if (bestHypocenter.locationUncertainty > HypocsSettings.getOrDefault("locationUncertaintyLimit", 90.0f)) {
-            Logger.tag("Hypocs").debug("位置不确定性%.1f太高了！".formatted(bestHypocenter.locationUncertainty));
+            Logger.tag("Hypocs").debug("Location uncertainty of %.1f is too high!".formatted(bestHypocenter.locationUncertainty));
             return false;
         }
 
         if (DEPTH_FIX_ALLOWED) {
             if (bestHypocenter.depthUncertainty > 200.0 || bestHypocenter.depthUncertainty > 20.0 &&
                     (bestHypocenter.depthConfidenceInterval.minDepth() <= 10.0 && bestHypocenter.depthConfidenceInterval.maxDepth() >= 10.0)) {
-                Logger.tag("Hypocs").debug("深度不确定性%.1f太高了，将深度默认设置为10公里！".formatted(bestHypocenter.depthUncertainty));
+                Logger.tag("Hypocs").debug("Depth uncertainty of %.1f is too high, defaulting the depth to 10km!".formatted(bestHypocenter.depthUncertainty));
                 fixDepth(bestHypocenter, 10, events);
             }
         }
@@ -669,7 +672,7 @@ public class EarthquakeAnalysis {
         origins.sort(Long::compareTo);
         bestHypocenter.origin = origins.get((origins.size() - 1) / 2);
 
-        Logger.tag("Hypocs").debug("发震时间已重新计算");
+        Logger.tag("Hypocs").debug("Origin time recalculated");
     }
 
     private List<PolygonConfidenceInterval> calculatePolygonConfidenceIntervals(List<PickedEvent> selectedEvents, PreliminaryHypocenter bestHypocenterPrelim, HypocenterFinderSettings finderSettings) {
@@ -1044,7 +1047,7 @@ public class EarthquakeAnalysis {
         hypocenterAssign.mags = null;
 
         if (cluster == null) {
-            Logger.tag("Hypocs").error("致命错误:震群或震中为空!");
+            Logger.tag("Hypocs").error("Fatal error: cluster or hypocenter is null!");
             return;
         }
         Collection<Event> goodEvents = cluster.getAssignedEvents().values();
@@ -1144,7 +1147,7 @@ public class EarthquakeAnalysis {
         list.sort(Comparator.comparing(MagnitudeReading::magnitude));
 
         if (list.isEmpty()) {
-            Logger.tag("Hypocs").warn("震级读数列表为空!(%d -> 0)".formatted(mags.size()));
+            Logger.tag("Hypocs").warn("Magnitude readings list is empty! (%d -> 0)".formatted(mags.size()));
             return NO_MAGNITUDE;
         }
 
