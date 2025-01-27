@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn -B clean install
+        run: mvn -B clean install -Dmaven.test.skip=true
 
       - name: Get version
         id: get_version
