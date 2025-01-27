@@ -1,5 +1,4 @@
 name: Java CI and Release
-
 on:
   push:
     branches:
@@ -16,7 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -47,20 +45,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Get version
         id: get_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ steps.get_version.outputs.VERSION }}-${{ github.run_id }}
-          name: Release v${{ steps.get_version.outputs.VERSION }} (${{ github.run_id }})
-          body: Automated release triggered by ${{ github.sha }}
-          draft: false
-          prerelease: ${{ contains(github.ref, 'develop') }}
-          files: |
-            GlobalQuakeClient/target/GlobalQuake-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
+      - name: Upload GlobalQuakeClient JAR
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./GlobalQuakeClient/target/GlobalQuake-${{ steps.get_version.outputs.VERSION }}-jar-with-dependencies.jar
+          asset_name: GlobalQuake-${{ steps.get_version.outputs.VERSION }}.jar
+          asset_content_type: application/java-archive
