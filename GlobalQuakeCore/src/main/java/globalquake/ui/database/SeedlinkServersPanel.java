@@ -79,7 +79,7 @@ public class SeedlinkServersPanel extends JPanel {
 
     private JTable createTable() {
         JTable table = new JTable(tableModel = new SeedlinkNetworksTableModel(manager.getStationDatabase().getSeedlinkNetworks()));
-        table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.setFont(new Font("MiSans Normal", Font.PLAIN, 14));
         table.setRowHeight(20);
         table.setGridColor(Color.black);
         table.setShowGrid(true);

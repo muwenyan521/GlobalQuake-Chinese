@@ -10,7 +10,7 @@ public class GQTable<E> extends JTable {
 
     public GQTable(FilterableTableModel<E> tableModel){
         super(tableModel);
-        setFont(new Font("Arial", Font.PLAIN, 14));
+        setFont(new Font("MiSans Normal", Font.PLAIN, 14));
         setRowHeight(20);
         setGridColor(Color.black);
         setShowGrid(true);

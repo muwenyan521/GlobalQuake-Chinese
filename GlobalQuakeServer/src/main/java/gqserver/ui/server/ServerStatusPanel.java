@@ -29,11 +29,11 @@ public class ServerStatusPanel extends JPanel {
     private Component createMiddlePanel() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Status", new StatusTab());
-        tabbedPane.addTab("Seedlinks", new SeedlinksTab());
-        tabbedPane.addTab("Clients", new ClientsTab());
-        tabbedPane.addTab("Earthquakes", new EarthquakesTab());
-        tabbedPane.addTab("Clusters", new ClustersTab());
+        tabbedPane.addTab("状态", new StatusTab());
+        tabbedPane.addTab("节点", new SeedlinksTab());
+        tabbedPane.addTab("客户端", new ClientsTab());
+        tabbedPane.addTab("地震", new EarthquakesTab());
+        tabbedPane.addTab("序列", new ClustersTab());
 
         return tabbedPane;
     }
@@ -43,18 +43,18 @@ public class ServerStatusPanel extends JPanel {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
         JPanel addressPanel = new JPanel(new GridLayout(2,1));
-        addressPanel.setBorder(BorderFactory.createTitledBorder("Server address"));
+        addressPanel.setBorder(BorderFactory.createTitledBorder("服务器地震"));
 
         JPanel ipPanel = new JPanel();
         ipPanel.setLayout(new BoxLayout(ipPanel, BoxLayout.X_AXIS));
-        ipPanel.add(new JLabel("IP Address: "));
+        ipPanel.add(new JLabel("IP地址: "));
         ipPanel.add(addressField = new JTextField(Settings.lastServerIP,20));
 
         addressPanel.add(ipPanel);
 
         JPanel portPanel = new JPanel();
         portPanel.setLayout(new BoxLayout(portPanel, BoxLayout.X_AXIS));
-        portPanel.add(new JLabel("Port: "));
+        portPanel.add(new JLabel("端口: "));
         portPanel.add(portField = new JTextField(String.valueOf(Settings.lastServerPORT),20));
 
         addressPanel.add(portPanel);
@@ -62,10 +62,10 @@ public class ServerStatusPanel extends JPanel {
         topPanel.add(addressPanel);
 
         JPanel controlPanel = new JPanel(new GridLayout(2,1));
-        controlPanel.setBorder(BorderFactory.createTitledBorder("Control Panel"));
+        controlPanel.setBorder(BorderFactory.createTitledBorder("控制面板"));
 
-        controlPanel.add(statusLabel = new JLabel("Status: Idle"));
-        controlPanel.add(controlButton = new JButton("Start Server"));
+        controlPanel.add(statusLabel = new JLabel("状态:空闲"));
+        controlPanel.add(controlButton = new JButton("启动服务器"));
 
         GlobalQuakeServer.instance.getServerEventHandler().registerEventListener(new GlobalQuakeServerEventListener(){
             @Override
@@ -75,22 +75,22 @@ public class ServerStatusPanel extends JPanel {
                         addressField.setEnabled(true);
                         portField.setEnabled(true);
                         controlButton.setEnabled(true);
-                        controlButton.setText("Start Server");
+                        controlButton.setText("启动服务器");
                     }
                     case OPENING -> {
                         addressField.setEnabled(false);
                         portField.setEnabled(false);
                         controlButton.setEnabled(false);
-                        controlButton.setText("Start Server");
+                        controlButton.setText("启动服务器");
                     }
                     case RUNNING -> {
                         addressField.setEnabled(false);
                         portField.setEnabled(false);
                         controlButton.setEnabled(true);
-                        controlButton.setText("Stop Server");
+                        controlButton.setText("停止服务器");
                     }
                 }
-                statusLabel.setText("Status: %s".formatted(event.status()));
+                statusLabel.setText("状态: %s".formatted(event.status()));
             }
         });
 
@@ -109,16 +109,16 @@ public class ServerStatusPanel extends JPanel {
                     GlobalQuakeServer.instance.getServerSocket().run(ip, port);
                     GlobalQuakeServer.instance.startRuntime();
                 } catch(Exception e){
-                    Main.getErrorHandler().handleException(new RuntimeApplicationException("Failed to start server", e));
+                    Main.getErrorHandler().handleException(new RuntimeApplicationException("服务器启动失败", e));
                 }
             } else if(status == SocketStatus.RUNNING) {
-                if(confirm("Are you sure you want to close the server?")) {
+                if(confirm("你确定要关闭服务器吗?")) {
                     try {
                         GlobalQuakeServer.instance.getServerSocket().stop();
                         GlobalQuakeServer.instance.stopRuntime();
                         GlobalQuakeServer.instance.reset();
                     } catch (IOException e) {
-                        Main.getErrorHandler().handleException(new RuntimeApplicationException("Failed to stop server", e));
+                        Main.getErrorHandler().handleException(new RuntimeApplicationException("服务器停止失败", e));
                     }
                 }
             }
@@ -130,7 +130,7 @@ public class ServerStatusPanel extends JPanel {
 
     @SuppressWarnings("SameParameterValue")
     private boolean confirm(String s) {
-        return JOptionPane.showConfirmDialog(this, s, "Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+        return JOptionPane.showConfirmDialog(this, s, "确定", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 
 }
