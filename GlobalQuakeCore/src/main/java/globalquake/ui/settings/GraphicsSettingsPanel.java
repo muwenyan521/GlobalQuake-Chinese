@@ -78,7 +78,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
 
         JPanel timePanel = new JPanel();
         timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
-        timePanel.add(new JLabel("切换到下一个聚焦点的时间间隔（秒）："));
+        timePanel.add(new JLabel("切换到下一个聚焦点的时间间隔(秒):"));
         timePanel.add(textFieldTime);
         panel.add(timePanel);
 
@@ -86,7 +86,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         zoomPanel.setBorder(new EmptyBorder(5,5,5,5));
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.X_AXIS));
-        zoomPanel.add(new JLabel("缩放倍数（向右移动以放大）："));
+        zoomPanel.add(new JLabel("缩放倍数(向右移动以放大):"));
 
         sliderZoomMul = new JSlider(JSlider.HORIZONTAL, 20,500, Settings.cinemaModeZoomMultiplier);
         sliderZoomMul.setMinorTickSpacing(10);
@@ -122,9 +122,9 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         sliderFpsIdle.setMinorTickSpacing(5);
         sliderFpsIdle.setBorder(new EmptyBorder(5,5,10,5));
 
-        JLabel label = new JLabel("FPS 限制："+sliderFpsIdle.getValue());
+        JLabel label = new JLabel("FPS 限制:"+sliderFpsIdle.getValue());
 
-        sliderFpsIdle.addChangeListener(changeEvent -> label.setText("FPS 限制："+sliderFpsIdle.getValue()));
+        sliderFpsIdle.addChangeListener(changeEvent -> label.setText("FPS 限制:"+sliderFpsIdle.getValue()));
 
         performancePanel.add(label);
         performancePanel.add(sliderFpsIdle);
@@ -142,7 +142,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
 
         comboBoxDateFormat.setSelectedIndex(Settings.selectedDateFormatIndex);
 
-        dateFormatPanel.add(new JLabel("首选日期格式："));
+        dateFormatPanel.add(new JLabel("首选日期格式:"));
         dateFormatPanel.add(comboBoxDateFormat);
         dateFormatPanel.add(chkBox24H = new JCheckBox("使用 24 小时制", Settings.use24HFormat));
 
@@ -165,8 +165,8 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         JPanel clustersPanel = new JPanel(new GridLayout(3,1));
         clustersPanel.setBorder(new TitledBorder("震群序列设置"));
 
-        clustersPanel.add(chkBoxClusterRoots = new JCheckBox("显示震群序列（可能的震动位置）", Settings.displayClusterRoots));
-        clustersPanel.add(chkBoxClusters = new JCheckBox("显示分配给震群序列的测站（仅限本地模式）", Settings.displayClusters));
+        clustersPanel.add(chkBoxClusterRoots = new JCheckBox("显示震群序列(可能的震动位置)", Settings.displayClusterRoots));
+        clustersPanel.add(chkBoxClusters = new JCheckBox("显示分配给震群序列的测站(仅限本地模式)", Settings.displayClusters));
         clustersPanel.add(chkBoxHideClusters = new JCheckBox("实际发现地震后隐藏震群序列", Settings.hideClustersWithQuake));
 
         panel.add(clustersPanel);
@@ -192,7 +192,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
         timePanel.setBorder(new EmptyBorder(5,5,5,5));
 
-        chkBoxEnableTimeFilter = new JCheckBox("不显示超过以下时间的事件（小时）：");
+        chkBoxEnableTimeFilter = new JCheckBox("不显示超过以下时间的事件(小时):");
         chkBoxEnableTimeFilter.setSelected(Settings.oldEventsTimeFilterEnabled);
 
         textFieldTimeFilter = new JTextField(Settings.oldEventsTimeFilter.toString(), 12);
@@ -209,7 +209,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         magnitudePanel.setBorder(new EmptyBorder(5,5,5,5));
         magnitudePanel.setLayout(new BoxLayout(magnitudePanel, BoxLayout.X_AXIS));
 
-        chkBoxEnableMagnitudeFilter = new JCheckBox("不显示小于以下震级的事件：");
+        chkBoxEnableMagnitudeFilter = new JCheckBox("不显示小于以下震级的事件:");
         chkBoxEnableMagnitudeFilter.setSelected(Settings.oldEventsMagnitudeFilterEnabled);
 
         textFieldMagnitudeFilter = new JTextField(Settings.oldEventsMagnitudeFilter.toString(), 12);
@@ -228,7 +228,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
 
         textFieldMaxArchived = new JTextField(Settings.maxArchivedQuakes.toString(), 12);
 
-        removeOldPanel.add(new JLabel("历史地震最大总数："));
+        removeOldPanel.add(new JLabel("历史地震最大总数:"));
         removeOldPanel.add(textFieldMaxArchived);
 
         eventsPanel.add(removeOldPanel);
@@ -249,7 +249,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
             Settings.changes++;
         });
 
-        opacityPanel.add(new JLabel("历史事件透明度："));
+        opacityPanel.add(new JLabel("历史事件透明度:"));
         opacityPanel.add(sliderOpacity);
 
         eventsPanel.add(opacityPanel);
@@ -290,7 +290,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         JPanel qualityFilterPanel = new JPanel();
         qualityFilterPanel.setBorder(BorderFactory.createTitledBorder("质量"));
 
-        qualityFilterPanel.add(new JLabel("仅显示质量等于或优于以下级别的历史事件："));
+        qualityFilterPanel.add(new JLabel("仅显示质量等于或优于以下级别的历史事件:"));
 
         comboBoxQuality = new JComboBox<>(QualityClass.values());
         comboBoxQuality.setSelectedIndex(Math.max(0, Math.min(QualityClass.values().length-1, Settings.qualityFilter)));
@@ -311,7 +311,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         JPanel checkBoxes = new JPanel(new GridLayout(1,2));
         checkBoxes.setBorder(BorderFactory.createTitledBorder("外观"));
 
-        chkBoxScheme = new JCheckBox("使用旧配色方案（夸张效果）");
+        chkBoxScheme = new JCheckBox("使用旧配色方案(夸张效果)");
         chkBoxScheme.setSelected(Settings.useOldColorScheme);
         checkBoxes.add(chkBoxScheme);
 
@@ -354,7 +354,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         stationsPanel.add(stationsShapePanel);
 
         JPanel intensityPanel = new JPanel(new GridLayout(2,1));
-        intensityPanel.add(new JLabel("在以下缩放级别显示测站的震度标签（0非常近，200非常远）："));
+        intensityPanel.add(new JLabel("在以下缩放级别显示测站的震度标签(0非常近,200非常远):"));
 
         sliderIntensityZoom = new JSlider(SwingConstants.HORIZONTAL, 0, 200, (int) (Settings.stationIntensityVisibilityZoomLevel * 100));
         sliderIntensityZoom.setMajorTickSpacing(10);
@@ -371,7 +371,7 @@ public class GraphicsSettingsPanel extends SettingsPanel{
         stationsPanel.add(intensityPanel);
 
         JPanel stationSizePanel = new JPanel(new GridLayout(2,1));
-        stationSizePanel.add(new JLabel("测站大小倍数（100默认，20极小，300极大）："));
+        stationSizePanel.add(new JLabel("测站大小倍数(100默认,20极小,300极大):"));
 
         sliderStationsSize = new JSlider(SwingConstants.HORIZONTAL, 20, 300, (int) (Settings.stationsSizeMul * 100));
         sliderStationsSize.setMajorTickSpacing(20);

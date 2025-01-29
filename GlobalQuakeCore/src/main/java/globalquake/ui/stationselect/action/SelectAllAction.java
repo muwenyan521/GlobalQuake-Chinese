@@ -16,11 +16,11 @@ public class SelectAllAction extends AbstractAction {
     private final Window parent;
 
     public SelectAllAction(StationDatabaseManager stationDatabaseManager, Window parent) {
-        super("Select All");
+        super("全选");
         this.stationDatabaseManager=stationDatabaseManager;
         this.parent = parent;
 
-        putValue(SHORT_DESCRIPTION, "Selects All Available Stations");
+        putValue(SHORT_DESCRIPTION, "选择所有可用台站");
 
         ImageIcon selectAllIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/selectAll.png")));
         Image image = selectAllIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -31,8 +31,8 @@ public class SelectAllAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         int option = JOptionPane.showConfirmDialog(parent,
-                "Are you sure you want to select all stations?",
-                "Confirmation",
+                "你确定要选择所有台站吗?",
+                "确定",
                 JOptionPane.YES_NO_OPTION);
 
         if (option != JOptionPane.YES_OPTION) {

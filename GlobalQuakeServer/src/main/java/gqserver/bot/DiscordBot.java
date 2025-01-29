@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DiscordBot extends ListenerAdapter {
 
-    private static final String TAG = "Discord Bot";
+    private static final String TAG = "Discord 机器人";
     private static final String VERSION = "0.3.3";
     private static final String PING_M4 = "Ping 4.0+";
     private static final String PING_M5 = "Ping 5.0+";
@@ -100,7 +100,7 @@ public class DiscordBot extends ListenerAdapter {
         }
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor("Final Report (#%d)".formatted(event.earthquake().getRevisionID()));
+        builder.setAuthor("最终报告 (#%d)".formatted(event.earthquake().getRevisionID()));
 
         builder.setImage("attachment://map.png");
         builder.setThumbnail("attachment://int.png");
@@ -143,13 +143,13 @@ public class DiscordBot extends ListenerAdapter {
         var guild = jda.getGuildById(Settings.discordBotGuildID);
 
         if (guild == null) {
-            Logger.tag(TAG).error("Unable to find the guild!");
+            Logger.tag(TAG).error("无法找到公会!");
             return null;
         }
 
         var channel = guild.getTextChannelById(Settings.discordBotChannelID);
         if (channel == null) {
-            Logger.tag(TAG).error("Unable to find the channel!");
+            Logger.tag(TAG).error("无法找到该频道!");
         }
 
         return channel;
@@ -164,7 +164,7 @@ public class DiscordBot extends ListenerAdapter {
 
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("M%.1f %s".formatted(earthquake.getMag(), earthquake.getRegion()));
-        builder.setAuthor("CANCELED");
+        builder.setAuthor("已取消");
 
         updateMessage(earthquake, builder, channel);
     }
@@ -177,7 +177,7 @@ public class DiscordBot extends ListenerAdapter {
         }
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor("Revision #%d".formatted(earthquake.getRevisionID()));
+        builder.setAuthor("第 #%d 报".formatted(earthquake.getRevisionID()));
         createDescription(builder, earthquake);
 
         ping(earthquake, channel);
@@ -204,7 +204,7 @@ public class DiscordBot extends ListenerAdapter {
         ping(earthquake, channel);
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor("New Event");
+        builder.setAuthor("新事件");
         createDescription(builder, earthquake);
 
         updateMessage(earthquake, builder, channel);
@@ -219,7 +219,7 @@ public class DiscordBot extends ListenerAdapter {
         try {
             if (pingMessage != null) {
                 if (pingString.isEmpty()) {
-                    pingString = "Nevermind, no ping";
+                    pingString = "没关系,没有回应";
                 }
                 pingMessage.editMessage(pingString).submit().get();
             } else {
@@ -256,18 +256,18 @@ public class DiscordBot extends ListenerAdapter {
         }
 
         builder.setDescription(
-                "Depth: %.1fkm / %.1fmi\n".formatted(earthquake.getDepth(), earthquake.getDepth() * DistanceUnit.MI.getKmRatio()) +
+                "震源深度: %.1fkm / %.1fmi\n".formatted(earthquake.getDepth(), earthquake.getDepth() * DistanceUnit.MI.getKmRatio()) +
                         "MMI: %s / Shindo: %s\n".formatted(formatLevel(IntensityScales.MMI.getLevel(pga)),
                                 formatLevel(IntensityScales.SHINDO.getLevel(pga))) +
-                        "Time: %s\n".formatted(Settings.formatDateTime(Instant.ofEpochMilli(earthquake.getOrigin()))) +
-                        "Detection Time: %.1fs (best %.1fs, avg %.1fs)\n".formatted(detectionTime / 1000.0, bestDetectionTime / 1000.0, detectionTimeSum / detections) +
-                        "Quality: %s (%d stations)".formatted(earthquake.getCluster().getPreviousHypocenter().quality.getSummary(), earthquake.getCluster().getAssignedEvents().size())
+                        "发震时间: %s\n".formatted(Settings.formatDateTime(Instant.ofEpochMilli(earthquake.getOrigin()))) +
+                        "检出用时: %.1fs (最好 %.1fs, 平均 %.1fs)\n".formatted(detectionTime / 1000.0, bestDetectionTime / 1000.0, detectionTimeSum / detections) +
+                        "计算质量: %s (%d 个台站)".formatted(earthquake.getCluster().getPreviousHypocenter().quality.getSummary(), earthquake.getCluster().getAssignedEvents().size())
         );
 
         Level level = IntensityScales.getIntensityScale().getLevel(pga);
         Color levelColor = level == null ? Color.gray : level.getColor();
 
-        builder.setFooter("Created at %s with GQ Bot v%s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(earthquake.getCreatedAt())), VERSION));
+        builder.setFooter("在 %s 创建,使用 GQ 机器人 v%s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(earthquake.getCreatedAt())), VERSION));
 
         builder.setColor(levelColor);
     }
@@ -312,13 +312,13 @@ public class DiscordBot extends ListenerAdapter {
         }
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setTitle("GlobalQuake BOT v%s".formatted(VERSION));
-        builder.setDescription("Starting up...");
+        builder.setTitle("GlobalQuake 机器人 v%s".formatted(VERSION));
+        builder.setDescription("启动中...");
         builder.setFooter(Main.fullName);
 
         channel.sendMessageEmbeds(builder.build()).queue();
 
-        Logger.info("Discord bot ready");
+        Logger.info("Discord机器人待命");
     }
 
 }

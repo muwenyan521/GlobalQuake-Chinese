@@ -539,7 +539,7 @@ public class ClusterAnalysis {
 
         cluster.calculateRoot(true);
 
-        Logger.tag("Hypocs").debug("新震群序列 #" + cluster.id + " 已创建。它包含 "
+        Logger.tag("Hypocs").debug("新震群序列 #" + cluster.id + " 已创建.它包含 "
                 + cluster.getAssignedEvents().size() + " 个事件");
         clusters.add(cluster);
 

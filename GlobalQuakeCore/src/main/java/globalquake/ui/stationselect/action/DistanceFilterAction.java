@@ -20,11 +20,11 @@ public class DistanceFilterAction extends AbstractAction {
     private final Window parent;
 
     public DistanceFilterAction(StationDatabaseManager stationDatabaseManager, Window parent) {
-        super("Apply Distance Filter");
+        super("应用距离筛选");
         this.stationDatabaseManager=stationDatabaseManager;
         this.parent=parent;
 
-        putValue(SHORT_DESCRIPTION, "Select Stations with Minimum Distance Between Channels");
+        putValue(SHORT_DESCRIPTION, "选择频道间距最小的台站");
 
         ImageIcon distanceFilter = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/distanceFilter.png")));
         Image image = distanceFilter.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -34,7 +34,7 @@ public class DistanceFilterAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        String input = JOptionPane.showInputDialog(parent, "Enter distance in kilometers:", "Distance Input", JOptionPane.PLAIN_MESSAGE);
+        String input = JOptionPane.showInputDialog(parent, "输入公里数:", "距离输入", JOptionPane.PLAIN_MESSAGE);
         double minDist;
         if (input != null) { // Check if user clicked OK or Cancel
             try {
@@ -45,7 +45,7 @@ public class DistanceFilterAction extends AbstractAction {
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(parent, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(parent, "无效输入.请输入一个有效的数字.", "错误", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }

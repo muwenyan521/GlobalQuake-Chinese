@@ -92,7 +92,7 @@ public class ClusterAnalysisTraining {
         ClusterAnalysis clusterAnalysis = new ClusterAnalysis(earthquakes, stations);
         EarthquakeAnalysis earthquakeAnalysis = new EarthquakeAnalysis(clusterAnalysis, earthquakes);
 
-        System.out.println("成功初始化 "+stations.size()+" 个站点");
+        System.out.println("成功初始化 "+stations.size()+" 个台站");
 
         int notDetected = 0;
         int oneDetected = 0;

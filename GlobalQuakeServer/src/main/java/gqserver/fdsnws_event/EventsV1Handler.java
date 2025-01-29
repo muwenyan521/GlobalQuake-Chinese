@@ -33,9 +33,9 @@ public class EventsV1Handler implements HttpHandler{
             URL wadlURL = getClass().getClassLoader().getResource("fdsnws_event_application.wadl");
 
             if(wadlURL == null){
-                HttpRequestException ex = new HttpRequestException(500, "Internal Server Error");
+                HttpRequestException ex = new HttpRequestException(500, "服务器内部错误");
                 ex.transmitToClient(exchange);
-                Logger.error(new RuntimeApplicationException("Wadl URL is null!"));
+                Logger.error(new RuntimeApplicationException("WADL URL为空!"));
                 return;
             }
 
@@ -45,7 +45,7 @@ public class EventsV1Handler implements HttpHandler{
                 wadl = new String(in.readAllBytes());
             } catch(Exception e){
                 Logger.error(e);
-                HttpRequestException ex = new HttpRequestException(500, "Internal Server Error");
+                HttpRequestException ex = new HttpRequestException(500, "服务器内部错误");
                 ex.transmitToClient(exchange);
                 return;
             }
@@ -90,9 +90,9 @@ public class EventsV1Handler implements HttpHandler{
             default -> {
                 //This should never happen. This request should have been caught in the parameter checks
                 //Don't Panic
-                HttpRequestException e = new HttpRequestException(500, "Internal Server Error");
+                HttpRequestException e = new HttpRequestException(500, "服务器内部错误");
                 e.transmitToClient(exchange);
-                RuntimeApplicationException runtimeApplicationException = new RuntimeApplicationException("Somehow a point was reached that should have been unreachable. If code was just changed, that is the problem.");
+                RuntimeApplicationException runtimeApplicationException = new RuntimeApplicationException("不知何故,达到了一个本不该达到的点.如果只是修改了代码,那就是问题所在.");
                 //No need to pass this to the error handler, just log it.
                 Logger.error(runtimeApplicationException);
                 return;
@@ -285,7 +285,7 @@ public class EventsV1Handler implements HttpHandler{
             }
             //If an error occurred, tell the user and log it
             if(starttime == null){
-                throw new HttpRequestException(400, "Issue parsing start time. Use the format \"YYYY-MM-DDTHH:MM:SS\" UTC time");
+                throw new HttpRequestException(400, "解析开始时间问题.请使用 \"YYYY-MM-DDTHH:MM:SS\" 格式的UTC时间");
             }
 
             String end1 = parameters.get("end");
@@ -296,7 +296,7 @@ public class EventsV1Handler implements HttpHandler{
                 endtime = EventsV1ParamChecks.parseDate(end2);
             }
             if(endtime == null){
-                throw new HttpRequestException(400, "Issue parsing end time. Use the format of \"YYYY-MM-DDTHH:MM:SS\" UTC time");
+                throw new HttpRequestException(400, "解析结束时间出现问题. 请使用 \"YYYY-MM-DDTHH:MM:SS\" 格式的UTC时间");
             }
 
             String minlat1 = parameters.get("minlat");
@@ -307,7 +307,7 @@ public class EventsV1Handler implements HttpHandler{
                 minlatitude = EventsV1ParamChecks.parseLatitude(minlat2);
             }
             if(minlatitude == null){
-                throw new HttpRequestException(400, "Issue parsing minimum latitude. Make sure it is between -90 and 90");
+                throw new HttpRequestException(400, "解析最小纬度时出现问题.请确保其值在-90到90之间.");
             }
 
             String maxlat1 = parameters.get("maxlat");
@@ -318,7 +318,7 @@ public class EventsV1Handler implements HttpHandler{
                 maxlatitude = EventsV1ParamChecks.parseLatitude(maxlat2);
             }
             if(maxlatitude == null){
-                throw new HttpRequestException(400, "Issue parsing maximum latitude. Make sure it is between -90 and 90");
+                throw new HttpRequestException(400, "解析最大纬度时出现问题.请确保其值在-90到90之间.");
             }
 
             String minlon1 = parameters.get("minlon");
@@ -329,7 +329,7 @@ public class EventsV1Handler implements HttpHandler{
                 minlongitude = EventsV1ParamChecks.parseLongitude(minlon2);
             }
             if(minlongitude == null){
-                throw new HttpRequestException(400, "Issue parsing minimum longitude. Make sure it is between -180 and 180");
+                throw new HttpRequestException(400, "解析最小经度时出现问题.请确保其值在 -180 到 180 之间.");
             }
 
             String maxlon1 = parameters.get("maxlon");
@@ -340,7 +340,7 @@ public class EventsV1Handler implements HttpHandler{
                 maxlongitude = EventsV1ParamChecks.parseLongitude(maxlon2);
             }
             if(maxlongitude == null){
-                throw new HttpRequestException(400, "Issue parsing maximum longitude. Make sure it is between -180 and 180");
+                throw new HttpRequestException(400, "解析最大经度时出现问题.请确保其值在 -180 到 180 之间.");
             }
  
             String lat1 = parameters.get("lat");
@@ -352,7 +352,7 @@ public class EventsV1Handler implements HttpHandler{
             }
             //Either lat was null and the result is null
             if( (lat1 != null || lat2 != null) && latitude == null){
-                throw new HttpRequestException(400, "Issue parsing latitude. Make sure it is between -90 and 90");
+                throw new HttpRequestException(400, "解析纬度时出现问题.请确保其值在-90到90之间.");
             }
 
             String lon1 = parameters.get("lon");
@@ -363,7 +363,7 @@ public class EventsV1Handler implements HttpHandler{
                 longitude = EventsV1ParamChecks.parseLongitude(lon2);
             }
             if( (lon1 != null || lon2 != null) && longitude == null){
-                throw new HttpRequestException(400, "Issue parsing longitude. Make sure it is between -180 and 180");
+                throw new HttpRequestException(400, "解析经度时出现问题.请确保其值在 -180 到 180 之间.");
             }
 
             //minradius
@@ -374,7 +374,7 @@ public class EventsV1Handler implements HttpHandler{
                 mindepth = EventsV1ParamChecks.parseDepth(mindepth1);
             }
             if(mindepth == null){
-                throw new HttpRequestException(400, "Issue parsing minimum depth");
+                throw new HttpRequestException(400, "解析最小震源深度时出现问题");
             }
 
             String maxdepth1 = parameters.get("maxdepth");
@@ -382,7 +382,7 @@ public class EventsV1Handler implements HttpHandler{
                 maxdepth = EventsV1ParamChecks.parseDepth(maxdepth1);
             }
             if(maxdepth == null){
-                throw new HttpRequestException(400, "Issue parsing maximum depth");
+                throw new HttpRequestException(400, "解析最大震源深度时出现问题");
             }
 
             String minmag1 = parameters.get("minmag");
@@ -393,7 +393,7 @@ public class EventsV1Handler implements HttpHandler{
                 minmagnitude = EventsV1ParamChecks.parseMagnitude(minmag2);
             }
             if(minmagnitude == null){
-                throw new HttpRequestException(400, "Issue parsing minimum magnitude, make sure it is between -10 and 10");
+                throw new HttpRequestException(400, "解析最小震级时出现问题,请确保其值在-10到10之间");
             }
 
             String maxmag1 = parameters.get("maxmag");
@@ -404,7 +404,7 @@ public class EventsV1Handler implements HttpHandler{
                 maxmagnitude = EventsV1ParamChecks.parseMagnitude(maxmag2);
             }
             if(maxmagnitude == null){
-                throw new HttpRequestException(400, "Issue parsing maximum magnitude, make sure it is between -10 and 10");
+                throw new HttpRequestException(400, "解析最大震级时出现问题,请确保其值在-10到10之间");
             }
 
             //magtype, magnitudetype
@@ -426,7 +426,7 @@ public class EventsV1Handler implements HttpHandler{
                 format = EventsV1ParamChecks.parseFormat(format1);
             }
             if(format == null){
-                throw new HttpRequestException(400, "Issue parsing format. Make sure it is one of \"xml\", \"json\", \"geojson\", or \"text\"");
+                throw new HttpRequestException(400, "解析格式出错,请确保格式为\"xml\"、\"json\"、\"geojson\"或\"text\"");
             }
 
             String nodata1 = parameters.get("nodata");
@@ -434,7 +434,7 @@ public class EventsV1Handler implements HttpHandler{
                 nodata = EventsV1ParamChecks.parseNoData(nodata1);
             }
             if(nodata == 0){
-                throw new HttpRequestException(400, "Issue parsing nodata. Make sure it is between 1 and 999");
+                throw new HttpRequestException(400, "无法解析无数据值.请确保其在1到999之间.");
             }
 
         }
@@ -516,7 +516,7 @@ public class EventsV1Handler implements HttpHandler{
         public void transmitToClient(HttpExchange exchange) throws IOException{
             HttpResponse response;
             if(!revealError){
-                response = new HttpResponse(500, "Internal Server Error", "text/plain");
+                response = new HttpResponse(500, "服务器内部错误", "text/plain");
                 sendResponse(exchange, response);
             }
 

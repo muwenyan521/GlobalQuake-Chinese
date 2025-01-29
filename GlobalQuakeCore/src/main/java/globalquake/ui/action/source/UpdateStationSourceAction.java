@@ -22,10 +22,10 @@ public class UpdateStationSourceAction extends AbstractAction {
     private JTable table;
 
     public UpdateStationSourceAction(StationDatabaseManager databaseManager) {
-        super("Update");
+        super("更新");
         this.databaseManager = databaseManager;
 
-        putValue(SHORT_DESCRIPTION, "Update Station Sources");
+        putValue(SHORT_DESCRIPTION, "更新台站数据源");
 
         ImageIcon updateIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/update.png")));
         Image image = updateIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
@@ -37,7 +37,7 @@ public class UpdateStationSourceAction extends AbstractAction {
     public void actionPerformed(ActionEvent actionEvent) {
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length < 1) {
-            throw new RuntimeApplicationException("Invalid selected rows count (must be > 0): " + selectedRows.length);
+            throw new RuntimeApplicationException("无效的选中行数(必须大于0): " + selectedRows.length);
         }
         if (table.isEditing()) {
             table.getCellEditor().cancelCellEditing();

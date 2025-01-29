@@ -399,7 +399,7 @@ bool run_hypocenter_search(float *stations,
     }
 
     if (station_count < 3) {
-        TRACE(2, "错误!至少需要3个站点!\n");
+        TRACE(2, "错误!至少需要3个台站!\n");
         return false;
     }
 
@@ -452,7 +452,7 @@ bool run_hypocenter_search(float *stations,
     success &= cudaDeviceSynchronize() == cudaSuccess;
 
     if (!success) {
-        print_err("计算站点范围");
+        print_err("计算台站范围");
         goto cleanup;
     }
 

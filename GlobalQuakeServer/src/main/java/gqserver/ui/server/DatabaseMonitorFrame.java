@@ -96,11 +96,11 @@ public class DatabaseMonitorFrame extends GQFrame {
 
     private Component createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Seedlink Networks", new SeedlinkServersPanel(
+        tabbedPane.addTab("Seedlink节点", new SeedlinkServersPanel(
                 this, manager, restoreDatabaseAction, getBtnSelectStations(), new JButton()));
         tabbedPane.addTab("FDSNWS", new StationSourcesPanel(
                 this, manager, restoreDatabaseAction, getBtnSelectStations(), new JButton()));
-        tabbedPane.addTab("Server Status", new ServerStatusPanel());
+        tabbedPane.addTab("服务器状态", new ServerStatusPanel());
         return tabbedPane;
     }
 
@@ -119,11 +119,11 @@ public class DatabaseMonitorFrame extends GQFrame {
         gridLayout.setHgap(5);
         buttonsPanel.setLayout(gridLayout);
 
-        JButton btnSettings = new JButton("Settings");
+        JButton btnSettings = new JButton("设置");
         buttonsPanel.add(btnSettings);
         btnSettings.addActionListener(actionEvent -> new SettingsFrame(DatabaseMonitorFrame.this, false).setVisible(true));
 
-        btnSelectStations = new JButton("Select Stations");
+        btnSelectStations = new JButton("选择台站");
         btnSelectStations.setEnabled(false);
 
         ImageIcon selectStationsIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/selectStations.png")));
@@ -144,7 +144,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         mainProgressBar  = new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
         mainProgressBar.setValue(0);
         mainProgressBar.setStringPainted(true);
-        mainProgressBar.setString("Init...");
+        mainProgressBar.setString("初始化中...");
 
         buttonsOutsidePanel.add(buttonsPanel);
         buttonsOutsidePanel.add(mainProgressBar);

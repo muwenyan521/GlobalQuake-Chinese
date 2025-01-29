@@ -29,12 +29,12 @@ public class DiscordBotDebug extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         for(Guild guild:jda.getGuilds()){
-            System.out.printf("GUILD %s - %s\n".formatted(guild.getName(), guild.getId()));
+            System.out.printf("工会 %s - %s\n".formatted(guild.getName(), guild.getId()));
             for(Role role : guild.getRoles()){
-                System.out.printf("     ROLE %s - %s\n".formatted(role.getName(), role.getId()));
+                System.out.printf("     规则 %s - %s\n".formatted(role.getName(), role.getId()));
             }
             for(TextChannel channel : guild.getTextChannels()){
-                System.out.printf("     CHANNEL %s - %s\n".formatted(channel.getName(), channel.getId()));
+                System.out.printf("     频道 %s - %s\n".formatted(channel.getName(), channel.getId()));
             }
         }
 

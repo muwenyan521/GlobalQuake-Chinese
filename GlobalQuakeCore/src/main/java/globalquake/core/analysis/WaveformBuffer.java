@@ -260,7 +260,7 @@ public class WaveformBuffer {
 
     public int getClosestIndex(long time) {
         if(isEmpty()){
-            throw new IllegalStateException("缓冲区为空，没有最近的日志!");
+            throw new IllegalStateException("缓冲区为空,没有最近的日志!");
         }
 
         int low = getOldestDataSlot();

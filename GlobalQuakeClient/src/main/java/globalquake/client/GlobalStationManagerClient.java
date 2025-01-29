@@ -48,7 +48,7 @@ public class GlobalStationManagerClient extends GlobalStationManager {
     private void processDataRecordPacket(DataRecordPacket dataRecordPacket) {
         ClientStation station = stationsIdMap.get(dataRecordPacket.stationIndex());
         if(station == null){
-            Logger.warn("收到数据记录,但来自未知站点!");
+            Logger.warn("收到数据记录,但来自未知台站!");
             return;
         }
 
@@ -101,7 +101,7 @@ public class GlobalStationManagerClient extends GlobalStationManager {
 
     private void resetIndexing(ClientSocket socket, UUID uuid) {
         if(super.indexing != null) {
-            Logger.info("站点索引已更改,可能是因为服务器已重新启动.");
+            Logger.info("台站索引已更改,可能是因为服务器已重新启动.");
             try {
                 socket.sendPacket(new StationsRequestPacket());
             } catch (IOException e) {

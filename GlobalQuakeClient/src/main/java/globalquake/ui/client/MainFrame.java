@@ -90,7 +90,7 @@ public class MainFrame extends GQFrame {
             //Sound may fail to load for a variety of reasons. If it does, this method disables sound.
             Sounds.load();
         } catch (Exception e) {
-            RuntimeApplicationException error = new RuntimeApplicationException("加载音频文件失败，声音将会被关闭。", e);
+            RuntimeApplicationException error = new RuntimeApplicationException("加载音频文件失败,声音将会被关闭.", e);
             Main.getErrorHandler().handleWarning(error);
         }
         getProgressBar().setString("加载震波走时表...");

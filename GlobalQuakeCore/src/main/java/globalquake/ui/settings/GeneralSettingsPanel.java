@@ -137,7 +137,7 @@ public class GeneralSettingsPanel extends SettingsPanel {
 		homeLocationPanel.add(latPanel);
 		homeLocationPanel.add(lonPanel);
 
-		JTextArea infoLocation = new JTextArea("如果附近发生地震，用户位置将用于播放额外的警报声音");
+		JTextArea infoLocation = new JTextArea("如果附近发生地震,用户位置将用于播放额外的警报声音");
 		infoLocation.setBorder(new EmptyBorder(5,5,5,5));
 		infoLocation.setLineWrap(true);
 		infoLocation.setEditable(false);
@@ -158,7 +158,7 @@ public class GeneralSettingsPanel extends SettingsPanel {
 		sliderStoreTime = HypocenterAnalysisSettingsPanel.createSettingsSlider(2, 20, 2, 1);
 
 		JLabel label = new JLabel();
-		ChangeListener changeListener = changeEvent -> label.setText("波形数据存储时间（分钟）: %d".formatted(
+		ChangeListener changeListener = changeEvent -> label.setText("波形数据存储时间(分钟): %d".formatted(
 				sliderStoreTime.getValue()));
 
 		sliderStoreTime.addChangeListener(changeListener);
@@ -168,9 +168,9 @@ public class GeneralSettingsPanel extends SettingsPanel {
 
 		return HypocenterAnalysisSettingsPanel.createCoolLayout(sliderStoreTime, label, "5",
 				"""
-                在GlobalQuake中，波形数据对系统内存的需求最高。
-                如果遇到内存限制，您有两个选择：
-                减少选定的站点数量或降低此特定值。
+                在GlobalQuake中,波形数据对系统内存的需求最高.
+                如果遇到内存限制,您有两个选择:
+                减少选定的台站数量或降低此特定值.
                 """);
 	}
 
@@ -187,7 +187,7 @@ public class GeneralSettingsPanel extends SettingsPanel {
 
 		JLabel lbl = new JLabel();
 		lbl.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
-		lbl.setText("请注意，显示的烈度是估算值，而非实测值");
+		lbl.setText("请注意,显示的烈度是估算值,而非实测值");
 
 		panel.add(lbl, BorderLayout.SOUTH);
 

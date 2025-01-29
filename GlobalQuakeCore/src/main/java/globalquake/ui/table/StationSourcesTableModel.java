@@ -8,10 +8,10 @@ import java.util.List;
 
 public class StationSourcesTableModel extends FilterableTableModel<StationSource>{
     private final List<Column<StationSource, ?>> columns = List.of(
-            Column.readonly("Name", String.class, StationSource::getName, new TableCellRendererAdapter<>()),
-            Column.readonly("URL", String.class, StationSource::getUrl, new TableCellRendererAdapter<>()),
-            Column.readonly("Last Update", LocalDateTime.class, StationSource::getLastUpdate, new LastUpdateRenderer<>()),
-            Column.readonly("Status", JProgressBar.class, StationSource::getStatus, new ProgressBarRenderer<>()));
+            Column.readonly("名称", String.class, StationSource::getName, new TableCellRendererAdapter<>()),
+            Column.readonly("网址", String.class, StationSource::getUrl, new TableCellRendererAdapter<>()),
+            Column.readonly("最后更新时间", LocalDateTime.class, StationSource::getLastUpdate, new LastUpdateRenderer<>()),
+            Column.readonly("状态", JProgressBar.class, StationSource::getStatus, new ProgressBarRenderer<>()));
 
     public StationSourcesTableModel(List<StationSource> data) {
         super(data);

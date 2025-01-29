@@ -48,7 +48,7 @@ public class StationSelectFrame extends GQFrame implements ActionListener {
         gbc.ipady = 30;
 
         togglePanel.add(toggleButton, gbc);
-
+切换工具栏
         toggleButton.setToolTipText("Toggle Toolbar");
         toggleButton.setBackground(Color.GRAY);
 
@@ -63,7 +63,7 @@ public class StationSelectFrame extends GQFrame implements ActionListener {
 
         setPreferredSize(new Dimension(1100, 800));
 
-        chkBoxShowUnavailable = new JCheckBox("Show Unavailable Stations");
+        chkBoxShowUnavailable = new JCheckBox("显示不可用台站");
         chkBoxShowUnavailable.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -111,16 +111,16 @@ public class StationSelectFrame extends GQFrame implements ActionListener {
         pack();
         setLocationRelativeTo(parent);
         setResizable(true);
-        setTitle("Select Stations");
+        setTitle("选择台站");
     }
 
     private JToolBar createToolbar() {
-        JToolBar toolBar = new JToolBar("Tools", JToolBar.VERTICAL);
+        JToolBar toolBar = new JToolBar("工具", JToolBar.VERTICAL);
 
-        selectButton = new JToggleButton("Select Region");
-        selectButton.setToolTipText("Select All Available Stations in Region");
-        deselectButton = new JToggleButton("Deselect Region");
-        deselectButton.setToolTipText("Deselect All Available Stations in Region");
+        selectButton = new JToggleButton("选择区域");
+        selectButton.setToolTipText("选择区域内所有可用台站");
+        deselectButton = new JToggleButton("取消选择区域");
+        deselectButton.setToolTipText("取消选择区域内所有可用台站");
         selectButton.addActionListener(this);
         deselectButton.addActionListener(this);
 

@@ -27,7 +27,7 @@ public class GlobalStationManagerPlayground extends GlobalStationManager {
         int fails = 0;
         while (created < count) {
             if (fails > 500) {
-                Logger.warn("站点生成已中止!");
+                Logger.warn("台站生成已中止!");
                 break;
             }
             double[] coords = randomCoords(r);
@@ -45,7 +45,7 @@ public class GlobalStationManagerPlayground extends GlobalStationManager {
 
             int id = nextID.incrementAndGet();
 
-            String name = "站点 #%d".formatted(id);
+            String name = "台站 #%d".formatted(id);
             list.add(new PlaygroundStation(name, lat, lon, 0, nextID.getAndIncrement(), PlaygroundStation.DEFAULT_SENSITIVITY));
             created++;
             fails = 0;

@@ -90,7 +90,7 @@ public class GQHypocs {
 
         stationLimitCalculated = true;
         stationLimit = (int) (stations * (MAX_GPU_MEM / GB));
-        Logger.tag("Hypocs").info("%d个站点将使用%.2f / %.2f GB,因此限制为%d个站点".formatted(stations, GB, MAX_GPU_MEM, stationLimit));
+        Logger.tag("Hypocs").info("%d个台站将使用%.2f / %.2f GB,因此限制为%d个台站".formatted(stations, GB, MAX_GPU_MEM, stationLimit));
     }
 
     private static double getPointMultiplier() {
@@ -111,7 +111,7 @@ public class GQHypocs {
                 Logger.tag("Hypocs").info("CUDA库加载成功!");
                 printResolution();
             } else {
-                Logger.tag("Hypocs").warn("CUDA未加载，地震参数将在CPU上计算");
+                Logger.tag("Hypocs").warn("CUDA未加载,地震参数将在CPU上计算");
             }
         } catch(Exception | UnsatisfiedLinkError e) {
             Logger.tag("Hypocs").warn("加载或初始化CUDA失败:%s".formatted(e.getMessage()));

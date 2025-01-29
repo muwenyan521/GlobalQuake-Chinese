@@ -132,7 +132,7 @@ public class FeatureArchivedEarthquake extends RenderFeature<ArchivedQuake> {
 
         graphics.setColor(getColorStations(quake.getAssignedStations()));
         y+=15;
-        str = "%d 个站点".formatted(quake.getAssignedStations());
+        str = "%d 个台站".formatted(quake.getAssignedStations());
         graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) * 0.5), y);
 
     }

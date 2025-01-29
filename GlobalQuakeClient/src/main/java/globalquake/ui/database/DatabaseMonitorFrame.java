@@ -52,7 +52,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         contentPane.add(createTabbedPane(), BorderLayout.CENTER);
 
         pack();
-        setTitle("站点数据库管理器");
+        setTitle("台站数据库管理器");
         setLocationRelativeTo(null);
 
         runTimer();
@@ -98,7 +98,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Seedlink节点", new SeedlinkServersPanel(
                 this, manager,restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
-        tabbedPane.addTab("站点源", new StationSourcesPanel(
+        tabbedPane.addTab("台站数据源", new StationSourcesPanel(
                 this, manager, restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
         return tabbedPane;
     }
@@ -118,7 +118,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         gridLayout.setHgap(5);
         buttonsPanel.setLayout(gridLayout);
 
-        btnSelectStations = new JButton("选择站点");
+        btnSelectStations = new JButton("选择台站");
         btnSelectStations.setEnabled(false);
 
         ImageIcon selectStationsIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/selectStations.png")));

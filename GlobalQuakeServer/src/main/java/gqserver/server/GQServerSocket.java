@@ -63,7 +63,7 @@ public class GQServerSocket {
     }
 
     public void run(String ip, int port) {
-        Logger.tag("Server").info("Creating server...");
+        Logger.tag("Server").info("创建服务器中...");
         ExecutorService acceptService = Executors.newSingleThreadExecutor();
         handshakeService = Executors.newCachedThreadPool();
         readerService = Executors.newCachedThreadPool();
@@ -75,7 +75,7 @@ public class GQServerSocket {
         setStatus(SocketStatus.OPENING);
         try {
             lastSocket = new ServerSocket();
-            Logger.tag("Server").info("Binding port %d...".formatted(port));
+            Logger.tag("Server").info("绑定端口 %d 中...".formatted(port));
             lastSocket.bind(new InetSocketAddress(ip, port));
             clientsWatchdog.scheduleAtFixedRate(this::checkClients, 0, 10, TimeUnit.SECONDS);
             clientsLimitWatchdog.scheduleAtFixedRate(this::updateLimits, 0, 60, TimeUnit.SECONDS);
@@ -87,10 +87,10 @@ public class GQServerSocket {
 
             dataService.run();
             setStatus(SocketStatus.RUNNING);
-            Logger.tag("Server").info("Server launched successfully");
+            Logger.tag("Server").info("服务器启动成功");
         } catch (IOException e) {
             setStatus(SocketStatus.IDLE);
-            throw new RuntimeApplicationException("Unable to open server", e);
+            throw new RuntimeApplicationException("无法打开服务器", e);
         }
     }
 
@@ -104,13 +104,13 @@ public class GQServerSocket {
 
         int[] summary = GlobalQuakeServer.instance.getStationDatabaseManager().getSummary();
 
-        Logger.tag("ServerStatus").info("Server status: Clients: %d / %d, RAM: %.2f / %.2f GB, Seedlinks: %d / %d, Stations: %d / %d"
+        Logger.tag("ServerStatus").info("服务器状态:客户端:%d / %d,内存:%.2f / %.2f GB,种子链接:%d / %d,台站:%d / %d"
                 .formatted(clients.size(), Settings.maxClients, usedMem / StatusTab.GB, maxMem / StatusTab.GB,
                         summary[2], summary[3], summary[1], summary[0]));
 
         if (stats != null) {
             Logger.tag("ServerStatus").info(
-                    "accepted: %d, wrongVersion: %d, wrongPacket: %d, serverFull: %d, success: %d, error: %d, ipRejects: %d"
+                    "已接受:%d,版本错误:%d,数据包错误:%d,服务器已满:%d,成功:%d,错误:%d,IP拒绝:%d"
                     .formatted(stats.accepted, stats.wrongVersion, stats.wrongPacket, stats.serverFull, stats.successfull, stats.errors, stats.ipRejects));
         }
     }
@@ -125,7 +125,7 @@ public class GQServerSocket {
                         toRemove.add(client);
                         clientLeft(client.getSocket());
                         GlobalQuakeServer.instance.getServerEventHandler().fireEvent(new ClientLeftEvent(client));
-                        Logger.tag("Server").info("Client #%d disconnected due to timeout".formatted(client.getID()));
+                        Logger.tag("Server").info("客户端 #%d 因超时而断开连接".formatted(client.getID()));
                     } catch (Exception e) {
                         Logger.tag("Server").error(e);
                     }
@@ -150,26 +150,26 @@ public class GQServerSocket {
         if (packet instanceof HandshakePacket handshakePacket) {
             if (handshakePacket.compatVersion() != GQApi.COMPATIBILITY_VERSION) {
                 stats.wrongVersion++;
-                client.destroy(("Your client version is not compatible with the server!" +
-                        " The server is running on version %s").formatted(GlobalQuake.version));
+                client.destroy(("您的客户端版本与服务器不兼容!" +
+                        " 服务器正在运行版本 %s").formatted(GlobalQuake.version));
                 return false;
             }
 
             client.setClientConfig(handshakePacket.clientConfig());
         } else {
             stats.wrongPacket++;
-            Logger.tag("Server").warn("Client send invalid initial packet!");
+            Logger.tag("Server").warn("客户端发送了无效的初始数据包!");
             client.destroy();
             return false;
         }
 
         synchronized (joinMutex) {
             if (clients.size() >= Settings.maxClients) {
-                client.destroy("Server is full!");
+                client.destroy("服务器已满!");
                 stats.serverFull++;
                 return false;
             } else {
-                Logger.tag("Server").info("Client #%d handshake successfull".formatted(client.getID()));
+                Logger.tag("Server").info("客户端 #%d 握手成功".formatted(client.getID()));
                 stats.successfull++;
                 client.sendPacket(new HandshakeSuccessfulPacket());
                 readerService.submit(new ClientReader(client));
@@ -209,7 +209,7 @@ public class GQServerSocket {
     public void stop() throws IOException {
         for (ServerClient client : clients) {
             try {
-                client.sendPacket(new TerminationPacket("Server closed by operator"));
+                client.sendPacket(new TerminationPacket("服务器已由操作员关闭"));
                 client.flush();
                 client.destroy();
             } catch (Exception e) {
@@ -232,27 +232,27 @@ public class GQServerSocket {
 
                 if(!checkAddress(socket)){
                     socket.close();
-                    Logger.tag("Server").warn("Client rejected for reaching max connection count!");
+                    Logger.tag("Server").warn("客户端因达到最大连接数而被拒绝!");
                     stats.ipRejects++;
                     continue;
                 }
 
                 stats.accepted++;
 
-                Logger.tag("Server").info("A new client is joining...");
+                Logger.tag("Server").info("新客户端加入...");
                 socket.setSoTimeout(HANDSHAKE_TIMEOUT);
 
                 handshakeService.submit(() -> {
                     ServerClient client;
                     try {
                         client = new ServerClient(socket);
-                        Logger.tag("Server").info("Performing handshake for client #%d".formatted(client.getID()));
+                        Logger.tag("Server").info("为客户端 #%d 执行握手".formatted(client.getID()));
                         if(!handshake(client)){
                             clientLeft(socket);
                         }
                     } catch (IOException e) {
                         stats.errors++;
-                        Logger.tag("Server").error("Failure when accepting client!");
+                        Logger.tag("Server").error("接受客户端时失败!");
                         Logger.tag("Server").trace(e);
                         clientLeft(socket);
                     }

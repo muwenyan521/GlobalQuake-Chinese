@@ -9,12 +9,12 @@ import java.util.List;
 
 public class SeedlinkStatusTableModel extends FilterableTableModel<SeedlinkNetwork> {
     private final List<Column<SeedlinkNetwork, ?>> columns = List.of(
-            Column.readonly("Name", String.class, SeedlinkNetwork::getName, new TableCellRendererAdapter<>()),
-            Column.readonly("Host", String.class, SeedlinkNetwork::getHost, new TableCellRendererAdapter<>()),
-            Column.readonly("Port", Integer.class, SeedlinkNetwork::getPort, new TableCellRendererAdapter<>()),
-            Column.readonly("Available Stations", Integer.class, SeedlinkNetwork::getAvailableStations, new TableCellRendererAdapter<>()),
-            Column.readonly("Selected Stations", Integer.class, SeedlinkNetwork::getSelectedStations, new TableCellRendererAdapter<>()),
-            Column.readonly("Connected Stations", Integer.class, SeedlinkNetwork::getConnectedStations, new TableCellRendererAdapter<>()));
+            Column.readonly("名称", String.class, SeedlinkNetwork::getName, new TableCellRendererAdapter<>()),
+            Column.readonly("地址", String.class, SeedlinkNetwork::getHost, new TableCellRendererAdapter<>()),
+            Column.readonly("端口", Integer.class, SeedlinkNetwork::getPort, new TableCellRendererAdapter<>()),
+            Column.readonly("可用台站数", Integer.class, SeedlinkNetwork::getAvailableStations, new TableCellRendererAdapter<>()),
+            Column.readonly("选择台站数", Integer.class, SeedlinkNetwork::getSelectedStations, new TableCellRendererAdapter<>()),
+            Column.readonly("已连接台站数", Integer.class, SeedlinkNetwork::getConnectedStations, new TableCellRendererAdapter<>()));
 
     public SeedlinkStatusTableModel(List<SeedlinkNetwork> data) {
         super(data);

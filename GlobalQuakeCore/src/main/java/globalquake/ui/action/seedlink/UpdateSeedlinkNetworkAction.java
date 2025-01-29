@@ -22,10 +22,10 @@ public class UpdateSeedlinkNetworkAction extends AbstractAction {
     private JTable table;
 
     public UpdateSeedlinkNetworkAction(StationDatabaseManager databaseManager) {
-        super("Update");
+        super("更新");
         this.databaseManager = databaseManager;
 
-        putValue(SHORT_DESCRIPTION, "Update Seedlink Networks");
+        putValue(SHORT_DESCRIPTION, "更新Seedlink节点");
 
         ImageIcon updateIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/update.png")));
         Image image = updateIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
@@ -38,7 +38,7 @@ public class UpdateSeedlinkNetworkAction extends AbstractAction {
         this.setEnabled(false);
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length < 1) {
-            throw new RuntimeApplicationException("Invalid selected rows count (must be > 0): " + selectedRows.length);
+            throw new RuntimeApplicationException("无效的选中行数(必须大于0): " + selectedRows.length);
         }
         if (table.isEditing()) {
             table.getCellEditor().cancelCellEditing();

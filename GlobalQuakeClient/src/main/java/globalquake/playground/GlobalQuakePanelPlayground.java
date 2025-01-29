@@ -202,7 +202,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
                 return "按空格键生成地震";
             }
             case RANDOM_STATIONS -> {
-                return "按空格键添加随机站点";
+                return "按空格键添加随机台站";
             }
         }
         return "";

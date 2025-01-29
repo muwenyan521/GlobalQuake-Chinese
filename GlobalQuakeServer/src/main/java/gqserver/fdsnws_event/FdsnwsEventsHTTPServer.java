@@ -42,7 +42,7 @@ public class FdsnwsEventsHTTPServer {
 
     public void startServer() throws Exception {
         if(serverRunning){
-            Logger.warn("fdsnws_event Server was attempted to be started but was already running");
+            Logger.warn("fdsnws_event 服务器尝试启动,但已处于运行状态");
             return;
         }
 
@@ -53,19 +53,19 @@ public class FdsnwsEventsHTTPServer {
         server.setExecutor(null); // creates a default executor
         server.start();
         serverRunning = true;
-        Logger.info("fdsnws_event Server started on " + Settings.FDSNWSEventIP + ":" + Settings.FDSNWSEventPort);
+        Logger.info("fdsnws_event 服务器启动在 " + Settings.FDSNWSEventIP + ":" + Settings.FDSNWSEventPort);
     }
 
     @SuppressWarnings("unused")
     public void stopServer() {
         if (!serverRunning) {
-            Logger.warn("fdsnws_event Server was attempted to be stopped but was not running");
+            Logger.warn("fdsnws_event 服务器尝试停止,但并未运行");
             return;
         }
 
         server.stop((int)clientCleanExitTime.getSeconds());
         serverRunning = false;
-        Logger.info("fdsnws_event Server stopped");
+        Logger.info("fdsnws_event 服务器已停止");
     }
 
 }

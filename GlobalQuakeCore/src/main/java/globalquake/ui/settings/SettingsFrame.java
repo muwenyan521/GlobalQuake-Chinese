@@ -77,12 +77,12 @@ public class SettingsFrame extends GQFrame {
 		JPanel panel_1 = new JPanel();
 		contentPanel.add(panel_1, BorderLayout.SOUTH);
 
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("取消");
 		panel_1.add(btnCancel);
 
 		btnCancel.addActionListener(e -> dispose());
 
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton("保存");
 		panel_1.add(btnSave);
 
 		btnSave.addActionListener(e -> {
@@ -91,7 +91,7 @@ public class SettingsFrame extends GQFrame {
                     panel1.save();
                 }
 				catch(NumberFormatException exx){
-					GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("Failed to parse a number: %s".formatted(exx.getMessage()), exx));
+					GlobalQuake.getErrorHandler().handleWarning(new RuntimeApplicationException("数字解析失败: %s".formatted(exx.getMessage()), exx));
 					return;
 				} catch(RuntimeApplicationException exxx){
 					GlobalQuake.getErrorHandler().handleWarning(exxx);

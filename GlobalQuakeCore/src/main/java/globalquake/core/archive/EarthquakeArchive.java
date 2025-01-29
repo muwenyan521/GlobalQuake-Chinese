@@ -37,7 +37,7 @@ public class EarthquakeArchive {
 				ObjectInputStream oin = new ObjectInputStream(new FileInputStream(ARCHIVE_FILE));
 				archivedQuakes = (MonitorableCopyOnWriteArrayList<ArchivedQuake>) oin.readObject();
 				oin.close();
-				Logger.info("从存档中加载了" + archivedQuakes.size() + "次地震。");
+				Logger.info("从存档中加载了" + archivedQuakes.size() + "次地震.");
 			} catch (Exception e) {
 				Logger.error(e);
 			}
@@ -129,7 +129,7 @@ public class EarthquakeArchive {
 		}
 
 		if(archivedQuakes.size() != uuidArchivedQuakeMap.size()){
-			Logger.error("可能存在内存泄漏：%d次存档地震，但地图中有%d次".formatted(archivedQuakes.size(), uuidArchivedQuakeMap.size()));
+			Logger.error("可能存在内存泄漏:%d次存档地震,但地图中有%d次".formatted(archivedQuakes.size(), uuidArchivedQuakeMap.size()));
 		}
 	}
 

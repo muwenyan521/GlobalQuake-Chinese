@@ -12,10 +12,10 @@ public abstract class Column<E, T> {
 	private final TableCellRendererAdapter<E, ?> renderer;
 
     private Column(String name, Class<T> columnClass, Function<E, T> valueGetter, TableCellRendererAdapter<E, ?> renderer) {
-        this.name = Objects.requireNonNull(name, "name cannot be null");
-        this.columnType = Objects.requireNonNull(columnClass, "column class cannot be null");
-        this.valueGetter = Objects.requireNonNull(valueGetter, "value getter cannot be null");
-        this.renderer = Objects.requireNonNull(renderer, "renderer cannot be null");
+        this.name = Objects.requireNonNull(name, "名称不能为空");
+        this.columnType = Objects.requireNonNull(columnClass, "列类不能为空");
+        this.valueGetter = Objects.requireNonNull(valueGetter, "值获取器不能为空");
+        this.renderer = Objects.requireNonNull(renderer, "渲染器不能为空");
     }	
 
     @SuppressWarnings("unused")
@@ -61,7 +61,7 @@ public abstract class Column<E, T> {
 
         @Override
         public void setValue(Object value, E entity) {
-            throw new UnsupportedOperationException("Column '" + getName() + "' is not editable");
+            throw new UnsupportedOperationException("列'" + getName() + "'不可编辑");
         }
     }
 
@@ -72,7 +72,7 @@ public abstract class Column<E, T> {
 
         private Editable(String name, Class<T> columnClass, Function<E, T> valueGetter, BiConsumer<E, T> valueSetter, TableCellRendererAdapter<E, ?> renderer) {
             super(name, columnClass, valueGetter, renderer);
-            this.valueSetter = Objects.requireNonNull(valueSetter, "value setter cannot be null");
+            this.valueSetter = Objects.requireNonNull(valueSetter, "值设置器不能为null");
         }
 
         @Override

@@ -19,11 +19,11 @@ public class EditStationSourceAction extends AbstractAction {
     private JTable table;
 
     public EditStationSourceAction(Window parent, StationDatabaseManager databaseManager){
-        super("Edit");
+        super("编辑");
         this.databaseManager = databaseManager;
         this.parent = parent;
 
-        putValue(SHORT_DESCRIPTION, "Edit Station Source");
+        putValue(SHORT_DESCRIPTION, "编辑台站数据源");
 
         ImageIcon editIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/edit.png")));
         Image image = editIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
@@ -35,7 +35,7 @@ public class EditStationSourceAction extends AbstractAction {
     public void actionPerformed(ActionEvent actionEvent) {
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length != 1) {
-            throw new IllegalStateException("Invalid selected rows count (must be 1): " + selectedRows.length);
+            throw new IllegalStateException("选择的行数无效(必须为1): " + selectedRows.length);
         }
         if (table.isEditing()) {
             table.getCellEditor().cancelCellEditing();

@@ -100,7 +100,7 @@ public class GlobalQuakeLab {
         cluster.calculateRoot(fakeStations);
         System.err.println(cluster);
 
-        System.err.printf("处理 %d 个站点和 %d 个事件%n", fakeStations.size(), pickedEvents.size());
+        System.err.printf("处理 %d 个台站和 %d 个事件%n", fakeStations.size(), pickedEvents.size());
 
         earthquakeAnalysis.processCluster(cluster, pickedEvents, true);
 

@@ -35,7 +35,7 @@ public class StationMonitor extends GQFrame {
 
 		setLocationRelativeTo(parent);
 		setResizable(true);
-		setTitle("站点监视器 - " + station.getNetworkCode() + " " + station.getStationCode() + " "
+		setTitle("台站监视器 - " + station.getNetworkCode() + " " + station.getStationCode() + " "
 				+ station.getChannelName() + " " + station.getLocationCode());
 
 		Timer timer = new Timer();

@@ -14,11 +14,11 @@ public class AddStationSourceAction extends AbstractAction {
     private final Window parent;
 
     public AddStationSourceAction(Window parent, StationDatabaseManager databaseManager){
-        super("Add");
+        super("添加");
         this.databaseManager = databaseManager;
         this.parent = parent;
 
-        putValue(SHORT_DESCRIPTION, "Add New Station Source");
+        putValue(SHORT_DESCRIPTION, "添加新的台站数据源");
 
         ImageIcon addIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/add.png")));
         Image image = addIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);

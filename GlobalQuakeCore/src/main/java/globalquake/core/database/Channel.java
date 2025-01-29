@@ -116,7 +116,7 @@ public final class Channel implements Serializable {
         if(newChannel.sensitivity2 > 0) {
             double diff = Math.abs(sensitivity2 - newChannel.sensitivity2);
             if(diff > 10){
-                Logger.trace("站点%s的灵敏度从%6.3E变为%6.3E!".formatted(code, sensitivity2, newChannel.sensitivity2));
+                Logger.trace("台站%s的灵敏度从%6.3E变为%6.3E!".formatted(code, sensitivity2, newChannel.sensitivity2));
             }
             sensitivity2 = newChannel.sensitivity2;
         }

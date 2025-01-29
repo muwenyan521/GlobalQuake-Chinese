@@ -53,7 +53,7 @@ public class StationDatabase implements Serializable {
             Logger.warn("数据库已更新!");
             networks.clear();
             stationSources.forEach(stationSource -> stationSource.setLastUpdate(LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneId.systemDefault())));
-            GlobalQuake.errorHandler.info("您的站点数据库已升级到新版本.您需要重新选择站点.");
+            GlobalQuake.errorHandler.info("您的台站数据库已升级到新版本.您需要重新选择台站.");
         }
 
         version = VERSION;

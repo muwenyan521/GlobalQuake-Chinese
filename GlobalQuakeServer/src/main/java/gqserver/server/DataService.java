@@ -196,12 +196,12 @@ public class DataService extends GlobalQuakeEventListener {
                 if(dr.getStation().getId() == station.getId()){
                     dr.enqueue(record);
                     if(dr.getQueueSize() > 20 && !dr.ready) {
-                        Logger.tag("Server").warn("Client data queue exceeded a certain limit, sending everyting...");
+                        Logger.tag("Server").warn("客户数据队列超过了某个限制,正在发送所有内容...");
                         dr.ready = true;
                     }
 
                     if(dr.getQueueSize() > 30){
-                        Logger.tag("Server").warn("Client data queue exceeded another limit, clearing it!");
+                        Logger.tag("Server").warn("客户端数据队列超出另一个限制,正在清除!");
                         dr.clear();
                     }
 
@@ -377,7 +377,7 @@ public class DataService extends GlobalQuakeEventListener {
         stationMap.putIfAbsent(packet.station(), (GlobalStation) GlobalQuake.instance.getStationManager().getStationByIdentifier(packet.station()));
         GlobalStation station = stationMap.get(packet.station());
         if(station == null){
-            Logger.tag("Server").warn("Received data request for non-existing station!");
+            Logger.tag("Server").warn("收到不存在台站的数据请求!");
             return;
         }
 
@@ -385,7 +385,7 @@ public class DataService extends GlobalQuakeEventListener {
         Set<DataRequest> dataRequests = clientDataRequestMap.get(client);
         if(!packet.cancel()) {
             if(dataRequests.size() >= DATA_REQUESTS_MAX_COUNT){
-                Logger.tag("Server").warn("Too many data requests for client #%d!".formatted(client.getID()));
+                Logger.tag("Server").warn("客户端 #%d 请求数据过多!".formatted(client.getID()));
             } else {
                 sendDataRequest(dataRequests, new DataRequest(station, client));
             }

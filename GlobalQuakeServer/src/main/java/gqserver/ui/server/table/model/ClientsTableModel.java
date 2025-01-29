@@ -12,10 +12,10 @@ import java.util.List;
 public class ClientsTableModel extends FilterableTableModel<ServerClient> {
     private final List<Column<ServerClient, ?>> columns = List.of(
             Column.readonly("ID", Integer.class, ServerClient::getID, new TableCellRendererAdapter<>()),
-            Column.readonly("Joined at", LocalDateTime.class, ServerClient::getJoinDate, new LastUpdateRenderer<>()),
-            Column.readonly("Delay (ms)", Long.class, ServerClient::getDelay, new TableCellRendererAdapter<>()),
-            Column.readonly("Packets sent", Long.class, ServerClient::getSentPackets, new TableCellRendererAdapter<>()),
-            Column.readonly("Packets received", Long.class, ServerClient::getReceivedPackets, new TableCellRendererAdapter<>()));
+            Column.readonly("加入时间", LocalDateTime.class, ServerClient::getJoinDate, new LastUpdateRenderer<>()),
+            Column.readonly("延迟 (ms)", Long.class, ServerClient::getDelay, new TableCellRendererAdapter<>()),
+            Column.readonly("数据包发送数", Long.class, ServerClient::getSentPackets, new TableCellRendererAdapter<>()),
+            Column.readonly("数据包接受数", Long.class, ServerClient::getReceivedPackets, new TableCellRendererAdapter<>()));
 
 
     public ClientsTableModel(List<ServerClient> data) {

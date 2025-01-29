@@ -80,7 +80,7 @@ public abstract class Analysis {
             }
         } catch (Exception e) {
             Logger.trace(e);
-            Logger.warn("%s 站点数据处理出现问题: %s".formatted(getStation().getStationCode(), e.getMessage()));
+            Logger.warn("%s 台站数据处理出现问题: %s".formatted(getStation().getStationCode(), e.getMessage()));
         }
     }
 

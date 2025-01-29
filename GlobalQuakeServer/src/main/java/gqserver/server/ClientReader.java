@@ -25,7 +25,7 @@ public class ClientReader implements Runnable {
                 GlobalQuakeServer.instance.getServerSocket().getDataService().processPacket(client, packet);
             }
         } catch (Exception | UnknownPacketException | PacketLimitException e) {
-            Logger.tag("Server").warn("Client #%d experienced a crash while reading!".formatted(client.getID()));
+            Logger.tag("Server").warn("客户端 #%d 在读取时发生崩溃!".formatted(client.getID()));
             Logger.tag("Server").trace(e);
         } finally {
             try {

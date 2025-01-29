@@ -17,11 +17,11 @@ public class DeselectUnavailableAction extends AbstractAction {
     private final Window parent;
 
     public DeselectUnavailableAction(StationDatabaseManager stationDatabaseManager, Window parent) {
-        super("Deselect Unavailable");
+        super("取消选择不可用");
         this.stationDatabaseManager=stationDatabaseManager;
         this.parent=parent;
 
-        putValue(SHORT_DESCRIPTION, "Deselects All Unavailable Stations");
+        putValue(SHORT_DESCRIPTION, "取消选择所有不可用台站");
 
         ImageIcon deselectUnavailable = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/deselectUnavailable.png")));
         Image image = deselectUnavailable.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -48,7 +48,7 @@ public class DeselectUnavailableAction extends AbstractAction {
                 });
             }
             if(alreadyDeselected){
-                JOptionPane.showMessageDialog(parent, "All Unavailable Stations Already Deselected");
+                JOptionPane.showMessageDialog(parent, "所有不可用台站已全部取消选择");
             }
             stationDatabaseManager.fireUpdateEvent();
         }finally {

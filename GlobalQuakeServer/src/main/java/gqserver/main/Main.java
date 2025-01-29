@@ -29,7 +29,7 @@ public class Main {
     public static final File MAIN_FOLDER = new File("./.GlobalQuakeServerData/");
 
     private static ApplicationErrorHandler errorHandler;
-    public static final String fullName = "GlobalQuakeServer " + GlobalQuake.version;
+    public static final String fullName = "GlobalQuake服务器 " + GlobalQuake.version;
     private static DatabaseMonitorFrame databaseMonitorFrame;
     private static StationDatabaseManager databaseManager;
     private static boolean headless = true;
@@ -56,15 +56,15 @@ public class Main {
 
         Options options = new Options();
 
-        Option headlessOption = new Option("h", "headless", false, "run in headless mode");
+        Option headlessOption = new Option("h", "headless", false, "无头模式运行");
         headlessOption.setRequired(false);
         options.addOption(headlessOption);
 
-        Option maxClientsOption = new Option("c", "clients", true, "maximum number of clients");
+        Option maxClientsOption = new Option("c", "clients", true, "最大客户端数");
         maxClientsOption.setRequired(false);
         options.addOption(maxClientsOption);
 
-        Option maxGpuMemOption = new Option("g", "gpu-max-mem", true, "maximum GPU memory limit in GB");
+        Option maxGpuMemOption = new Option("g", "gpu-max-mem", true, "最大GPU内存限制(以GB为单位)");
         maxGpuMemOption.setRequired(false);
         options.addOption(maxGpuMemOption);
 
@@ -87,10 +87,10 @@ public class Main {
             try {
                 int maxCli =  Integer.parseInt(cmd.getOptionValue(maxClientsOption.getOpt()));
                 if(maxCli < 1){
-                    throw new IllegalArgumentException("Maximum client count must be at least 1!");
+                    throw new IllegalArgumentException("客户端最大数量必须至少为1.!");
                 }
                 Settings.maxClients = maxCli;
-                Logger.info("Maximum client count set to %d".formatted(Settings.maxClients));
+                Logger.info("客户端最大数量已设置为%d.".formatted(Settings.maxClients));
             } catch(IllegalArgumentException e){
                 Logger.error(e);
                 System.exit(1);
@@ -101,17 +101,17 @@ public class Main {
             try {
                 double maxMem =  Double.parseDouble(cmd.getOptionValue(maxGpuMemOption.getOpt()));
                 if(maxMem <= 0){
-                    throw new IllegalArgumentException("Invalid maximum GPU memory amount");
+                    throw new IllegalArgumentException("无效的最大GPU内存值");
                 }
                 GQHypocs.MAX_GPU_MEM = maxMem;
-                Logger.info("Maximum GPU memory allocation will be limited to around %.2f GB".formatted(maxMem));
+                Logger.info("最大GPU内存分配将被限制在大约 %.2f GB.".formatted(maxMem));
             } catch(IllegalArgumentException e){
                 Logger.error(e);
                 System.exit(1);
             }
         }
 
-        Logger.info("Headless = %s".formatted(headless));
+        Logger.info("无头模式状态:%s".formatted(headless));
 
         try {
             startDatabaseManager();
@@ -130,7 +130,7 @@ public class Main {
 
     public static void updateProgressBar(String status, int value) {
         if(headless){
-            Logger.info("Initialising... %d%%: %s".formatted(value, status));
+            Logger.info("加载中... %d%%: %s".formatted(value, status));
         }else{
             databaseMonitorFrame.getMainProgressBar().setString(status);
             databaseMonitorFrame.getMainProgressBar().setValue(value);
@@ -141,19 +141,19 @@ public class Main {
     private static int phase = 0;
 
     public static void initAll() throws Exception{
-        updateProgressBar("Loading regions...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在加载区域...", (int) ((phase++ / PHASES) * 100.0));
         Regions.init();
 
-        updateProgressBar("Loading scale...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在加载比例尺...", (int) ((phase++ / PHASES) * 100.0));
         Scale.load();
 
-        updateProgressBar("Loading travel table...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在加载震度走时表...", (int) ((phase++ / PHASES) * 100.0));
         TauPTravelTimeCalculator.init();
 
-        updateProgressBar("Trying to load CUDA library...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在尝试加载CUDA库...", (int) ((phase++ / PHASES) * 100.0));
         GQHypocs.load();
 
-        updateProgressBar("Calibrating...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在校准...", (int) ((phase++ / PHASES) * 100.0));
         if(Settings.recalibrateOnLaunch) {
             EarthquakeAnalysisTraining.calibrateResolution(Main::updateProgressBar, null, true);
             if(GQHypocs.isCudaLoaded()) {
@@ -162,28 +162,28 @@ public class Main {
         }
 
         //start up the FDSNWS_Event Server, if enabled
-        updateProgressBar("Starting FDSNWS_Event Server...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在启动FDSNWS_Event服务器...", (int) ((phase++ / PHASES) * 100.0));
         if(Settings.autoStartFDSNWSEventServer){
             try {
                 FdsnwsEventsHTTPServer.getInstance().startServer();
             }catch (Exception e){
-                getErrorHandler().handleWarning(new RuntimeException("Unable to start FDSNWS EVENT server! Check logs for more info.", e));
+                getErrorHandler().handleWarning(new RuntimeException("无法启动FDSNWS EVENT服务器! Check logs for more info.", e));
             }
         }
 
-        updateProgressBar("Starting Discord Bot...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在启动Discord机器人...", (int) ((phase++ / PHASES) * 100.0));
         if(Settings.discordBotEnabled){
             DiscordBot.init();
         }
 
-        updateProgressBar("Updating Station Sources...", (int) ((phase++ / PHASES) * 100.0));
+        updateProgressBar("正在更新台站数据源...", (int) ((phase++ / PHASES) * 100.0));
         databaseManager.runUpdate(
                 databaseManager.getStationDatabase().getStationSources().stream()
                         .filter(StationSource::isOutdated).collect(Collectors.toList()),
                 () -> {
-                    updateProgressBar("Checking Seedlink Networks...", (int) ((phase++ / PHASES) * 100.0));
+                    updateProgressBar("正在检查Seedlink节点...", (int) ((phase++ / PHASES) * 100.0));
                     databaseManager.runAvailabilityCheck(databaseManager.getStationDatabase().getSeedlinkNetworks(), () -> {
-                        updateProgressBar("Saving...", (int) ((phase++ / PHASES) * 100.0));
+                        updateProgressBar("保存中...", (int) ((phase++ / PHASES) * 100.0));
 
                         try {
                             databaseManager.save();
@@ -195,7 +195,7 @@ public class Main {
                             databaseMonitorFrame.initDone();
                         }
 
-                        updateProgressBar("Done", (int) ((phase++ / PHASES) * 100.0));
+                        updateProgressBar("完成", (int) ((phase++ / PHASES) * 100.0));
 
                         if(headless){
                             autoStartServer();

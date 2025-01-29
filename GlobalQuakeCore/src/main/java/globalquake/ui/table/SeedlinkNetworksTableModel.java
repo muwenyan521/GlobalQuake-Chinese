@@ -7,11 +7,11 @@ import java.util.List;
 
 public class SeedlinkNetworksTableModel extends FilterableTableModel<SeedlinkNetwork>{
     private final List<Column<SeedlinkNetwork, ?>> columns = List.of(
-            Column.readonly("Name", String.class, SeedlinkNetwork::getName, new TableCellRendererAdapter<>()),
-            Column.readonly("Host", String.class, SeedlinkNetwork::getHost, new TableCellRendererAdapter<>()),
-            Column.readonly("Port", Integer.class, SeedlinkNetwork::getPort, new TableCellRendererAdapter<>()),
-            Column.readonly("Timeout (s)", Integer.class, SeedlinkNetwork::getTimeout, new TableCellRendererAdapter<>()),
-            Column.readonly("Status", JProgressBar.class, SeedlinkNetwork::getStatusBar, new ProgressBarRenderer<>()));
+            Column.readonly("名称", String.class, SeedlinkNetwork::getName, new TableCellRendererAdapter<>()),
+            Column.readonly("地址", String.class, SeedlinkNetwork::getHost, new TableCellRendererAdapter<>()),
+            Column.readonly("端口", Integer.class, SeedlinkNetwork::getPort, new TableCellRendererAdapter<>()),
+            Column.readonly("超时(秒)", Integer.class, SeedlinkNetwork::getTimeout, new TableCellRendererAdapter<>()),
+            Column.readonly("状态", JProgressBar.class, SeedlinkNetwork::getStatusBar, new ProgressBarRenderer<>()));
 
     public SeedlinkNetworksTableModel(List<SeedlinkNetwork> data) {
         super(data);

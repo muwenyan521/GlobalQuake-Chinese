@@ -44,7 +44,7 @@ public class GlobalStationManager {
         }
 
         createListOfClosestStations(stations);
-        Logger.info("已加载 " + stations.size() + " 个站点.");
+        Logger.info("已加载 " + stations.size() + " 个台站.");
     }
 
     public static void createListOfClosestStations(Collection<AbstractStation> stations){

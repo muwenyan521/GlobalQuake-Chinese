@@ -24,10 +24,10 @@ public class SeedlinkCommunicator {
 
     public static void runAvailabilityCheck(SeedlinkNetwork seedlinkNetwork, StationDatabase stationDatabase, int attempt) throws Exception {
         if(attempt > 1){
-            Logger.warn("尝试第%d/3次从%s获取可用站点".formatted(attempt, seedlinkNetwork.getName()));
+            Logger.warn("尝试第%d/3次从%s获取可用台站".formatted(attempt, seedlinkNetwork.getName()));
         }
 
-        seedlinkNetwork.setStatus(0, attempt == 1 ? "正在连接..." : "正在连接...（尝试第%d/3次）".formatted(attempt));
+        seedlinkNetwork.setStatus(0, attempt == 1 ? "正在连接..." : "正在连接...(尝试第%d/3次)".formatted(attempt));
         SeedlinkReader reader = new SeedlinkReader(seedlinkNetwork.getHost(), seedlinkNetwork.getPort(), seedlinkNetwork.getTimeout(), false, seedlinkNetwork.getTimeout());
 
         seedlinkNetwork.setStatus(33, "正在下载...");
@@ -51,7 +51,7 @@ public class SeedlinkCommunicator {
         Document doc = db.parse(new InputSource(new StringReader(infoString)));
         doc.getDocumentElement().normalize();
         NodeList nodeList = doc.getElementsByTagName("station");
-        Logger.info("在Seedlink节点 %s中发现了%d个可用站点".formatted(nodeList.getLength(), seedlinkNetwork.getName()));
+        Logger.info("在Seedlink节点 %s中发现了%d个可用台站".formatted(nodeList.getLength(), seedlinkNetwork.getName()));
         for (int itr = 0; itr < nodeList.getLength(); itr++) {
             Node node = nodeList.item(itr);
             String stationCode = node.getAttributes().getNamedItem("name").getTextContent();

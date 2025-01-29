@@ -32,9 +32,9 @@ public class PerformanceSettingsPanel extends SettingsPanel {
 
         JTextArea textAreaExplanation = new JTextArea(
                 """
-                使用所有 CPU 核心将大大加快震源定位的速度，
-                但会占用 100% 的 CPU，这可能会增加卡顿。
-                请确保在上方为您的系统选择了最佳分辨率。""");
+                使用所有 CPU 核心将大大加快震源定位的速度,
+                但会占用 100% 的 CPU,这可能会增加卡顿.
+                请确保在上方为您的系统选择了最佳分辨率.""");
         textAreaExplanation.setBorder(new EmptyBorder(5, 5, 5, 5));
         textAreaExplanation.setEditable(false);
         textAreaExplanation.setBackground(panel.getBackground());
@@ -59,7 +59,7 @@ public class PerformanceSettingsPanel extends SettingsPanel {
         JLabel label = new JLabel();
         ChangeListener changeListener = changeEvent ->
         {
-            label.setText("震源定位分辨率（CPU）：%.2f ~ %s".formatted(
+            label.setText("震源定位分辨率(CPU):%.2f ~ %s".formatted(
                     sliderResolution.getValue() / 100.0,
                     getNameForResolution(sliderResolution.getValue())));
             Settings.hypocenterDetectionResolution = (double) sliderResolution.getValue();
@@ -71,9 +71,9 @@ public class PerformanceSettingsPanel extends SettingsPanel {
 
         JPanel panel = HypocenterAnalysisSettingsPanel.createCoolLayout(sliderResolution, label, "%.2f".formatted(Settings.hypocenterDetectionResolutionDefault / 100.0),
                 """
-                通过增加震源定位分辨率，您可以提高 GlobalQuake 定位震源的准确度，
-                但这会增加 CPU 的负担。如果在地图上发生地震时出现明显的卡顿，
-                您应该降低这个值。
+                通过增加震源定位分辨率,您可以提高 GlobalQuake 定位震源的准确度,
+                但这会增加 CPU 的负担.如果在地图上发生地震时出现明显的卡顿,
+                您应该降低这个值.
                 """);
 
         JPanel panel2 = new JPanel();

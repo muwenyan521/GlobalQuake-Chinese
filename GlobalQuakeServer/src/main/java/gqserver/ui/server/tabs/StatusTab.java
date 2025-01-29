@@ -64,11 +64,11 @@ public class StatusTab extends JPanel {
         int[] summary = GlobalQuake.instance.getStationDatabaseManager().getSummary();
         seedlinksProgressBar.setMaximum(summary[3]);
         seedlinksProgressBar.setValue(summary[2]);
-        seedlinksProgressBar.setString("Seedlinks: %d / %d".formatted(summary[2], summary[3]));
+        seedlinksProgressBar.setString("节点: %d / %d".formatted(summary[2], summary[3]));
 
         stationsProgressBar.setMaximum(summary[0]);
         stationsProgressBar.setValue(summary[1]);
-        stationsProgressBar.setString("Stations: %d / %d".formatted(summary[1], summary[0]));
+        stationsProgressBar.setString("台站: %d / %d".formatted(summary[1], summary[0]));
 
     }
 
@@ -76,7 +76,7 @@ public class StatusTab extends JPanel {
         long maxMem = Runtime.getRuntime().maxMemory();
         long usedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
-        ramProgressBar.setString("RAM: %.2f / %.2f GB".formatted(usedMem / GB, maxMem / GB));
+        ramProgressBar.setString("运存: %.2f / %.2f GB".formatted(usedMem / GB, maxMem / GB));
         ramProgressBar.setValue((int) (usedMem / MB));
 
         repaint();
@@ -84,7 +84,7 @@ public class StatusTab extends JPanel {
 
     private synchronized void updateClientsProgressBar() {
         int clients = GlobalQuakeServer.instance.getServerSocket().getClientCount();
-        clientsProgressBar.setString("Clients: %d / %d".formatted(clients, Settings.maxClients));
+        clientsProgressBar.setString("客户端: %d / %d".formatted(clients, Settings.maxClients));
         clientsProgressBar.setValue(clients);
         repaint();
     }

@@ -12,10 +12,10 @@ import java.util.UUID;
 public class ClusterTableModel extends FilterableTableModel<Cluster> {
     private final List<Column<Cluster, ?>> columns = List.of(
             Column.readonly("ID", UUID.class, Cluster::getUuid, new TableCellRendererAdapter<>()),
-            Column.readonly("Assigned Events", Integer.class, cluster -> cluster.getAssignedEvents().size(), new TableCellRendererAdapter<>()),
-            Column.readonly("level", Integer.class, Cluster::getLevel, new TableCellRendererAdapter<>()),
-            Column.readonly("rootLat", Double.class, Cluster::getRootLat, new TableCellRendererAdapter<>()),
-            Column.readonly("rootLon", Double.class, Cluster::getRootLon, new TableCellRendererAdapter<>()));
+            Column.readonly("已分配事件", Integer.class, cluster -> cluster.getAssignedEvents().size(), new TableCellRendererAdapter<>()),
+            Column.readonly("等级", Integer.class, Cluster::getLevel, new TableCellRendererAdapter<>()),
+            Column.readonly("所在纬度", Double.class, Cluster::getRootLat, new TableCellRendererAdapter<>()),
+            Column.readonly("所在经度", Double.class, Cluster::getRootLon, new TableCellRendererAdapter<>()));
 
 
     public ClusterTableModel(Collection<Cluster> data) {

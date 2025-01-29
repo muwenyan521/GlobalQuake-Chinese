@@ -107,7 +107,7 @@ public class Sounds {
 				这个目录包含了从GlobalQuake导出的声音文件.
 				你可以根据个人喜好编辑这些声音文件.
 				请注意,声音文件只会导出一次,这意味着你在这里所做的任何更改都将被保留并由GlobalQuake使用.
-				上传声音后，请重新启动GlobalQuake.
+				上传声音后,请重新启动GlobalQuake.
 
 				享受自定义声音体验的乐趣!""";
 

@@ -10,7 +10,7 @@ public class LastUpdateRenderer<E> extends TableCellRendererAdapter<E, LocalDate
 	@Override
 	public String getText(E entity, LocalDateTime value) {
 		if(value == null){
-			return "Never";
+			return "从不";
 		}
 		return Settings.formatDateTime(value);
 	}

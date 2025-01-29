@@ -19,7 +19,7 @@ public class DeselectAllAction extends AbstractAction {
         this.parent = parent;
         this.stationDatabaseManager=stationDatabaseManager;
 
-        putValue(SHORT_DESCRIPTION, "Deselects All Available Stations");
+        putValue(SHORT_DESCRIPTION, "取消选择所有可用台站");
 
         ImageIcon deselectAllIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/deselectAll.png")));
         Image image = deselectAllIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -30,8 +30,8 @@ public class DeselectAllAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         int option = JOptionPane.showConfirmDialog(parent,
-                "Are you sure you want to deselect all stations?",
-                "Confirmation",
+                "您确定要取消选择所有台站吗?",
+                "确定",
                 JOptionPane.YES_NO_OPTION);
 
         if (option != JOptionPane.YES_OPTION) {

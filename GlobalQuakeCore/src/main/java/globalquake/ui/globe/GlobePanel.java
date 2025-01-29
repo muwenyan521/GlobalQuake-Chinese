@@ -82,7 +82,7 @@ public class GlobePanel extends JPanel implements GeoUtils {
                 lastMouse = e.getPoint();
                 renderer.mouseMoved(e);
                 if(cinemaMode){
-                    Logger.info("Cinema mode disabled by dragging");
+                    Logger.info("已通过拖动禁用了Cinema 自动聚焦");
                     setCinemaMode(false);
                 }
                 if (!_interactionAllowed()) {
@@ -148,7 +148,7 @@ public class GlobePanel extends JPanel implements GeoUtils {
 
         addMouseWheelListener(e -> {
             if(cinemaMode){
-                Logger.info("Cinema mode disabled by scrolling");
+                Logger.info("已通过缩放禁用了Cinema 自动聚焦");
                 setCinemaMode(false);
             }
 
@@ -237,7 +237,7 @@ public class GlobePanel extends JPanel implements GeoUtils {
                     return;
                 }
                 if(!cinemaMode){
-                    Logger.info("Animation aborted!");
+                    Logger.info("动画已终止!");
                     this.cancel();
                     latch.countDown();
                     return;

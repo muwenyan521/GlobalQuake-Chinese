@@ -42,7 +42,7 @@ public class ShindoIntensityScale implements IntensityScale{
 
 	@Override
 	public String getNameLong() {
-		return "日本震度（Shindo）等级";
+		return "日本震度(Shindo)等级";
 	}
 
 	@Override

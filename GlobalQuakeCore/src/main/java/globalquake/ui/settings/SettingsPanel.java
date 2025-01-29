@@ -20,7 +20,7 @@ public abstract class SettingsPanel extends JPanel{
 		}
 
 		if(d < min || d > max){
-			throw new RuntimeApplicationException("%s must be between %s and %s (entered %s)!".formatted(name, min, max, d));
+			throw new RuntimeApplicationException("%s 必须在 %s 和 %s 之间(输入值为 %s)!".formatted(name, min, max, d));
 		}
 
 		return d;
@@ -30,7 +30,7 @@ public abstract class SettingsPanel extends JPanel{
 		int n = Integer.parseInt(str);
 
 		if(n < min || n > max){
-			throw new RuntimeApplicationException("%s must be between %s and %s (entered %s)!".formatted(name, min, max, n));
+			throw new RuntimeApplicationException("%s 必须在 %s 和 %s 之间(输入值为 %s)!".formatted(name, min, max, n));
 		}
 
 		return n;

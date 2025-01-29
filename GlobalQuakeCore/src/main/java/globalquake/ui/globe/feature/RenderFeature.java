@@ -43,7 +43,7 @@ public abstract class RenderFeature<E> {
         }else {
             hash = getElements().hashCode();
             if(needsUpdateEntities() && !warned){
-                Logger.warn("Render Features with non-monitorable elements might not be updating correctly! %s".formatted(this));
+                Logger.warn("具有不可监控元素的渲染功能可能无法正确更新! %s".formatted(this));
                 warned = true;
             }
         }

@@ -29,7 +29,7 @@ public class LookupTableIO {
             output.writeObject(lookupTable);
             output.close();
         } catch (Exception e){
-            System.err.println("Unable to save a lookup table! " + e);
+            System.err.println("无法保存震度走时表! " + e);
             return false;
         }
 
@@ -42,7 +42,7 @@ public class LookupTableIO {
         URL resource = ClassLoader.getSystemClassLoader().getResource(path);
 
         if (resource == null) {
-            System.err.printf("Unable to load a lookup table: %s", path);
+            System.err.printf("无法加载震度走时表: %s", path);
             return null;
         }
 
@@ -51,7 +51,7 @@ public class LookupTableIO {
             ObjectInput input = new ObjectInputStream(resource.openStream());
             lookupTable = (HashMap<String, Double>) input.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new IOException("Unable to load stream of a lookup table! ", e);
+            throw new IOException("无法加载震度走时表的流! ", e);
         }
 
         return lookupTable;

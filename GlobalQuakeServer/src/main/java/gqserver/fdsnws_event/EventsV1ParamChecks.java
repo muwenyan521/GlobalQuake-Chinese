@@ -96,7 +96,7 @@ public class EventsV1ParamChecks {
         }
 
         if(disallowedDroids.contains(format)){
-            throw new HttpRequestException(400, "Invalid format. The format " + format + " are not the droids you're looking for");
+            throw new HttpRequestException(400, "格式无效.格式" + format + "不是您要找的");
         }
 
         //If we get here, the format is invalid

@@ -21,11 +21,11 @@ public class RemoveStationSourceAction extends AbstractAction {
     private JTable table;
 
     public RemoveStationSourceAction(StationDatabaseManager databaseManager, Component parent){
-        super("Remove");
+        super("删除");
         this.parent = parent;
         this.databaseManager = databaseManager;
 
-        putValue(SHORT_DESCRIPTION, "Remove Station Sources");
+        putValue(SHORT_DESCRIPTION, "删除台站数据源");
 
         ImageIcon removeIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/remove.png")));
         Image image = removeIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
@@ -37,15 +37,15 @@ public class RemoveStationSourceAction extends AbstractAction {
     public void actionPerformed(ActionEvent actionEvent) {
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length < 1) {
-            throw new IllegalStateException("Invalid selected rows count (must be > 0): " + selectedRows.length);
+            throw new IllegalStateException("无效的选中行数(必须大于0): " + selectedRows.length);
         }
         if (table.isEditing()) {
             table.getCellEditor().cancelCellEditing();
         }
 
         int option = JOptionPane.showConfirmDialog(parent,
-                "Are you sure you want to delete those items?",
-                "Confirmation",
+                "您确定要删除这些源吗?",
+                "确定",
                 JOptionPane.YES_NO_OPTION);
 
         if (option != JOptionPane.YES_OPTION) {

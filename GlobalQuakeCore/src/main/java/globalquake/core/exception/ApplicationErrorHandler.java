@@ -106,7 +106,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
         JPanel labelsPanel = new JPanel(new GridLayout(2, 1));
 
         labelsPanel.add(new JLabel("GlobalQuake内存不足!"));
-        labelsPanel.add(new JLabel("请选择较少的站点或连接到服务器."));
+        labelsPanel.add(new JLabel("请选择较少的台站或连接到服务器."));
 
         panel.add(labelsPanel, BorderLayout.NORTH);
 

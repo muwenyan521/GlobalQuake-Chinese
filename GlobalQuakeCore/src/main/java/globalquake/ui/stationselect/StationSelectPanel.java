@@ -121,7 +121,7 @@ public class StationSelectPanel extends GlobePanel {
         if(clickedStations.size() == 1){
             selectedStation = clickedStations.get(0);
         } else {
-            selectedStation = (Station) JOptionPane.showInputDialog(this, "Select station:", "Station selection",
+            selectedStation = (Station) JOptionPane.showInputDialog(this, "选择台站:", "台站选择",
                     JOptionPane.PLAIN_MESSAGE, null, clickedStations.toArray(), clickedStations.get(0));
         }
 
@@ -155,8 +155,8 @@ public class StationSelectPanel extends GlobePanel {
 
         g.setColor(Color.orange);
         g.setFont(new Font("MiSans Normal", Font.BOLD, 18));
-        String str = stationSelectFrame.getDragMode() == DragMode.SELECT ? "Drag to select region"
-                : "Drag to deselect region";
+        String str = stationSelectFrame.getDragMode() == DragMode.SELECT ? "拖动以选择区域"
+                : "拖动以取消选择区域";
         g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, getHeight() - 8);
 
         if(dragRectangle != null){

@@ -15,8 +15,8 @@ public class RegionsTest {
     public void basicRegionsTest() throws IOException {
         Regions.init();
 
-        assertEquals("Poland-Czech Republic border region", Regions.getRegion(50, 17));
-        assertEquals("Poland", Regions.getRegion(51.8, 18.3));
+        assertEquals("波兰-捷克边境地区", Regions.getRegion(50, 17));
+        assertEquals("波兰", Regions.getRegion(51.8, 18.3));
     }
 
     @SuppressWarnings("unused")

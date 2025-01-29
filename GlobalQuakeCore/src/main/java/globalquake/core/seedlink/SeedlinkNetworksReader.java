@@ -43,7 +43,7 @@ public class SeedlinkNetworksReader {
                 System.out.println(pack.getMiniSeed().getStartTime() + " - " + pack.getMiniSeed().getLastSampleTime() + " x " + pack.getMiniSeed().getEndTime() + " @ " + pack.getMiniSeed().getSampleRate());
                 System.out.println(pack.getMiniSeed().getControlHeader().getSequenceNum());
                 if (!set.add(dataRecord)) {
-                    System.out.println("错误，已包含");
+                    System.out.println("错误,已包含");
                 }
             }
 
@@ -89,7 +89,7 @@ public class SeedlinkNetworksReader {
 
                 reader.sendHello();
 
-                reconnectDelay = RECONNECT_DELAY; // 如果连接成功，则重置延迟
+                reconnectDelay = RECONNECT_DELAY; // 如果连接成功,则重置延迟
 
                 int errors = 0;
 
@@ -104,7 +104,7 @@ public class SeedlinkNetworksReader {
                             Logger.warn("无法连接到 %s %s %s %s [%s]!".formatted(station.getStationCode(), station.getNetworkCode(), station.getChannelName(), station.getLocationCode(), seedlinkNetwork.getName()));
                             errors++;
                             if (errors > seedlinkNetwork.selectedStations * 0.1) {
-                                Logger.warn("seedlink网络 %s 中错误太多，正在重置!".formatted(seedlinkNetwork.getName()));
+                                Logger.warn("seedlink网络 %s 中错误太多,正在重置!".formatted(seedlinkNetwork.getName()));
                                 throw seedlinkException;
                             }
                         }
@@ -112,7 +112,7 @@ public class SeedlinkNetworksReader {
                 }
 
                 if (seedlinkNetwork.connectedStations == 0) {
-                    Logger.info("没有站点连接到 " + seedlinkNetwork.getName());
+                    Logger.info("没有台站连接到 " + seedlinkNetwork.getName());
                     seedlinkNetwork.status = SeedlinkStatus.DISCONNECTED;
                     return;
                 }
@@ -147,7 +147,7 @@ public class SeedlinkNetworksReader {
 
             seedlinkNetwork.status = SeedlinkStatus.DISCONNECTED;
             seedlinkNetwork.connectedStations = 0;
-            Logger.warn("%s 断开连接，%d秒后重新连接...".formatted(seedlinkNetwork.getName(), reconnectDelay));
+            Logger.warn("%s 断开连接,%d秒后重新连接...".formatted(seedlinkNetwork.getName(), reconnectDelay));
 
             try {
                 Thread.sleep(reconnectDelay * 1000L);
@@ -172,7 +172,7 @@ public class SeedlinkNetworksReader {
             String station = dr.getHeader().getStationIdentifier().replaceAll(" ", "");
             var globalStation = stationCache.get("%s %s".formatted(network, station));
             if (globalStation == null) {
-                Logger.trace("Seedlink发送了数据给 %s %s，但那从未被选择过！".formatted(network, station));
+                Logger.trace("Seedlink发送了数据给 %s %s,但那从未被选择过!".formatted(network, station));
             } else {
                 globalStation.addRecord(dr);
             }

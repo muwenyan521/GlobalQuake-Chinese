@@ -65,14 +65,14 @@ public class Polygon3D {
 
     public Vector3D getBoundingBoxCorner(int index) {
         if (index < 0 || index > 7) {
-            throw new IllegalArgumentException("Index must be between 0 and 7");
+            throw new IllegalArgumentException("索引必须在0到7之间");
         }
         return bbox == null ? null : bbox[index];
     }
 
     private Vector3D getBoundingBoxTempCorner(int index) {
         if (index < 0 || index > 7) {
-            throw new IllegalArgumentException("Index must be between 0 and 7");
+            throw new IllegalArgumentException("索引必须在0到7之间");
         }
 
         double x = (index & 1) == 0 ? minPoint.getX() : maxPoint.getX();

@@ -46,7 +46,7 @@ public class StationDatabaseManager {
                 Logger.info("数据库加载成功");
             } catch (ClassNotFoundException | IOException e) {
                 GlobalQuake.getErrorHandler().handleException(
-                        new FatalIOException("无法加载站点数据库,它可能已损坏!", e));
+                        new FatalIOException("无法加载台站数据库,它可能已损坏!", e));
             }
         }
 
@@ -74,9 +74,9 @@ public class StationDatabaseManager {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(stationDatabase);
             out.close();
-            Logger.info("站点数据库成功保存");
+            Logger.info("台站数据库成功保存");
         } catch (IOException e) {
-            throw new FatalIOException("无法保存站点数据库!", e);
+            throw new FatalIOException("无法保存台站数据库!", e);
         } finally {
             stationDatabase.getDatabaseReadLock().unlock();
         }
@@ -221,7 +221,7 @@ public class StationDatabaseManager {
         try {
             SeedlinkCommunicator.runAvailabilityCheck(seedlinkNetwork, stationDatabase, attempt);
         } catch (Exception ce) {
-            Logger.warn("无法从Seedlink节点服务器获取站点数据 `%s`: %s".formatted(seedlinkNetwork.getName(), ce.getMessage()));
+            Logger.warn("无法从Seedlink节点服务器获取台站数据 `%s`: %s".formatted(seedlinkNetwork.getName(), ce.getMessage()));
             synchronized (statusSync) {
                 seedlinkNetwork.setStatus(0, "网络错误: " + ce.getMessage());
             }

@@ -12,7 +12,7 @@ public class IgnoreAction extends AbstractAction {
 
 	public IgnoreAction() {
 		super("忽略");
-		putValue(SHORT_DESCRIPTION, "忽略错误并继续（不安全）");
+		putValue(SHORT_DESCRIPTION, "忽略错误并继续(不安全)");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 

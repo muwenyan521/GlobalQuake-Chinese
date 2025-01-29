@@ -57,7 +57,7 @@ public class MMIIntensityScale implements IntensityScale{
 
 	@Override
 	public String getNameLong() {
-		return "修正麦卡利烈度表（MMI）";
+		return "修正麦卡利烈度表(MMI)";
 	}
 
 	@Override

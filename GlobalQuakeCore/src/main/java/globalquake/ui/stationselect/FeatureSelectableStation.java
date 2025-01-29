@@ -156,7 +156,7 @@ public class FeatureSelectableStation extends RenderFeature<Station> {
         g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y += 13);
 
         if(original.getSelectedChannel() != null && original.getSelectedChannel().isAvailable()) {
-            str = "Sensitivity: %6.3E".formatted(original.getSelectedChannel().getSensitivity());
+            str = "灵敏度: %6.3E".formatted(original.getSelectedChannel().getSensitivity());
             g.drawString(str, x - g.getFontMetrics().stringWidth(str) / 2, y += 13);
 
             int _y = y + 20;

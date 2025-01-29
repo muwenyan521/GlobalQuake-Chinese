@@ -12,14 +12,14 @@ import java.util.List;
 
 public class EarthquakeTableModel extends FilterableTableModel<Earthquake> {
     private final List<Column<Earthquake, ?>> columns = List.of(
-            Column.readonly("Origin", LocalDateTime.class, Earthquake::getOriginDate, new LastUpdateRenderer<>()),
-            Column.readonly("Region", String.class, Earthquake::getRegion, new TableCellRendererAdapter<>()),
-            Column.readonly("Magnitude", Double.class, Earthquake::getMag, new TableCellRendererAdapter<>()),
-            Column.readonly("Depth", Double.class, Earthquake::getDepth, new TableCellRendererAdapter<>()),
-            Column.readonly("Lat", Double.class, Earthquake::getLat, new TableCellRendererAdapter<>()),
-            Column.readonly("Lon", Double.class, Earthquake::getLon, new TableCellRendererAdapter<>()),
-            Column.readonly("Quality", QualityClass.class, earthquake -> earthquake.getHypocenter().quality.getSummary(), new TableCellRendererAdapter<>()),
-            Column.readonly("Revision", Integer.class, Earthquake::getRevisionID, new TableCellRendererAdapter<>()));
+            Column.readonly("震源", LocalDateTime.class, Earthquake::getOriginDate, new LastUpdateRenderer<>()),
+            Column.readonly("地区", String.class, Earthquake::getRegion, new TableCellRendererAdapter<>()),
+            Column.readonly("震级", Double.class, Earthquake::getMag, new TableCellRendererAdapter<>()),
+            Column.readonly("震源深度", Double.class, Earthquake::getDepth, new TableCellRendererAdapter<>()),
+            Column.readonly("纬度", Double.class, Earthquake::getLat, new TableCellRendererAdapter<>()),
+            Column.readonly("经度", Double.class, Earthquake::getLon, new TableCellRendererAdapter<>()),
+            Column.readonly("质量", QualityClass.class, earthquake -> earthquake.getHypocenter().quality.getSummary(), new TableCellRendererAdapter<>()),
+            Column.readonly("发报数", Integer.class, Earthquake::getRevisionID, new TableCellRendererAdapter<>()));
 
 
     public EarthquakeTableModel(List<Earthquake> data) {

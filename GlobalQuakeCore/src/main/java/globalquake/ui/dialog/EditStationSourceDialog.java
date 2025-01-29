@@ -21,7 +21,7 @@ public class EditStationSourceDialog extends JDialog {
         this.stationSource = stationSource;
         setLayout(new BorderLayout());
 
-        setTitle("Edit Station Source");
+        setTitle("编辑台站数据源");
         setSize(320, 180);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
@@ -33,16 +33,16 @@ public class EditStationSourceDialog extends JDialog {
 
         nameField = new JTextField(stationSource==null ? "" : stationSource.getName(), 40);
         urlField = new JTextField(stationSource==null ? "" : stationSource.getUrl(), 40);
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("保存");
         saveButton.addActionListener(e -> saveChanges());
-        JButton cancelButton = new JButton("Cancel");
+        JButton cancelButton = new JButton("取消");
         cancelButton.addActionListener(actionEvent -> EditStationSourceDialog.this.dispose());
 
         JPanel buttonsPanel = new JPanel();
 
-        fieldsPanel.add(new JLabel("Name:"));
+        fieldsPanel.add(new JLabel("名称:"));
         fieldsPanel.add(nameField);
-        fieldsPanel.add(new JLabel("URL:"));
+        fieldsPanel.add(new JLabel("网址:"));
         fieldsPanel.add(urlField);
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(saveButton);

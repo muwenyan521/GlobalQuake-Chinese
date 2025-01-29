@@ -22,7 +22,7 @@ public class GlobalQuakeRuntime {
 
     public void runThreads() {
         execAnalysis = Executors
-                .newSingleThreadScheduledExecutor(new NamedThreadFactory("站点分析线程"));
+                .newSingleThreadScheduledExecutor(new NamedThreadFactory("台站分析线程"));
         exec1Sec = Executors
                 .newSingleThreadScheduledExecutor(new NamedThreadFactory("1秒循环线程"));
         execQuake = Executors
@@ -34,7 +34,7 @@ public class GlobalQuakeRuntime {
                 GlobalQuake.instance.getStationManager().getStations().parallelStream().forEach(AbstractStation::analyse);
                 lastAnalysis = System.currentTimeMillis() - a;
             } catch (Exception e) {
-                Logger.error("站点分析中出现异常");
+                Logger.error("台站分析中出现异常");
                 GlobalQuake.getErrorHandler().handleException(e);
             }
         }, 0, 100, TimeUnit.MILLISECONDS);

@@ -90,7 +90,7 @@ public class Regions {
             System.out.println("生成耗时:" + (System.currentTimeMillis() - start)/1000 + "秒");
 
             if (exportResult) {
-                System.out.println("查找表成功生成!正在加载 " + shorelineLookup.size() + " 项。");
+                System.out.println("查找表成功生成!正在加载 " + shorelineLookup.size() + " 项.");
                 shorelineLookup = LookupTableIO.importLookupTableFromFile();
             } else {
                 System.err.println("导出查找表失败!");

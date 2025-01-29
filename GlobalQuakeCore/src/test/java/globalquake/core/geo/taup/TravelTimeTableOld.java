@@ -618,7 +618,7 @@ public class TravelTimeTableOld {
 			}
 		}
 
-		Logger.debug("[TravelTimeTable] found " + errors + " errors.");
+		Logger.debug("[TravelTimeTable] 发现了 " + errors + " 个错误.");
 	}
 
 	@SuppressWarnings("unused")

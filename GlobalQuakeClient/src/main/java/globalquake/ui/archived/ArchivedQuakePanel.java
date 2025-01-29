@@ -124,7 +124,7 @@ public class ArchivedQuakePanel extends GlobePanel {
         g.drawString("%s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin()))), 5, y+=15);
         g.drawString("%.4f %.4f".formatted(quake.getLat(), quake.getLon()), 5, y+=15);
         g.drawString("震源深度: %s".formatted(Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1)), 5, y+=15);
-        g.drawString("%d 个站点".formatted(quake.getAssignedStations()), 5, y+=15);
+        g.drawString("%d 个台站".formatted(quake.getAssignedStations()), 5, y+=15);
 
         g.setFont(new Font("MiSans Normal", Font.BOLD, 18));
         g.setColor(Color.orange);
