@@ -48,8 +48,7 @@ public class StationSelectFrame extends GQFrame implements ActionListener {
         gbc.ipady = 30;
 
         togglePanel.add(toggleButton, gbc);
-切换工具栏
-        toggleButton.setToolTipText("Toggle Toolbar");
+        toggleButton.setToolTipText("切换工具栏");
         toggleButton.setBackground(Color.GRAY);
 
         JPanel centerPanel = new JPanel(new GridBagLayout());

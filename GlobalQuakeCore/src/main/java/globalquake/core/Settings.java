@@ -236,7 +236,7 @@ public final class Settings {
         loadProperty("maxClients", "64",
                 o -> validateInt(2, 10000, (Integer) o));
 
-        loadProperty("lastServerIP", "0.0.0.0");
+        loadProperty("lastServerIP", "server.globalquake.net");
         loadProperty("lastServerPORT", "38000");
 
         loadProperty("FDSNWSEventIP", "localhost"); //As a default, localhost is used for security.
