@@ -280,8 +280,8 @@ public final class Settings {
 
         loadProperty("logsStoreTimeMinutes", "5", o -> validateInt(1, 60, (Integer) o));
 
-        loadProperty("cinemaModeOnStartup", "true");
-        loadProperty("cinemaModeReenable", "true");
+        loadProperty("cinemaModeOnStartup", "false");
+        loadProperty("cinemaModeReenable", "false");
         loadProperty("cinemaModeSwitchTime", "10", o -> validateInt(1, 60 * 60, (Integer) o));
         loadProperty("cinemaModeZoomMultiplier", "100", o -> validateInt(1, 1000, (Integer) o));
 

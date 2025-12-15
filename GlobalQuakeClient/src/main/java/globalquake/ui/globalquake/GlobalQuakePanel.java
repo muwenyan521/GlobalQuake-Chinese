@@ -223,6 +223,9 @@ public class GlobalQuakePanel extends GlobePanel {
         } else if (bufferImage != null) {
             // 缓冲区已更新，直接绘制到屏幕
             gr.drawImage(bufferImage, 0, 0, null);
+            
+            // 更新FPS计数
+            PerformanceOptimizer.updateFPS();
         } else {
             // 回退到直接绘制
             paintDirectly(gr);
@@ -771,7 +774,7 @@ public class GlobalQuakePanel extends GlobePanel {
         double pctUsed = usedMem / (double) maxMem;
 
         settingsStrings.add(new SettingInfo("运存: ", "%.2f / %.2fGB".formatted(usedMem / GB, maxMem / GB), getColorPCT(pctUsed)));
-        settingsStrings.add(new SettingInfo("FPS: ", "%d".formatted(getLastFPS()), getColorFPS(getLastFPS())));
+        settingsStrings.add(new SettingInfo("FPS: ", "%d".formatted(PerformanceOptimizer.getCurrentFPS()), getColorFPS(PerformanceOptimizer.getCurrentFPS())));
         return settingsStrings;
     }
 
