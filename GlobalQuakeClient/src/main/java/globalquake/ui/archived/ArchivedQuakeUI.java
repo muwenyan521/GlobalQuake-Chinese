@@ -2,6 +2,7 @@ package globalquake.ui.archived;
 
 import globalquake.core.Settings;
 import globalquake.core.archive.ArchivedQuake;
+import globalquake.ui.FontManager;
 
 import javax.swing.*;
 import java.awt.*;

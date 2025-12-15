@@ -17,6 +17,7 @@ import globalquake.ui.globe.RenderProperties;
 import globalquake.ui.globe.feature.RenderElement;
 import globalquake.ui.globe.feature.RenderEntity;
 import globalquake.ui.globe.feature.RenderFeature;
+import globalquake.ui.FontManager;
 import globalquake.utils.monitorable.MonitorableCopyOnWriteArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 

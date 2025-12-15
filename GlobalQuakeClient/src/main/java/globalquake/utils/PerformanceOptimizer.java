@@ -1,6 +1,7 @@
 package globalquake.utils;
 
 import org.tinylog.Logger;
+import javax.swing.*;
 import java.awt.*;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;

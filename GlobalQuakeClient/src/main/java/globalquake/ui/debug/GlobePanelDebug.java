@@ -4,6 +4,7 @@ import globalquake.core.GlobalQuake;
 import globalquake.core.archive.ArchivedQuake;
 import globalquake.core.earthquake.quality.QualityClass;
 import globalquake.main.Main;
+import globalquake.ui.FontManager;
 import globalquake.ui.globalquake.feature.FeatureCities;
 import globalquake.utils.GeoUtils;
 import globalquake.core.geo.taup.TauPTravelTimeCalculator;

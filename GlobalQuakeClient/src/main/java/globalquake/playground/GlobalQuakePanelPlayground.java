@@ -9,6 +9,7 @@ import globalquake.core.earthquake.interval.DepthConfidenceInterval;
 import globalquake.core.earthquake.interval.PolygonConfidenceInterval;
 import globalquake.core.events.specific.QuakeRemoveEvent;
 import globalquake.core.station.AbstractStation;
+import globalquake.ui.FontManager;
 import globalquake.ui.globalquake.GlobalQuakePanel;
 import gqserver.api.packets.station.InputType;
 

@@ -68,6 +68,7 @@ public class CSVReaderUtil {
      * 测试文件编码
      */
     public static String detectEncoding(String resourcePath) {
+        // 先检查BOM
         try (InputStream inputStream = Objects.requireNonNull(
                 ClassLoader.getSystemClassLoader().getResource(resourcePath)
             ).openStream()) {
@@ -83,35 +84,33 @@ public class CSVReaderUtil {
             } else if (bytesRead >= 2 && bom[0] == (byte)0xFF && bom[1] == (byte)0xFE) {
                 return "UTF-16LE";
             }
-            
-            // 尝试用常见编码读取第一行
-            String[] commonEncodings = {"GBK", "UTF-8", "ISO-8859-1", "Windows-1252"};
-            
-            for (String encoding : commonEncodings) {
-                try {
-                    inputStream.close();
-                    inputStream = Objects.requireNonNull(
-                        ClassLoader.getSystemClassLoader().getResource(resourcePath)
-                    ).openStream();
-                    
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, encoding));
-                    String line = reader.readLine();
-                    if (line != null && !line.trim().isEmpty()) {
-                        // 简单检查是否包含中文字符特征
-                        if (encoding.equals("GBK") || containsChinese(line)) {
-                            return encoding;
-                        }
-                    }
-                } catch (Exception e) {
-                    // 继续尝试下一个编码
-                }
-            }
-            
-            return "Unknown";
         } catch (IOException e) {
-            Logger.error("检测编码失败: " + resourcePath, e);
+            Logger.error("检测编码失败（BOM检查）: " + resourcePath, e);
             return "Error";
         }
+        
+        // 尝试用常见编码读取第一行
+        String[] commonEncodings = {"GBK", "UTF-8", "ISO-8859-1", "Windows-1252"};
+        
+        for (String encoding : commonEncodings) {
+            try (InputStream inputStream = Objects.requireNonNull(
+                    ClassLoader.getSystemClassLoader().getResource(resourcePath)
+                ).openStream()) {
+                
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, encoding));
+                String line = reader.readLine();
+                if (line != null && !line.trim().isEmpty()) {
+                    // 简单检查是否包含中文字符特征
+                    if (encoding.equals("GBK") || containsChinese(line)) {
+                        return encoding;
+                    }
+                }
+            } catch (Exception e) {
+                // 继续尝试下一个编码
+            }
+        }
+        
+        return "Unknown";
     }
     
     private static boolean containsChinese(String str) {

@@ -14,6 +14,7 @@ import globalquake.client.GlobalQuakeLocal;
 import globalquake.main.Main;
 import globalquake.playground.GlobalQuakePlayground;
 import globalquake.sounds.Sounds;
+import globalquake.ui.FontManager;
 import globalquake.ui.GQFrame;
 import globalquake.ui.database.DatabaseMonitorFrame;
 import globalquake.ui.settings.SettingsFrame;

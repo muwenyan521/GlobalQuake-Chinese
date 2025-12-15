@@ -2,6 +2,7 @@ package globalquake.ui.globalquake;
 
 import globalquake.core.GlobalQuake;
 import globalquake.main.Main;
+import globalquake.ui.FontManager;
 import globalquake.ui.GQFrame;
 import globalquake.ui.action.OpenURLAction;
 import globalquake.core.Settings;

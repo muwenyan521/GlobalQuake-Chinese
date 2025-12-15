@@ -15,6 +15,7 @@ import globalquake.ui.globe.feature.RenderFeature;
 import globalquake.core.Settings;
 import globalquake.ui.settings.StationsShape;
 import globalquake.ui.stationselect.FeatureSelectableStation;
+import globalquake.ui.FontManager;
 import globalquake.utils.Scale;
 import gqserver.api.packets.station.InputType;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
