@@ -117,7 +117,7 @@ public class ArchivedQuakePanel extends GlobePanel {
 
         Graphics2D g =(Graphics2D) gr;
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
+        g.setFont(FontManager.getBoldFont(14f));
 
         int y = 0;
         g.drawString("M%.1f %s".formatted(quake.getMag(), quake.getRegion()), 5, y+=15);
@@ -126,7 +126,7 @@ public class ArchivedQuakePanel extends GlobePanel {
         g.drawString("震源深度: %s".formatted(Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1)), 5, y+=15);
         g.drawString("%d 个台站".formatted(quake.getAssignedStations()), 5, y+=15);
 
-        g.setFont(new Font("MiSans Normal", Font.BOLD, 18));
+        g.setFont(FontManager.getBoldFont(18f));
         g.setColor(Color.orange);
         String str = "%s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(animation.getCurrentTime())));
         g.drawString(str, getWidth() - g.getFontMetrics().stringWidth(str) - 3, getHeight() - 4);

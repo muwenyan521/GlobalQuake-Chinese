@@ -106,7 +106,7 @@ public class FeatureArchivedEarthquake extends RenderFeature<ArchivedQuake> {
     }
 
     private void drawDetails(Graphics2D graphics, Point2D centerPonint, ArchivedQuake quake) {
-        graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
+        graphics.setFont(FontManager.getDefaultFont(13f));
 
         double size = 3 + Math.pow(quake.getMag(), 2) * 0.6;
 

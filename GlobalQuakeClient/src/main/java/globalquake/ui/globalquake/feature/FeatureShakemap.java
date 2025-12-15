@@ -171,7 +171,7 @@ public class FeatureShakemap extends RenderFeature<IntensityHex> {
             var centerPonint = renderer.projectPoint(point3D, renderProperties);
 
             graphics.setColor(Color.white);
-            graphics.setFont(new Font("MiSans Normal", Font.BOLD, 16));
+            graphics.setFont(FontManager.getBoldFont(16f));
             graphics.drawString(level.getFullName(),
                     (int)centerPonint.x - graphics.getFontMetrics().stringWidth(level.getName()) / 2,
                     (int)centerPonint.y + graphics.getFont().getSize() / 2);

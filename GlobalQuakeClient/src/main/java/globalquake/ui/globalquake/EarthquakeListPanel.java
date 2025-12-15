@@ -159,7 +159,7 @@ public class EarthquakeListPanel extends JPanel {
                 }
 
                 String str = "M" + f1d.format(quake.getMag());
-                g.setFont(new Font("MiSans Normal", Font.BOLD, 20));
+                g.setFont(FontManager.getBoldFont(20f));
                 g.setColor(Color.WHITE);
                 g.drawString(str, getWidth() - g.getFontMetrics().stringWidth(str) - 3, y + 44);
 
@@ -171,35 +171,35 @@ public class EarthquakeListPanel extends JPanel {
 
                 if (level != null) {
                     g.setColor(Color.white);
-                    g.setFont(new Font("MiSans Normal", Font.PLAIN, 20));
+                    g.setFont(FontManager.getDefaultFont(20f));
                     g.drawString(level.getSuffix(), 32, y + 21);
 
                 }
 
-                g.setFont(new Font("MiSans Normal", Font.PLAIN, 26));
+                g.setFont(FontManager.getDefaultFont(26f));
                 g.setColor(Color.white);
                 g.drawString(str, 27 - g.getFontMetrics().stringWidth(str) / 2, y + 30);
 
                 str = Settings.getSelectedDistanceUnit().format(quake.getDepth(), 0);
-                g.setFont(new Font("MiSans Normal", Font.BOLD, 12));
+                g.setFont(FontManager.getBoldFont(12f));
                 g.setColor(Color.white);
                 g.drawString(str, (int) (25 - g.getFontMetrics().stringWidth(str) * 0.5), y + 46);
 
                 str = quake.getRegion();
-                g.setFont(new Font("MiSans Normal", Font.BOLD, 12));
+                g.setFont(FontManager.getBoldFont(12f));
                 g.setColor(Color.white);
                 g.drawString(str, 52, y + 18);
 
                 str = Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin()));
-                g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+                g.setFont(FontManager.getDefaultFont(16f));
                 g.setColor(Color.white);
                 g.drawString(str, 52, y + 42);
 
                 QualityClass quality = quake.getQualityClass();
-                g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
+                g.setFont(FontManager.getBoldFont(14f));
                 GlobalQuakePanel.drawAccuracyBox(g, true, "", getWidth() + 4, y + 17, quality.toString(), quality.getColor());
 
-                g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+                g.setFont(FontManager.getDefaultFont(16f));
                 if (quake.isWrong()) {
                     g.setColor(new Color(200, 0, 0));
                     g.setStroke(new BasicStroke(2f));
@@ -215,7 +215,7 @@ public class EarthquakeListPanel extends JPanel {
         g.setStroke(new BasicStroke(1f));
 
         if(i == 0){
-            g.setFont(new Font("MiSans Normal", Font.BOLD, 16));
+            g.setFont(FontManager.getBoldFont(16f));
             g.setColor(Color.white);
             String str = "没有存档的地震";
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, 22);
@@ -231,7 +231,7 @@ public class EarthquakeListPanel extends JPanel {
 
             g.setColor(Color.white);
             g.draw(goUpRectangle);
-            g.setFont(new Font("MiSans Normal", !isMouseInGoUpRect ? Font.PLAIN : Font.BOLD, 32));
+            g.setFont(!isMouseInGoUpRect ? FontManager.getDefaultFont(32f) : FontManager.getBoldFont(32f));
             String str = "^";
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, 30);
         }

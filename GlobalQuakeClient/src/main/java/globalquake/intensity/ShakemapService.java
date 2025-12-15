@@ -1,7 +1,6 @@
 package globalquake.intensity;
 
 import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import globalquake.core.GlobalQuake;
 import globalquake.core.Settings;
@@ -17,11 +16,11 @@ import globalquake.core.intensity.IntensityScales;
 import globalquake.events.specific.ShakeMapsUpdatedEvent;
 import globalquake.client.GlobalQuakeLocal;
 import globalquake.core.intensity.CityLocation;
+import globalquake.utils.CSVReaderUtil;
 import globalquake.utils.GeoUtils;
 import org.tinylog.Logger;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +42,7 @@ public class ShakemapService {
 
     private static void load() {
         int errors = 0;
-        try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("cities/worldcities.csv")).openStream())).withSkipLines(1).build()) {
+        try (CSVReader reader = CSVReaderUtil.createCSVReader("cities/worldcities.csv")) {
             String[] fields;
             while ((fields = reader.readNext()) != null) {
                 String cityName = fields[1];

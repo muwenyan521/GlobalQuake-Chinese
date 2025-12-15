@@ -160,7 +160,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
 
         graphics.setStroke(new BasicStroke(1f));
 
-        graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
+        graphics.setFont(FontManager.getDefaultFont(13f));
 
         Vector3D point3D = null;
         Point2D centerPoint = null;
@@ -244,7 +244,7 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
         if (scroll < Settings.stationIntensityVisibilityZoomLevel || (mouseNearby && scroll < 1)) {
             g.setColor(Color.white);
             String str = !station.hasDisplayableData() ? "-.-" : "%.1f".formatted(station.getMaxRatio60S());
-            g.setFont(new Font("MiSans Normal", Font.PLAIN, 13));
+            g.setFont(FontManager.getDefaultFont(13f));
             g.setColor(station.getAnalysis().getStatus() == AnalysisStatus.EVENT ? Color.green : Color.LIGHT_GRAY);
             if(centerPoint == null) {
                 var point3D = GlobeRenderer.createVec3D(getCenterCoords(entity));

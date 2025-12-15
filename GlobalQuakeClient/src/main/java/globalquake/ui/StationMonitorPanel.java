@@ -46,7 +46,7 @@ public class StationMonitorPanel extends JPanel {
 		g.fillRect(0, 0, w, h);
 
 		g.setColor(Color.black);
-		g.setFont(new Font("MiSans Normal", Font.BOLD, 14));
+		g.setFont(FontManager.getBoldFont(14f));
 		g.drawString("原始数据", 4, 14);
 		g.drawString("带通滤波 %sHz - %sHz".formatted(BetterAnalysis.minFreqDefault, BetterAnalysis.maxFreqDefault), 4, (int) (h * HEIGHT_1 + 14));
 		g.drawString("STA/LTA 比率", 4, (int) (h * HEIGHT_2 + 14));

@@ -55,7 +55,7 @@ public class ArchivedQuakeUI extends JDialog {
         getContentPane().add(panel2, BorderLayout.SOUTH);
 
         for(Component component: panel.getComponents()){
-            component.setFont(new Font("MiSans Normal", Font.PLAIN, 18));
+            component.setFont(FontManager.getDefaultFont(18f));
         }
 
         addKeyListener(new KeyAdapter() {

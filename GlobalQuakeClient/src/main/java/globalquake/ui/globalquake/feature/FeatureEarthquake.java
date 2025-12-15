@@ -205,7 +205,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
 
             if (isUncertain && (System.currentTimeMillis() / 500) % 2 == 0) {
                 graphics.setColor(Color.WHITE);
-                graphics.setFont(new Font("MiSans Normal", Font.BOLD, 32));
+                graphics.setFont(FontManager.getBoldFont(32f));
                 String str = "?";
                 graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2), (int) (centerPonint.y + 10));
             }
@@ -215,7 +215,7 @@ public class FeatureEarthquake extends RenderFeature<Earthquake> {
             String str = "M%.1f%s".formatted(entity.getOriginal().getMag(), sim);
 
             graphics.setColor(Color.WHITE);
-            graphics.setFont(new Font("MiSans Normal", Font.BOLD, 16));
+            graphics.setFont(FontManager.getBoldFont(16f));
             graphics.drawString(str, (int) (centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2), (int) (centerPonint.y - 18));
 
             str = "%s".formatted(

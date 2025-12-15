@@ -5,6 +5,7 @@ import globalquake.core.earthquake.GQHypocs;
 import globalquake.core.exception.ApplicationErrorHandler;
 import globalquake.core.exception.FatalIOException;
 import globalquake.ui.client.MainFrame;
+import globalquake.utils.PerformanceOptimizer;
 import org.apache.commons.cli.*;
 import org.tinylog.Logger;
 
@@ -22,6 +23,9 @@ public class Main {
     public static final Image LOGO = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("logo/logo.png"))).getImage();
 
     public static void main(String[] args) {
+        // 初始化性能优化
+        PerformanceOptimizer.initialize();
+        
         initErrorHandler();
         initMainDirectory();
         GlobalQuake.prepare(MAIN_FOLDER, getErrorHandler());
@@ -61,6 +65,9 @@ public class Main {
 
         MainFrame mainFrame = new MainFrame();
         mainFrame.setVisible(true);
+        
+        // 添加关闭钩子以清理性能优化资源
+        Runtime.getRuntime().addShutdownHook(new Thread(PerformanceOptimizer::cleanup));
     }
 
     private static void initMainDirectory() {

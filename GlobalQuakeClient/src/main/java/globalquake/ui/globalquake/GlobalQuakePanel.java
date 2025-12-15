@@ -27,10 +27,12 @@ import globalquake.core.intensity.Level;
 import globalquake.intensity.ShakeMap;
 import globalquake.sounds.Sounds;
 import globalquake.ui.StationMonitor;
+import globalquake.ui.FontManager;
 import globalquake.ui.globalquake.feature.*;
 import globalquake.ui.globe.GlobePanel;
 import globalquake.ui.globe.feature.RenderEntity;
 import globalquake.core.Settings;
+import globalquake.utils.PerformanceOptimizer;
 import globalquake.utils.Scale;
 import org.apache.commons.lang3.StringUtils;
 import org.tinylog.Logger;
@@ -53,6 +55,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class GlobalQuakePanel extends GlobePanel {
+    
+    // 双缓冲相关变量
+    private Image bufferImage;
+    private Graphics2D bufferGraphics;
+    private boolean bufferNeedsUpdate = true;
+    
+    // 脏矩形优化
+    private Rectangle dirtyRegion = null;
+    private boolean fullRepaintRequested = true;
 
     private static final Color BLUE_COLOR = new Color(20, 20, 160);
 
@@ -149,8 +160,135 @@ public class GlobalQuakePanel extends GlobePanel {
 
     @Override
     public void paint(Graphics gr) {
+        // 检查是否需要完全重绘
+        if (needsFullRepaint()) {
+            // 创建或重新创建缓冲区
+            if (bufferImage != null) {
+                bufferImage.flush();
+                bufferImage = null;
+            }
+            
+            bufferImage = createImage(getWidth(), getHeight());
+            if (bufferImage == null) {
+                // 如果创建图像失败，回退到直接绘制
+                paintDirectly(gr);
+                return;
+            }
+            
+            bufferGraphics = (Graphics2D) bufferImage.getGraphics();
+            
+            // 绘制整个缓冲区
+            paintToBuffer(bufferGraphics);
+            
+            bufferNeedsUpdate = false;
+            clearDirtyRegion();
+            
+            // 绘制整个缓冲区到屏幕
+            gr.drawImage(bufferImage, 0, 0, null);
+        } else if (bufferNeedsUpdate && dirtyRegion != null) {
+            // 只更新脏区域
+            if (bufferImage == null || bufferGraphics == null) {
+                // 缓冲区不存在，需要完全重绘
+                paint(gr);
+                return;
+            }
+            
+            // 保存原始剪辑区域
+            Shape originalClip = bufferGraphics.getClip();
+            
+            // 设置剪辑区域为脏区域
+            bufferGraphics.setClip(dirtyRegion);
+            
+            // 清除脏区域（用背景色填充）
+            bufferGraphics.setColor(getBackground());
+            bufferGraphics.fillRect(dirtyRegion.x, dirtyRegion.y, 
+                                   dirtyRegion.width, dirtyRegion.height);
+            
+            // 重新绘制脏区域
+            paintRegionToBuffer(bufferGraphics, dirtyRegion);
+            
+            // 恢复原始剪辑区域
+            bufferGraphics.setClip(originalClip);
+            
+            // 只绘制脏区域到屏幕
+            gr.drawImage(bufferImage, dirtyRegion.x, dirtyRegion.y, 
+                        dirtyRegion.x + dirtyRegion.width, 
+                        dirtyRegion.y + dirtyRegion.height,
+                        dirtyRegion.x, dirtyRegion.y,
+                        dirtyRegion.x + dirtyRegion.width,
+                        dirtyRegion.y + dirtyRegion.height, null);
+            
+            bufferNeedsUpdate = false;
+            clearDirtyRegion();
+        } else if (bufferImage != null) {
+            // 缓冲区已更新，直接绘制到屏幕
+            gr.drawImage(bufferImage, 0, 0, null);
+        } else {
+            // 回退到直接绘制
+            paintDirectly(gr);
+        }
+    }
+    
+    /**
+     * 绘制指定区域到缓冲区
+     */
+    private void paintRegionToBuffer(Graphics2D g, Rectangle region) {
+        // 应用性能优化的渲染提示
+        PerformanceOptimizer.configureRenderingHints(g);
+        
+        // 更新FPS计数
+        PerformanceOptimizer.updateFPS();
+        
+        // 绘制背景（如果需要）
+        g.setColor(getBackground());
+        g.fillRect(region.x, region.y, region.width, region.height);
+        
+        // 调用父类的区域绘制逻辑
+        // 注意：这里需要根据实际需要调整，可能需要重写父类的绘制逻辑
+        // 暂时使用完全重绘，但只绘制到指定区域
+        super.paint(g);
+        
+        // 绘制其他组件
+        try {
+            // 检查并绘制地震信息框（如果与区域重叠）
+            if (region.intersects(new Rectangle(0, 0, 400, 135))) {
+                drawEarthquakesBox(g, 0, 0);
+            }
+        } catch (Exception e) {
+            Logger.error(e);
+        }
+
+        drawTexts(g);
+
+        if (Settings.displayAlertBox) {
+            try {
+                drawAlertsBox(g);
+            } catch (Exception e) {
+                Logger.error(e);
+            }
+        }
+
+        if (Settings.displayCityIntensities) {
+            try {
+                drawCityIntensities(g);
+            } catch (Exception e) {
+                Logger.error(e);
+            }
+        }
+    }
+    
+    /**
+     * 直接绘制到Graphics对象（无缓冲）
+     */
+    private void paintDirectly(Graphics gr) {
         super.paint(gr);
         Graphics2D g = (Graphics2D) gr;
+        
+        // 应用性能优化的渲染提示
+        PerformanceOptimizer.configureRenderingHints(g);
+        
+        // 更新FPS计数
+        PerformanceOptimizer.updateFPS();
 
         try {
             drawEarthquakesBox(g, 0, 0);
@@ -176,6 +314,121 @@ public class GlobalQuakePanel extends GlobePanel {
             }
         }
     }
+    
+    /**
+     * 绘制到缓冲区
+     */
+    private void paintToBuffer(Graphics2D g) {
+        super.paint(g);
+        
+        // 应用性能优化的渲染提示
+        PerformanceOptimizer.configureRenderingHints(g);
+        
+        // 更新FPS计数
+        PerformanceOptimizer.updateFPS();
+
+        try {
+            drawEarthquakesBox(g, 0, 0);
+        } catch (Exception e) {
+            Logger.error(e);
+        }
+
+        drawTexts(g);
+
+        if (Settings.displayAlertBox) {
+            try {
+                drawAlertsBox(g);
+            } catch (Exception e) {
+                Logger.error(e);
+            }
+        }
+
+        if (Settings.displayCityIntensities) {
+            try {
+                drawCityIntensities(g);
+            } catch (Exception e) {
+                Logger.error(e);
+            }
+        }
+    }
+    
+    @Override
+    public void repaint() {
+        fullRepaintRequested = true;
+        super.repaint();
+    }
+    
+    @Override
+    public void repaint(int x, int y, int width, int height) {
+        markRegionDirty(x, y, width, height);
+        super.repaint(x, y, width, height);
+    }
+    
+    /**
+     * 清理缓冲区资源
+     */
+    public void cleanupBuffer() {
+        if (bufferGraphics != null) {
+            bufferGraphics.dispose();
+            bufferGraphics = null;
+        }
+        if (bufferImage != null) {
+            bufferImage.flush();
+            bufferImage = null;
+        }
+        bufferNeedsUpdate = true;
+        fullRepaintRequested = true;
+        dirtyRegion = null;
+    }
+    
+    @Override
+    public void finalize() throws Throwable {
+        try {
+            cleanupBuffer();
+        } finally {
+            super.finalize();
+        }
+    }
+    
+    /**
+     * 标记缓冲区需要更新
+     */
+    public void markBufferDirty() {
+        bufferNeedsUpdate = true;
+        fullRepaintRequested = true;
+        repaint();
+    }
+    
+    /**
+     * 标记特定区域为脏区域（需要重绘）
+     */
+    public void markRegionDirty(int x, int y, int width, int height) {
+        if (dirtyRegion == null) {
+            dirtyRegion = new Rectangle(x, y, width, height);
+        } else {
+            dirtyRegion.add(new Rectangle(x, y, width, height));
+        }
+        bufferNeedsUpdate = true;
+        repaint(x, y, width, height);
+    }
+    
+    /**
+     * 清除脏区域
+     */
+    private void clearDirtyRegion() {
+        dirtyRegion = null;
+        fullRepaintRequested = false;
+    }
+    
+    /**
+     * 检查是否需要完全重绘
+     */
+    private boolean needsFullRepaint() {
+        return fullRepaintRequested || 
+               bufferImage == null || 
+               bufferImage.getWidth(null) != getWidth() || 
+               bufferImage.getHeight(null) != getHeight();
+    }
 
     public static String formatNumber(double number) {
         if (number < 1_000_0) {
@@ -188,7 +441,7 @@ public class GlobalQuakePanel extends GlobePanel {
     }
 
     private void drawCityIntensities(Graphics2D g) {
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+        g.setFont(FontManager.getCityIntensityFont());
 
         int cellHeight = (int) (g.getFont().getSize() * 1.2);
 
@@ -343,11 +596,11 @@ public class GlobalQuakePanel extends GlobePanel {
 
         String str;
 
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+        g.setFont(FontManager.getAlertBoxFont());
 
         height = 136;
         color = new Color(0, 90, 192);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 22));
+        g.setFont(FontManager.getAlertBoxTitleFont());
         str = distGC <= 200 ? "检测到附近地震!" : "检测到地震!";
 
         if (maxPGA >= IntensityScales.INTENSITY_SCALES[Settings.shakingLevelScale].getLevels().get(Settings.shakingLevelIndex).getPga()) {
@@ -376,14 +629,14 @@ public class GlobalQuakePanel extends GlobePanel {
         Level level = IntensityScales.getIntensityScale().getLevel(maxPGA);
 
         drawIntensityBox(g, level, x + 4, y + 30, height - 34);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+        g.setFont(FontManager.getDefaultFont(16f));
         drawAccuracyBox(g, true, "", x + width + 2, y + 46, "%s".formatted(quake.magnitudeFormatted()), Scale.getColorEasily(quake.getMag() / 8.0));
 
         int intW = getIntensityBoxWidth(g);
         int _x = x + intW + 8;
 
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 17));
+        g.setFont(FontManager.getDefaultFont(17f));
 
         str = "距离: %s".formatted(Settings.getSelectedDistanceUnit().format(distGC, 1));
         g.drawString(str, _x, y + 48);
@@ -409,13 +662,13 @@ public class GlobalQuakePanel extends GlobePanel {
         g.draw(path);
 
         g.setColor(isDark(color) ? Color.white : Color.black);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 36));
+        g.setFont(FontManager.getDefaultFont(36f));
         g.drawString("!", x + width - s / 2 - g.getFontMetrics().stringWidth("!") / 2 - 6, y + height - 16);
     }
 
 
     private void drawTexts(Graphics2D g) {
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 24));
+        g.setFont(FontManager.getDefaultFont(24f));
         g.setColor(Color.gray);
 
         if (Settings.displayTime) {
@@ -452,7 +705,7 @@ public class GlobalQuakePanel extends GlobePanel {
         List<SettingInfo> settingsStrings = createSettingInfos();
 
         int _y = getHeight() - 6;
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 14));
+        g.setFont(FontManager.getDefaultFont(14f));
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         for (SettingInfo settingInfo : settingsStrings) {
@@ -546,7 +799,7 @@ public class GlobalQuakePanel extends GlobePanel {
         List<Earthquake> quakes = GlobalQuake.instance.getEarthquakeAnalysis().getEarthquakes();
         int displayedQuake = quakes.isEmpty() ? -1 : (int) ((System.currentTimeMillis() / 5000) % (quakes.size()));
 
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 20));
+        g.setFont(FontManager.getDefaultFont(20f));
         g.setStroke(new BasicStroke(1f));
         String string = "当前没有检测到地震";
 
@@ -578,8 +831,8 @@ public class GlobalQuakePanel extends GlobePanel {
         Level level = shakeMap == null ? null : IntensityScales.getIntensityScale().getLevel(shakeMap.getMaxPGA());
         Color levelColor = level == null ? Color.gray : level.getColor();
 
-        Font regionFont = new Font("MiSans Normal", Font.PLAIN, 18);
-        Font quakeFont = new Font("MiSans Normal", Font.PLAIN, 18);
+        Font regionFont = FontManager.getDefaultFont(18f);
+        Font quakeFont = FontManager.getDefaultFont(18f);
 
         String quakeString = null;
 
@@ -616,7 +869,7 @@ public class GlobalQuakePanel extends GlobePanel {
             if (cluster != null) {
                 Hypocenter hypocenter = cluster.getPreviousHypocenter();
                 if (hypocenter != null) {
-                    g.setFont(new Font("MiSans Normal", Font.PLAIN, 18));
+                    g.setFont(FontManager.getDefaultFont(18f));
                     String str;
 
                     if (quakes.size() > 1) {
@@ -648,7 +901,7 @@ public class GlobalQuakePanel extends GlobePanel {
                     g.drawString("%s%s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin())), sim), x + xOffset + 3, y + 66);
 
                     g.setColor(Color.white);
-                    g.setFont(new Font("MiSans Normal", Font.PLAIN, 16));
+                    g.setFont(FontManager.getDefaultFont(16f));
                     g.drawString("纬度: " + f4d.format(quake.getLat()) + " 经度: " + f4d.format(quake.getLon()), x + xOffset + 3, y + 85);
                     g.drawString("震源深度: %s %s".formatted(
                                     Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1),
@@ -694,7 +947,7 @@ public class GlobalQuakePanel extends GlobePanel {
         g.fillRect(x + 2, y + 2, width - 4, height - 4);
 
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 14));
+        g.setFont(FontManager.getDefaultFont(14f));
 
         String str = "测站: 总计 %d 使用 %d/%d 错误 %d".formatted(quake.getCluster().getPreviousHypocenter().totalEvents,
                 quake.getCluster().getPreviousHypocenter().reducedEvents, quake.getCluster().getPreviousHypocenter().usedEvents,
@@ -765,7 +1018,7 @@ public class GlobalQuakePanel extends GlobePanel {
     public static final String maxIntStr = "     最大烈度 ";
 
     public static int getIntensityBoxWidth(Graphics2D g) {
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 11));
+        g.setFont(FontManager.getDefaultFont(11f));
         return g.getFontMetrics().stringWidth(maxIntStr) + 12;
     }
 
@@ -790,7 +1043,7 @@ public class GlobalQuakePanel extends GlobePanel {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 10));
+        g.setFont(FontManager.getDefaultFont(10f));
         g.drawString(maxIntStr, x + 2, y + 12);
         String str1 = "估计";
         g.drawString(str1, x + (int) (width * 0.5 - 0.5 * g.getFontMetrics().stringWidth(str1)), y + 26);
@@ -801,7 +1054,7 @@ public class GlobalQuakePanel extends GlobePanel {
         }
 
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, height / 2));
+        g.setFont(FontManager.getDefaultFont(height / 2f));
         int x3 = x + (int) (width * 0.5 - 0.5 * g.getFontMetrics().stringWidth(str3));
 
         int w3 = g.getFontMetrics().stringWidth(str3);
@@ -809,12 +1062,12 @@ public class GlobalQuakePanel extends GlobePanel {
 
         if (level != null && level.getSuffix() != null) {
             g.setColor(Color.white);
-            g.setFont(new Font("MiSans Normal", Font.PLAIN, 36));
+            g.setFont(FontManager.getDefaultFont(36f));
             g.drawString(level.getSuffix(), x3 + w3 / 2 + 12, y + 50);
         }
 
         g.setColor(Color.white);
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 11));
+        g.setFont(FontManager.getDefaultFont(11f));
         String str = IntensityScales.getIntensityScale().getNameShort();
         g.drawString(str, x + (int) (width * 0.5 - 0.5 * g.getFontMetrics().stringWidth(str)), y + height - 4);
     }
@@ -823,7 +1076,7 @@ public class GlobalQuakePanel extends GlobePanel {
         g.setStroke(new BasicStroke(1f));
 
         String str = "  震级  ";
-        g.setFont(new Font("MiSans Normal", Font.PLAIN, 12));
+        g.setFont(FontManager.getDefaultFont(12f));
 
         int startX = 16;
         int hh = 200;
@@ -842,7 +1095,7 @@ public class GlobalQuakePanel extends GlobePanel {
         for (int mag = 1; mag <= 9; mag++) {
             double y0 = y + hh * (10 - mag) / 10.0;
             g.setColor(Color.white);
-            g.setFont(new Font("MiSans Normal", Font.PLAIN, 12));
+            g.setFont(FontManager.getDefaultFont(12f));
             g.drawString(mag + "", startX - g.getFontMetrics().stringWidth(mag + "") - 5, (int) (y0 + 5));
             g.draw(new Line2D.Double(startX, y0, startX + 4, y0));
             g.draw(new Line2D.Double(startX + ww - 4, y0, startX + ww, y0));

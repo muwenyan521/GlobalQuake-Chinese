@@ -1,7 +1,6 @@
 package globalquake.ui.globalquake.feature;
 
 import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import globalquake.core.Settings;
 import globalquake.core.intensity.CityLocation;
@@ -11,11 +10,12 @@ import globalquake.ui.globe.RenderProperties;
 import globalquake.ui.globe.feature.RenderElement;
 import globalquake.ui.globe.feature.RenderEntity;
 import globalquake.ui.globe.feature.RenderFeature;
+import globalquake.utils.CSVReaderUtil;
+import globalquake.ui.FontManager;
 import org.tinylog.Logger;
 
 import java.awt.*;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class FeatureCities extends RenderFeature<CityLocation> {
 
     private List<CityLocation> load() {
         java.util.List<CityLocation> result = new ArrayList<>();
-        try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("cities/country-capital-lat-long-population.csv")).openStream())).withSkipLines(1).build()) {
+        try (CSVReader reader = CSVReaderUtil.createCSVReader("cities/country-capital-lat-long-population.csv")) {
             String[] fields;
             while ((fields = reader.readNext()) != null) {
                 String cityName = fields[1];
@@ -112,7 +112,7 @@ public class FeatureCities extends RenderFeature<CityLocation> {
 
                 String str = entity.getOriginal().name();
 
-                graphics.setFont(new Font("MiSans Normal", Font.PLAIN, 14));
+                graphics.setFont(FontManager.getCityLabelFont());
                 graphics.drawString(str, (int) centerPonint.x - graphics.getFontMetrics().stringWidth(str) / 2, (int) centerPonint.y - 8);
             }
         }

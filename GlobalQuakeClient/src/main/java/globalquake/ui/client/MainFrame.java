@@ -112,7 +112,7 @@ public class MainFrame extends GQFrame {
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         JLabel titleLabel = new JLabel(Main.fullName, SwingConstants.CENTER);
-        titleLabel.setFont(new Font("MiSans Normal", Font.BOLD, 32));
+        titleLabel.setFont(FontManager.getBoldFont(32f));
         panel.add(titleLabel);
 
         hostButton = new JButton("在本地环境下运行");

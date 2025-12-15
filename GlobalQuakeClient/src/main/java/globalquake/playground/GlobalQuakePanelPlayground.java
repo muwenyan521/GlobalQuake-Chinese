@@ -172,7 +172,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
         String str = ((GlobalQuakePlayground) GlobalQuake.getInstance()).getWatermark();
         g.setColor(new Color(255, 100, 0, (int) ((1.0 + Math.sin(System.currentTimeMillis() / 300.0)) * 40.0 + 80)));
 
-        Font font = new Font("MiSans Normal", Font.BOLD, 48);
+        Font font = FontManager.getBoldFont(48f);
         g.setFont(font);
 
         g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, (getHeight() / 2 - 48 + font.getSize() / 4));
@@ -188,7 +188,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
             str = getDescription(insertType);
             g.setColor(Color.white);
 
-            font = new Font("MiSans Normal", Font.BOLD, 32);
+            font = FontManager.getBoldFont(32f);
             g.setFont(font);
 
             g.drawString(str, getWidth() / 2 - g.getFontMetrics().stringWidth(str) / 2, (int) (getHeight() * 0.66 + font.getSize() / 4));

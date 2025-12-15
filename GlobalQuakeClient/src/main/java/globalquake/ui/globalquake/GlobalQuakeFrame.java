@@ -34,7 +34,7 @@ public class GlobalQuakeFrame extends GQFrame {
 				g.fillRect(getWidth() - 20, 0, 20, 30);
 				g.setColor(Color.black);
 				g.drawRect(getWidth() - 20, 0, 20, 30);
-				g.setFont(new Font("MiSans Normal", Font.BOLD, 16));
+				g.setFont(FontManager.getBoldFont(16f));
 				g.setColor(Color.black);
 				g.drawString(hideList ? "<" : ">", getWidth() - 16, 20);
 			}
